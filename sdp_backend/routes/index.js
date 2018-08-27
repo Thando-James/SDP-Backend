@@ -11,13 +11,23 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-// connection.connect();
+connection.connect();
 
 router.get('/', function(req,res){
     //TO-DO Get data from database.
-})
 
-router.post('/upload', function(req, res){
+        connection.query("SELECT * as [Courses] FROM Courses", function(err,results) {
+          console.log('The courses are: ', results); 
+          if(err){
+            console.log(err)
+            return res.status(500).send(err);
+        }  
+          res.send(results);    
+           });
+           connection.end();
+});
+
+router.post('/upload/courses', function(req, res){
     if(!req.files){
         return res.status(400).send('No files were uploaded')
     }
@@ -33,7 +43,7 @@ router.post('/upload', function(req, res){
         }
 
         var inputFile =`./public/${csvFile.name}`;
-        console.log('Processing Countries file');
+        console.log('Processing courses file');
         var parser = parse({delimiter: '/'}, function (err, data) {
        // when all countries are available,then process them
        // note: array element at index 0 contains the row of headers that we should skip
@@ -68,7 +78,7 @@ router.post('/upload', function(req, res){
     courses = a.unique();
 
 
-    course_codes = [];
+    var course_codes = [];
 
     for(var i = 0; i<courses.length;i++ ){
       let arr = []
@@ -78,21 +88,24 @@ router.post('/upload', function(req, res){
   
         console.log(course_codes);
 
+        var sql = "INSERT INTO Courses (course_code) VALUES ?";
+        connection.query(sql, [course_codes], function(err) {
+          if (err) throw err;
+          connection.end();
+           });
+
+  //add courses to database
        });
        fs.createReadStream(inputFile).pipe(parser);
        res.send("hfhgvvj")
 
-       //add courses to database
+     
 
-    var sql = "INSERT INTO CoOURSES (course_code) VALUES ?";
-    connection.query(sql, [course_codes], function(err) {
-      if (err) throw err;
-      connection.end();
   });
-
-    })
    
 });
+
+
 
 
 module.exports = router;

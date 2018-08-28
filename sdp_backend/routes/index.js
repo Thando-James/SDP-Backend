@@ -99,8 +99,6 @@ router.post('/upload/courses', function(req, res){
        fs.createReadStream(inputFile).pipe(parser);
        res.send("hfhgvvj")
 
-     
-
   });
    
 });

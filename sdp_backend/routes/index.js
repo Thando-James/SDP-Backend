@@ -11,21 +11,21 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-connection.connect();
+// connection.connect();
 
-router.get('/', function(req,res){
-    //TO-DO Get data from database.
+// router.get('/', function(req,res){
+//     //TO-DO Get data from database.
 
-        connection.query("SELECT * as [Courses] FROM Courses", function(err,results) {
-          console.log('The courses are: ', results); 
-          if(err){
-            console.log(err)
-            return res.status(500).send(err);
-        }  
-          res.send(results);    
-           });
-           connection.end();
-});
+//         connection.query("SELECT * as [Courses] FROM Courses", function(err,results) {
+//           console.log('The courses are: ', results); 
+//           if(err){
+//             console.log(err)
+//             return res.status(500).send(err);
+//         }  
+//           res.send(results);    
+//            });
+//            connection.end();
+// });
 
 router.post('/upload/courses', function(req, res){
     if(!req.files){
@@ -88,14 +88,15 @@ router.post('/upload/courses', function(req, res){
   
         console.log(course_codes);
 
-        var sql = "INSERT INTO Courses (course_code) VALUES ?";
-        connection.query(sql, [course_codes], function(err) {
-          if (err) throw err;
-          connection.end();
-           });
+        // var sql = "INSERT INTO Courses (course_code) VALUES ?";
+        // connection.query(sql, [course_codes], function(err) {
+        //   if (err) throw err;
+        //   connection.end();
+        //    });
 
   //add courses to database
        });
+
        fs.createReadStream(inputFile).pipe(parser);
        res.send("hfhgvvj")
 
@@ -105,7 +106,62 @@ router.post('/upload/courses', function(req, res){
    
 });
 
+router.post('/upload/students', function(req, res){
+    if(!req.files){
+        return res.status(400).send('No files were uploaded')
+    }
 
+    let csvFile = req.files.file
+
+    // console.log(csvFile)
+
+    csvFile.mv(`./public/${csvFile.name}`,function(err){
+        if(err){
+            console.log(err)
+            return res.status(500).send(err);
+        }
+
+        var inputFile =`./public/${csvFile.name}`;
+        console.log('Processing students file');
+        var parser = parse({delimiter: '\n'}, function (err, data){
+       // when all countries are available,then process them
+       // note: array element at index 0 contains the row of headers that we should skip
+      if (err) {
+        console.log('There was an error==> ', err)
+      }
+
+        big_arr = []
+
+        for(var i=0; i<data.length; i++){
+
+          let splitData = data[i][0].split(',');
+          let temp = [splitData[0], splitData[4]];
+          big_arr.push(temp);
+          /*console.log('--->', data[i][data.length])*/
+           
+           }
+
+        console.log('Students data going to database');
+
+        console.log(big_arr);
+
+
+        var sql = "INSERT INTO Registered (Std_num, course_code) VALUES ?";
+        connection.query(sql, [big_arr], function(err) {
+          if (err) throw err;
+          connection.end();
+           });
+
+
+        });
+
+        fs.createReadStream(inputFile).pipe(parser);
+        res.send("hfhgvvj")
+
+     });
+
+
+  });
 
 
 module.exports = router;

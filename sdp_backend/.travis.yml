@@ -8,5 +8,5 @@ python:
  -3.6.3
 
 script:
- -./test_GraphColouring.py
+ -test_GraphColouring
 

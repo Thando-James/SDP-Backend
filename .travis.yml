@@ -5,7 +5,7 @@ python:
 
 # command to run tests
 script:
-  - ./sdp_backend/test_GraphColouring.py
+  - python ./sdp_backend/test_GraphColouring.py
     
 
 

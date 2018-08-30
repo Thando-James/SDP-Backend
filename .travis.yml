@@ -1,0 +1,11 @@
+language: python
+python:
+  - "3.3.6"
+  
+
+# command to run tests
+script:
+  - python ./sdp_backend/test_GraphColouring.py
+    
+
+

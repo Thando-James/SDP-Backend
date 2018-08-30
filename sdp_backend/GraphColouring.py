@@ -4,10 +4,6 @@
 # In[1]:
 
 
-import csv
-import pandas as pd
-
-
 #Authors:katOfGondor   
 #The sky is falling, the wind is calling, stand for something or die in the morning
 

@@ -3,9 +3,13 @@ python:
   - "3.3.6"
   
 
-# command to run tests
+install:
+  - pip install python-coveralls
+
 script:
   - python ./sdp_backend/test_GraphColouring.py
-    
+
+after_success:
+  - coveralls    
 
 

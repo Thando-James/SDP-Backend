@@ -7,7 +7,7 @@ install:
   - pip install python-coveralls
 
 script:
-  - python ./sdp_backend/test_GraphColouring.py
+  - python ./sdp_backend/test_GraphColouring.py --cov
 
 after_success:
   - coveralls    

@@ -9,6 +9,8 @@
   "author": "Thando-James",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect": "^3.6.6",
     "cors": "^2.8.4",
     "csv-parse": "^2.5.0",
     "express": "^4.16.3",

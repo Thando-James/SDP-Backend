@@ -1,14 +1,14 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[59]:
 
 
 #Authors:katOfGondor   
 #The sky is falling, the wind is calling, stand for something or die in the morning
 
 
-# In[2]:
+# In[60]:
 
 
 def getCourseStudents(groupedExamList,studentArray):
@@ -22,13 +22,13 @@ def getCourseStudents(groupedExamList,studentArray):
                 
         
         courseStudents.append(temp)
-    print(courseStudents)    
-    print("The kingdom")   
+    #print(courseStudents)    
+    #print("The kingdom")   
     #print(courseStudents[len(courseStudents)-1])    
     return courseStudents
 
 
-# In[3]:
+# In[61]:
 
 
 class Extractor():
@@ -110,10 +110,25 @@ class Extractor():
             finalGroupedCourses.append(container)              
         
         #print(studentsArray[:100])
+        print("All the grouped courses are:")
+        print(finalGroupedCourses)
         
-        print("The revenge") 
+        selectedCourses=["COMS1017","APPM1006"]
+        finalCourses=[]
+        for i in range(0,len(selectedCourses)):
+            for j in range(0,len(finalGroupedCourses)):
+                if selectedCourses[i] in finalGroupedCourses[j][0][0]:
+                    finalCourses.append(finalGroupedCourses[j])
+                    
+        print()
+        print("The selected courses are: ")
+        print(finalCourses)   
+            
+            
+        
         #getCourseStudents(self,finalGroupedCourses,studentsArray)  
-        final=[finalGroupedCourses,studentsArray]
+    
+        final=[finalCourses,studentsArray]
         
         return final  
                 
@@ -133,7 +148,7 @@ class Extractor():
         return exams 
 
 
-# In[4]:
+# In[62]:
 
 
 class Course():
@@ -171,7 +186,7 @@ class Course():
 
 
 
-# In[5]:
+# In[63]:
 
 
 class GraphColouring():
@@ -185,7 +200,7 @@ class GraphColouring():
         self.vertexColours=[]
         self.clashes=[]
         self.clashParameter=theParameter
-        self.maxSessions=9
+        self.maxSessions=1000
         
         
         for i in range(0,self.vertexCount):
@@ -261,7 +276,7 @@ class GraphColouring():
             
 
 
-# In[6]:
+# In[64]:
 
 
 extract=Extractor()
@@ -281,7 +296,7 @@ while True:
     graph=GraphColouring(len(resultArray[0]),theParameter)
     #print(graph.adjacencyMatrix[:1])
 
-    ans=graph.getWeight(courseStudents[0],courseStudents[3])
+    #ans=graph.getWeight(courseStudents[0],courseStudents[3])
     #print(ans)
 
 
@@ -348,7 +363,8 @@ while True:
         sessions.append(temp)
         sessionData.append(temp1)
 
-
+    print()
+    print("The number of sessions are: ")
     print(len(sessions))
     print(sessionData)       
 

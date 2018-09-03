@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-  - py.test --cov=./sdp_backend/test_GraphColouring.py
+  - py.test --cov=./sdp_backend/test_GraphColouring
 
 after_success:
   -coveralls

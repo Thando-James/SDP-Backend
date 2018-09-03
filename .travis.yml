@@ -1,11 +1,15 @@
 language: python
 python:
   - "3.3.6"
-  
+install:
+  -pip install pytest
+  -pip install pytest-cov
+  -pip install coveralls
+
 
 # command to run tests
 script:
-  - python ./sdp_backend/test_GraphColouring.py
-    
+  - pytest --cov=./sdp_backend/test_GraphColouring.py
 
-
+after_success:
+  -coveralls

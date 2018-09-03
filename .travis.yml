@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-  - py.test --cov=./sdp_backend/test_GraphColouring
+  - py.test --cov=/home/oratile/School_Work/SDP-Backend/sdp_backend/test_GraphColouring.py
 
 after_success:
   -coveralls

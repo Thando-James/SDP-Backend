@@ -1,4 +1,3 @@
-import: "/home/oratile/School_Work/SDP-Backend/sdp_backend/test_GraphColouring.py"
 
 language: python
 python:

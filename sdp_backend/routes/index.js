@@ -12,18 +12,45 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-connection.connect();
-
-router.get('/display/courses', function(req,res){
-    connection.query("SELECT *  FROM Courses LIMIT 10", function(err,results) {     
-        console.log('The courses are: ', results); 
-        if(err){
-          console.log(err)
-          return res.status(500).send(err);
-        }  
-        return res.json(results);    
+// connection.connect();
+var reque;
+var resss;
+function uploadCourses(){
+    router.get('/display/courses', function(req,res){
+        connection.query("SELECT *  FROM Courses LIMIT 10", function(err,results) {     
+            console.log('The courses are: ', results); 
+            reque = req;
+            
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            }  
+           // return res.json(results);  
+              resss= res.statusCode;
+        //    return res.statusCode;  
+        });
     });
-});
+    return resss;
+};
+
+var unitTests = {};
+//let url = 'http://localhost:3456/upload/courses'
+console.log(" testing 12 12");
+
+
+// unitTests.uploadCourses = function(){
+//     console.log("we are in");
+
+//     var resp= 200;
+//     //method(reque,resss);
+//     if(uploadCourses() != resp){
+//         console.log("Upload courses not working");
+//     }
+//     else{
+//         console.log("Upload working");
+//     }
+// };
+
 
 router.post('/generate', function(req,res){
     let selected_courses = req.body;
@@ -87,10 +114,10 @@ router.post('/upload/courses', function(req, res){
   
             console.log(course_codes);
 
-            let sql = "INSERT INTO Courses (course_code) VALUES ?";
-            connection.query(sql, [course_codes], function(err) {
-                if (err) throw err;
-            });
+            // let sql = "INSERT INTO Courses (course_code) VALUES ?";
+            // connection.query(sql, [course_codes], function(err) {
+            //     if (err) throw err;
+            // });
         });
 
         fs.createReadStream(inputFile).pipe(parser);

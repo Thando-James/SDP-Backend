@@ -11,7 +11,7 @@ install:
 # command to run tests
 
 script:
-  - py.test sdp_backend/test_GraphColouring.py  --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
+  - py.test sdp_backend/test_GraphColouring.py --cov coveralls --cov-report term-missing
 
 after_success:
   -coveralls

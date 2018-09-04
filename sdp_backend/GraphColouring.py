@@ -9,8 +9,9 @@
 
 
 # In[60]:
-
-
+import sys
+import json
+arr_courses = sys.argv[1]
 def getCourseStudents(groupedExamList,studentArray):
     courseStudents=[]
  
@@ -110,19 +111,20 @@ class Extractor():
             finalGroupedCourses.append(container)              
         
         #print(studentsArray[:100])
-        print("All the grouped courses are:")
-        print(finalGroupedCourses)
+        # print("All the grouped courses are:")
+        # print(finalGroupedCourses)
         
-        selectedCourses=["COMS1017","APPM1006"]
+        selectedCourses=arr_courses.split(',')
+        # print(len(selectedCourses))
         finalCourses=[]
         for i in range(0,len(selectedCourses)):
             for j in range(0,len(finalGroupedCourses)):
                 if selectedCourses[i] in finalGroupedCourses[j][0][0]:
                     finalCourses.append(finalGroupedCourses[j])
                     
-        print()
-        print("The selected courses are: ")
-        print(finalCourses)   
+        # print()
+        # print("The selected courses are: ")
+        # print(finalCourses)   
             
             
         
@@ -200,7 +202,7 @@ class GraphColouring():
         self.vertexColours=[]
         self.clashes=[]
         self.clashParameter=theParameter
-        self.maxSessions=1000
+        self.maxSessions=int(sys.argv[2])
         
         
         for i in range(0,self.vertexCount):
@@ -289,7 +291,7 @@ courseStudents=getCourseStudents(resultArray[0],resultArray[1])
 
 #print(courseStudents[32])
 
-theParameter=1
+theParameter=int(sys.argv[3])
 
 while True:
 
@@ -363,19 +365,19 @@ while True:
         sessions.append(temp)
         sessionData.append(temp1)
 
-    print()
-    print("The number of sessions are: ")
-    print(len(sessions))
-    print(sessionData)       
+    # print()
+    # print("The number of sessions are: ")
+    # print(len(sessions))
+          
 
     if len(sessions) > graph.maxSessions:
         theParameter=theParameter+1
     else:
         break
 
-    print("The parameter is:")
-    print(graph.clashParameter)
-
+    # print("The parameter is:")
+    # print(graph.clashParameter)
+print(json.dumps(sessionData)) 
 
 # In[ ]:
 

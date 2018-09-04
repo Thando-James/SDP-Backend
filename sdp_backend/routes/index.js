@@ -4,6 +4,7 @@ var fs= require('fs');
 var parse = require('csv-parse');
 var unique = require('array-unique');
 var mysql      = require('mysql');
+var PythonShell = require('python-shell');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -26,18 +27,28 @@ router.get('/display/courses', function(req,res){
 });
 
 router.post('/generate', function(req,res){
-    let selected_courses = req.body;
-    console.log("body ",req.body)
+    let selected_courses = req.body.data;
+    let maxSessions = req.body.maxSessions
+    let clashParameter = req.body.clashParameter
+    console.log("body ",req.body);
 
+      PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter]}, function (err, results) {
+        if (err) throw err;
+        // results is an array consisting of messages collected during execution
+        console.log("dgdgh")
+        results = JSON.parse(results)
+        console.log(results);
+        res.json(results)
+      });
     // sending data to python
-    var spawn = require("child_process").spawn;
-    var process = spawn('python', ["./main.py", selected_courses])
-    //data from python
-    process.stdout.on('data',function(data){
-      res.send(data.toString());
-      console.log(data.toString())
-    }
-  )
+    // var spawn = require("child_process").spawn;
+    // var process = spawn('python', ["./GraphColouring.py", selected_courses])
+    // //data from python
+    // process.stdout.on('data',function(data){
+    //   res.send(data.toString());
+    //   console.log(data)
+    //     }
+    // )
   
 })
 

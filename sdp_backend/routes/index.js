@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-//connection.connect();
+connection.connect();
 
 router.get('/display/courses', function(req,res){
     connection.query("SELECT DISTINCT Course_Code  FROM Registered LIMIT 10", function(err,results) {     

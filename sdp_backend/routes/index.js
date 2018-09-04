@@ -13,51 +13,33 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-// connection.connect();
-var reque;
-var resss;
-function uploadCourses(){
-    router.get('/display/courses', function(req,res){
-        connection.query("SELECT *  FROM Courses LIMIT 10", function(err,results) {     
-            console.log('The courses are: ', results); 
-            reque = req;
-            
-            if(err){
-              console.log(err)
-              return res.status(500).send(err);
-            }  
-           // return res.json(results);  
-              resss= res.statusCode;
-        //    return res.statusCode;  
-        });
+//connection.connect();
+
+router.get('/display/courses', function(req,res){
+    connection.query("SELECT DISTINCT Course_Code  FROM Registered LIMIT 10", function(err,results) {     
+        console.log('The courses are: ', results); 
+        if(err){
+          console.log(err)
+          return res.status(500).send(err);
+        }  
+        return res.json(results);    
     });
-    return resss;
-};
-
-var unitTests = {};
-//let url = 'http://localhost:3456/upload/courses'
-console.log(" testing 12 12");
-
-
-// unitTests.uploadCourses = function(){
-//     console.log("we are in");
-
-//     var resp= 200;
-//     //method(reque,resss);
-//     if(uploadCourses() != resp){
-//         console.log("Upload courses not working");
-//     }
-//     else{
-//         console.log("Upload working");
-//     }
-// };
-
+});
 
 router.post('/generate', function(req,res){
     let selected_courses = req.body.data;
     let maxSessions = req.body.maxSessions
     let clashParameter = req.body.clashParameter
     console.log("body ",req.body);
+
+    //testing if we receive checked list from react
+
+    // if(selected_courses === undefined){
+    //     console.log('The generate button failed the test, the checked courses are not being returned');
+    // }else{
+    //     console.log('The generate button passed the test :) ');
+    // }
+
 
       PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter]}, function (err, results) {
         if (err) throw err;
@@ -67,17 +49,7 @@ router.post('/generate', function(req,res){
         console.log(results);
         res.json(results)
       });
-    // sending data to python
-    // var spawn = require("child_process").spawn;
-    // var process = spawn('python', ["./GraphColouring.py", selected_courses])
-    // //data from python
-    // process.stdout.on('data',function(data){
-    //   res.send(data.toString());
-    //   console.log(data)
-    //     }
-    // )
-  
-})
+});
 
 router.post('/upload/courses', function(req, res){
     if(!req.files){
@@ -91,6 +63,26 @@ router.post('/upload/courses', function(req, res){
             console.log(err)
             return res.status(500).send(err);
         }
+
+
+
+        //testing upload courses csv 
+        function testCourses(){
+            var resp= 200;
+            if(res.statusCode != resp){
+                console.log("Upload courses failed the test");
+            }
+            else{
+                console.log("Upload courses passed the test");
+            }
+        };
+
+
+        console.log('Testing upload courses: ');
+        testCourses();
+
+        //testing ends here
+
 
         let inputFile =`./public/${csvFile.name}`;
         console.log('Processing courses file');
@@ -149,6 +141,24 @@ router.post('/upload/students', function(req, res){
             return res.status(500).send(err);
         }
 
+
+     //testing upload students csv 
+        function testStudents(){
+            var resp= 200;
+            if(res.statusCode != resp){
+                console.log("Upload students csv failed the test");
+            }
+            else{
+                console.log("Upload students csv passed the test");
+            }
+        };
+
+
+        console.log('Testing upload students csv: ');
+        testStudents();
+
+        //testing ends here
+
         let inputFile =`./public/${csvFile.name}`;
         console.log('Processing students file');
         let parser = parse({delimiter: '\n'}, function (err, data){
@@ -166,9 +176,9 @@ router.post('/upload/students', function(req, res){
             console.log(big_arr);
 
             let sql = "INSERT INTO Registered (Std_ID, Course_Code) VALUES ?";
-            connection.query(sql, [big_arr], function(err) {
-              if (err) throw err;
-            });
+            // connection.query(sql, [big_arr], function(err) {
+            //   if (err) throw err;
+            // });
         });
 
         fs.createReadStream(inputFile).pipe(parser);

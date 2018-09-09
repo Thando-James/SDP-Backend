@@ -24,11 +24,28 @@ router.get('/display/courses', function(req,res){
               return res.status(500).send(err);
             }  
             return res.json(results);    
+
+            //testing display courses  
+                function testDispCourses(){
+                    var resp= 200;
+                    if(res.statusCode != resp){
+                        console.log(" 'Display courses' failed the test");
+                    }
+                    else{
+                        console.log(" 'Display courses' passed the test");
+                    }
+                };
+                console.log('Testing display courses: ');
+                testDispCourses();
+                //testing ends here
         });   
+        
     } catch (error) {
         return res.json({errorType:'Database',errorMessage:error})
     }
 });
+
+    
 
 router.post('/generate', function(req,res){
     let selected_courses = req.body.data;

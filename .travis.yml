@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-  - py.test --cov=./sdp_backend/
+  - py.test --cov=./sdp_backend/ COMS1017,PHYS1000 6 1 
 
 after_success:
   -coveralls

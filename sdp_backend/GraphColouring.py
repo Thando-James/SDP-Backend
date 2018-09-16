@@ -115,6 +115,8 @@ class Extractor():
         # print(finalGroupedCourses)
         
         selectedCourses=arr_courses.split(',')
+      
+
         # print(len(selectedCourses))
         finalCourses=[]
         for i in range(0,len(selectedCourses)):
@@ -203,6 +205,7 @@ class GraphColouring():
         self.clashes=[]
         self.clashParameter=theParameter
         self.maxSessions=int(sys.argv[2])
+  
         
         
         for i in range(0,self.vertexCount):
@@ -293,9 +296,12 @@ courseStudents=getCourseStudents(resultArray[0],resultArray[1])
 
 theParameter=int(sys.argv[3])
 
+
+
 while True:
 
     graph=GraphColouring(len(resultArray[0]),theParameter)
+    diagArray = []
     #print(graph.adjacencyMatrix[:1])
 
     #ans=graph.getWeight(courseStudents[0],courseStudents[3])
@@ -312,6 +318,13 @@ while True:
 
                 graph.addEdge(i,j,graph.getWeight(courseStudents[i],courseStudents[j]))
                 graph.addEdge(j,i,graph.getWeight(courseStudents[i],courseStudents[j]))
+                
+                if i==j:
+                    #graph.NumStudents(i,j,graph.getWeight(courseStudents[i],courseStudents[j]))
+                    diagArray.append(graph.getWeight(courseStudents[i],courseStudents[j]))
+               
+                    
+                    
 
             elif graph.getWeight(courseStudents[i],courseStudents[j])!=0:
 
@@ -329,27 +342,67 @@ while True:
      #print(len(graph.adjacencyMatrix))
 
     #print(graph.adjacencyMatrix)
-    degrees=[]
+    sortingScheme=0
 
-    for i in range(0,len(graph.adjacencyMatrix)):
-        degrees.append(graph.getDegree(i))
 
-    #print(degrees) 
-
-    maxValue=max(degrees)+1;
     sortedVertices=[]
+    
+    #sorting by degree
+    if sortingScheme == 0:   
+        degrees=[]
 
-    for i in range(0,len(degrees)):
-        index=degrees.index(min(degrees))
-        sortedVertices.append(index)
-        degrees[index]=maxValue
+        for i in range(0,len(graph.adjacencyMatrix)):
+            degrees.append(graph.getDegree(i))
+            #print(graph.degrees)    
 
-    #print(sortedVertices)
+        maxValue=max(degrees)+1;
+       
+
+        for i in range(0,len(degrees)):
+            index=degrees.index(min(degrees))
+            sortedVertices.append(index)
+            degrees[index]=maxValue
+ 
+     
+    #sorting by the number of students affected by a course   
+    if sortingScheme == 1:
+        tempp = []
+        for i in range(0,len(graph.adjacencyMatrix)):
+
+            sum=0
+            for j in range(0,len(graph.adjacencyMatrix)):
+                sum = sum + graph.adjacencyMatrix[i][j]
+            tempp.append(sum)
+        print(tempp)
+        minVal=min(tempp)-1
+        for i in range(0,len(tempp)):
+            index=tempp.index(max(tempp))
+            sortedVertices.append(index)
+            tempp[index]=minVal
+    
+    
+ 
+    #sorting by number of students in the course
+    if sortingScheme == 2:
+        minVal=min(diagArray)-1
+        for i in range(0,len(diagArray)):
+            index=diagArray.index(max(diagArray))
+            sortedVertices.append(index)
+            diagArray[index]=minVal
+ 
+        print()    
+
+
+    
+    #use SortedVertices2 to sort by different students affected by a course#
+    #use SortedVertices to sort by degree#
+    #use sVertices to sort by the number of students in a course
+    #print("kats")
 
     for i in range(0,len(sortedVertices)):
         graph.setColour(sortedVertices[i])
 
-    #print(graph.vertexColours)
+   
     sessions=[]
     sessionData=[]
 
@@ -365,16 +418,14 @@ while True:
         sessions.append(temp)
         sessionData.append(temp1)
 
-    # print()
-    # print("The number of sessions are: ")
-    # print(len(sessions))
-          
+    #print("The number of sessions are: ")
+    #print(len(sessions))
+    print(sessionData)       
 
     if len(sessions) > graph.maxSessions:
         theParameter=theParameter+1
     else:
         break
-
     # print("The parameter is:")
     # print(graph.clashParameter)
 print(json.dumps(sessionData)) 

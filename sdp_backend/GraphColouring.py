@@ -373,7 +373,7 @@ while True:
             for j in range(0,len(graph.adjacencyMatrix)):
                 sum = sum + graph.adjacencyMatrix[i][j]
             tempp.append(sum)
-        print(tempp)
+        # print(tempp)
         minVal=min(tempp)-1
         for i in range(0,len(tempp)):
             index=tempp.index(max(tempp))
@@ -390,7 +390,7 @@ while True:
             sortedVertices.append(index)
             diagArray[index]=minVal
  
-        print()    
+        # print()    
 
 
     
@@ -420,7 +420,7 @@ while True:
 
     #print("The number of sessions are: ")
     #print(len(sessions))
-    print(sessionData)       
+    # print(sessionData)       
 
     if len(sessions) > graph.maxSessions:
         theParameter=theParameter+1

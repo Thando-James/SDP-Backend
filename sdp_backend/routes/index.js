@@ -117,10 +117,10 @@ router.post('/upload/courses', function(req, res){
       
                 console.log(course_codes);
     
-                // let sql = "INSERT INTO Courses (course_code) VALUES ?";
-                // connection.query(sql, [course_codes], function(err) {
-                //     if (err) throw err;
-                // });
+                let sql = "INSERT INTO Courses (course_code) VALUES ?";
+                connection.query(sql, [course_codes], function(err) {
+                    if (err) throw err;
+                });
             });
     
             fs.createReadStream(inputFile).pipe(parser);
@@ -152,6 +152,7 @@ router.post('/upload/students', function(req, res){
             let parser = parse({delimiter: '\n'}, function (err, data){
                 if (err) {
                     console.log('There was an error==> ', err)
+                    return
                 }
                 big_arr = []
                 for(let i=0; i<data.length; i++){
@@ -164,9 +165,9 @@ router.post('/upload/students', function(req, res){
                 console.log(big_arr);
     
                 let sql = "INSERT INTO Registered (Std_ID, Course_Code) VALUES ?";
-                // connection.query(sql, [big_arr], function(err) {
-                //   if (err) throw err;
-                // });
+                connection.query(sql, [big_arr], function(err) {
+                  if (err) throw err;
+                });
             });
     
             fs.createReadStream(inputFile).pipe(parser);

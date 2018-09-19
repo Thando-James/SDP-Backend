@@ -342,7 +342,7 @@ while True:
      #print(len(graph.adjacencyMatrix))
 
     #print(graph.adjacencyMatrix)
-    sortingScheme=0
+    sortingScheme=int(sys.argv[4])
 
 
     sortedVertices=[]

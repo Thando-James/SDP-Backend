@@ -51,6 +51,8 @@ router.post('/generate', function(req,res){
     let selected_courses = req.body.data;
     let maxSessions = req.body.maxSessions
     let clashParameter = req.body.clashParameter
+    let sortby = req.body.SortBy;
+
     console.log("body ",req.body);
 
     //testing if we receive checked list from react
@@ -61,7 +63,7 @@ router.post('/generate', function(req,res){
     //     console.log('The generate button passed the test :) ');
     // }
     try {
-        PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter]}, function (err, results) {
+        PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
             if (err){
                 return res.json({errorType:'Python Shell',errorMessage:err})
             }

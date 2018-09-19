@@ -6,14 +6,14 @@ var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
-  database : 'Timetable'
-});
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '0616380016',
+//   database : 'Timetable'
+// });
  
-connection.connect();
+//connection.connect();
 
 router.get('/display/courses', function(req,res){
     try {
@@ -26,17 +26,17 @@ router.get('/display/courses', function(req,res){
             return res.json(results);    
 
             //testing display courses  
-                function testDispCourses(){
-                    var resp= 200;
-                    if(res.statusCode != resp){
-                        console.log(" 'Display courses' failed the test");
-                    }
-                    else{
-                        console.log(" 'Display courses' passed the test");
-                    }
-                };
-                console.log('Testing display courses: ');
-                testDispCourses();
+                // function testDispCourses(){
+                //     var resp= 200;
+                //     if(res.statusCode != resp){
+                //         console.log(" 'Display courses' failed the test");
+                //     }
+                //     else{
+                //         console.log(" 'Display courses' passed the test");
+                //     }
+                // };
+                // console.log('Testing display courses: ');
+                // testDispCourses();
                 //testing ends here
         });   
         
@@ -53,13 +53,6 @@ router.post('/generate', function(req,res){
     let clashParameter = req.body.clashParameter
     console.log("body ",req.body);
 
-    //testing if we receive checked list from react
-
-    // if(selected_courses === undefined){
-    //     console.log('The generate button failed the test, the checked courses are not being returned');
-    // }else{
-    //     console.log('The generate button passed the test :) ');
-    // }
     try {
         PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter]}, function (err, results) {
             if (err){
@@ -89,25 +82,6 @@ router.post('/upload/courses', function(req, res){
                 console.log(err)
                 return res.status(500).send(err);
             }
-    
-    
-    
-            //testing upload courses csv 
-            function testCourses(){
-                var resp= 200;
-                if(res.statusCode != resp){
-                    console.log("Upload courses failed the test");
-                }
-                else{
-                    console.log("Upload courses passed the test");
-                }
-            };
-    
-    
-            console.log('Testing upload courses: ');
-            testCourses();
-    
-            //testing ends here
     
     
             let inputFile =`./public/${csvFile.name}`;
@@ -172,22 +146,6 @@ router.post('/upload/students', function(req, res){
             }
     
     
-         //testing upload students csv 
-            function testStudents(){
-                var resp= 200;
-                if(res.statusCode != resp){
-                    console.log("Upload students csv failed the test");
-                }
-                else{
-                    console.log("Upload students csv passed the test");
-                }
-            };
-    
-    
-            console.log('Testing upload students csv: ');
-            testStudents();
-    
-            //testing ends here
     
             let inputFile =`./public/${csvFile.name}`;
             console.log('Processing students file');
@@ -220,4 +178,4 @@ router.post('/upload/students', function(req, res){
 });
 
 
-module.exports = router;
+module.exports = router

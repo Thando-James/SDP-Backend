@@ -15,3 +15,8 @@ const routes = require('./routes')
 
 app.listen(3456, ()=> console.log('express listening on port 3456'))
 app.use('/', routes)
+
+module.exports = app
+
+
+

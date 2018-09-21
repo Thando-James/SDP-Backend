@@ -6,12 +6,19 @@ var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
 
+// var connection = mysql.createConnection({
+//   host     : 'localhost',
+//   user     : 'root',
+//   password : '0616380016',
+//   database : 'Timetable'
+// });
+
 var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
-  database : 'Timetable'
-});
+    host     : 'youthleague.co',
+    user     : 'avospace',
+    password : 'thenamelesssix',
+    database : 'Timetable'
+  });
  
 connection.connect();
 

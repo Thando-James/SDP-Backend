@@ -136,20 +136,7 @@ class Extractor():
         
         return final  
                 
-        
-        
-    def Validate(self,allExamsList,regCourseList):
-        exams=[]
-        unscheduledExams=[]
-        for i in range(0,len(regCourseList)):
-            for exam in allExamList:
-                if regCourseList[i] in exam:
-                    exams.append(exam)
-                else:
-                    unscheduledExams.append(regCourseList[i])
-                    
-                    
-        return exams 
+
 
 
 # In[62]:

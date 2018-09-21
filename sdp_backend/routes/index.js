@@ -6,14 +6,14 @@ var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
 
-// var connection = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '0616380016',
-//   database : 'Timetable'
-// });
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : '0616380016',
+  database : 'Timetable'
+});
  
-//connection.connect();
+connection.connect();
 
 router.get('/display/courses', function(req,res){
     try {
@@ -25,19 +25,7 @@ router.get('/display/courses', function(req,res){
             }  
             return res.json(results);    
 
-            //testing display courses  
-                // function testDispCourses(){
-                //     var resp= 200;
-                //     if(res.statusCode != resp){
-                //         console.log(" 'Display courses' failed the test");
-                //     }
-                //     else{
-                //         console.log(" 'Display courses' passed the test");
-                //     }
-                // };
-                // console.log('Testing display courses: ');
-                // testDispCourses();
-                //testing ends here
+       
         });   
         
     } catch (error) {
@@ -45,7 +33,11 @@ router.get('/display/courses', function(req,res){
     }
 });
 
-    
+ router.post('/student', function(req,res){
+     let std_num = req.body.data;
+     console.log('std from dash: ', std_num);
+
+ })   
 
 router.post('/generate', function(req,res){
     let selected_courses = req.body.data;
@@ -63,9 +55,47 @@ router.post('/generate', function(req,res){
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
             results = JSON.parse(results)
+            //results has the courses after generating timetable
             console.log(results);
-            res.json(results)
-          });   
+            res.json(results);let student = '1490000'
+            connection.query("SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = '1490000' ", function(err,reg) {     
+                console.log('The courses 1490000 takes are : ', reg); 
+                var arr =[];
+             for   (var i=0; i<reg.length;i++){
+                    console.log( reg[i].Course_Code); 
+                    arr[i] = reg[i].Course_Code;
+                }
+
+                console.log('array', arr);
+            var table = []
+            for(const s of arr){
+                for(var i=0; i<results.length;i++){
+                    var row = results[i]
+                    for(var j =0; j<row.length; j++){
+                        //console.log('***', s, '***', row[j])
+                        if(s === row[j]){
+                            let temp= []
+                            temp.push(s);
+                            temp.push(i+1);
+                            table.push(temp);
+                        }
+                   }
+                   
+                }
+            }
+            console.log('***', table)
+
+
+                if(err){
+                  console.log(err)
+                  return res.status(500).send(err);
+                }  
+                //return res.json(reg);    
+    
+            });
+
+          });
+
     } catch (error) {
         return res.json({errorType:'Python Shell',errorMessage:error})
     }
@@ -75,6 +105,7 @@ router.post('/upload/courses', function(req, res){
     if(!req.files){
         return res.status(400).send('No files were uploaded')
     }
+    console.log('the status code is ',res.statusCode);
 
     let csvFile = req.files.file
 
@@ -85,43 +116,61 @@ router.post('/upload/courses', function(req, res){
                 return res.status(500).send(err);
             }
     
-    
+        function multiDimensionalUnique(arr) {
+            var uniques = [];
+            var itemsFound = {};
+            for(var i = 0, l = arr.length; i < l; i++) {
+                var stringified = JSON.stringify(arr[i]);
+                if(itemsFound[stringified]) { continue; }
+                uniques.push(arr[i]);
+                itemsFound[stringified] = true;
+            }
+            return uniques;
+        }
+
+
             let inputFile =`./public/${csvFile.name}`;
             console.log('Processing courses file');
             let parser = parse({delimiter: '/'}, function (err, data) {
                 console.log(data);
-                let a = [];
-                for(let i=0;i<data.length;i++){
-                    a[i] = (data[i][0]).substring(0,8);
-                } 
-                console.log("The courses going to database");
-                courses = [];
-    
-                //removes duplicates
-                Array.prototype.unique= function (){
-                    return this.reduce(function(previous, current, index, array){
-                        previous[current.toString()+typeof(current)]=current;
-                        return array.length-1 == index ? Object.keys(previous).reduce(function(prev,cur)
-                            {
-                                prev.push(previous[cur]);
-                                return prev;
-                            },[]) : previous;
-                    }, {});
-                };
-    
-                courses = a.unique();
-                let course_codes = [];
-                for(let i = 0; i<courses.length;i++ ){
-                  let arr = []
-                  arr.push(courses[i]);
-                  course_codes.push(arr);
+
+                //counting paper numbers
+                var papers = 1;
+                var db_stuff = [];
+                for(var i =0;i<data.length;i++){
+                    for(var j=0;j<data.length;j++){
+                        if(data[j][0] === data[i][0] && i!==j){
+                            papers++;
+                        }
+                    }
+                    let temp = [];
+                    temp.push(data[i][0]);
+                    temp.push(papers);
+                    papers = 1;
+                    db_stuff.push(temp);
                 }
-      
-                console.log(course_codes);
+                //console.log('db stuff: ', db_stuff);
+                var to_db = []
+                to_db = multiDimensionalUnique(db_stuff);
+                console.log('modified db stuff: ', to_db);
+
+              
+                //removes duplicates
+                // Array.prototype.unique= function (){
+                //     return this.reduce(function(previous, current, index, array){
+                //         previous[current.toString()+typeof(current)]=current;
+                //         return array.length-1 == index ? Object.keys(previous).reduce(function(prev,cur)
+                //             {
+                //                 prev.push(previous[cur]);
+                //                 return prev;
+                //             },[]) : previous;
+                //     }, {});
+                // };
     
-                let sql = "INSERT INTO Courses (course_code) VALUES ?";
-                connection.query(sql, [course_codes], function(err) {
-                    if (err) throw err;
+              
+                let sql = "INSERT INTO Courses (course_code, Papers) VALUES ?";
+                connection.query(sql, [to_db], function(err) {
+                    if (err) console.log();
                 });
             });
     
@@ -151,7 +200,7 @@ router.post('/upload/students', function(req, res){
     
             let inputFile =`./public/${csvFile.name}`;
             console.log('Processing students file');
-            let parser = parse({delimiter: '\n'}, function (err, data){
+            let parser = parse({delimiter: '\t'}, function (err, data){
                 if (err) {
                     console.log('There was an error==> ', err)
                     return
@@ -166,9 +215,9 @@ router.post('/upload/students', function(req, res){
                 console.log('Students data going to database');
                 console.log(big_arr);
     
-                let sql = "INSERT INTO Registered (Std_ID, Course_Code) VALUES ?";
+                let sql = "INSERT IGNORE INTO Registered (Std_ID, Course_Code) VALUES ?";
                 connection.query(sql, [big_arr], function(err) {
-                  if (err) throw err;
+                  if (err) console.log(err);
                 });
             });
     

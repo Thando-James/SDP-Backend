@@ -24,11 +24,8 @@ router.get('/display/courses', function(req,res){
               return res.status(500).send(err);
             }  
             return res.json(results);    
-<<<<<<< HEAD
 
        
-=======
->>>>>>> 81e3d0deb44af0a8287c985397dcae5e1d8cde22
         });   
         
     } catch (error) {
@@ -36,13 +33,11 @@ router.get('/display/courses', function(req,res){
     }
 });
 
-<<<<<<< HEAD
  router.post('/student', function(req,res){
      let std_num = req.body.data;
      console.log('std from dash: ', std_num);
 
  })   
-=======
 router.get('/check/courses', function(req,res){
     try {
         connection.query("SELECT course_code  FROM Courses LIMIT 3", function(err,results) {     
@@ -58,7 +53,6 @@ router.get('/check/courses', function(req,res){
 })
 
     
->>>>>>> 81e3d0deb44af0a8287c985397dcae5e1d8cde22
 
 router.post('/generate', function(req,res){
     let selected_courses = req.body.data;

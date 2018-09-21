@@ -6,21 +6,14 @@ var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
 
-// var connection = mysql.createConnection({
-//   host     : 'localhost',
-//   user     : 'root',
-//   password : '0616380016',
-//   database : 'Timetable'
-// });
-
 var connection = mysql.createConnection({
-    host     : 'youthleague.co',
-    user     : 'avospace',
-    password : 'thenamelesssix',
-    database : 'Timetable'
-  });
+  host     : 'localhost',
+  user     : 'root',
+  password : '0616380016',
+  database : 'Timetable'
+});
  
-//connection.connect();
+connection.connect();
 
 router.get('/display/courses', function(req,res){
     try {
@@ -31,26 +24,26 @@ router.get('/display/courses', function(req,res){
               return res.status(500).send(err);
             }  
             return res.json(results);    
-
-            //testing display courses  
-                // function testDispCourses(){
-                //     var resp= 200;
-                //     if(res.statusCode != resp){
-                //         console.log(" 'Display courses' failed the test");
-                //     }
-                //     else{
-                //         console.log(" 'Display courses' passed the test");
-                //     }
-                // };
-                // console.log('Testing display courses: ');
-                // testDispCourses();
-                //testing ends here
         });   
         
     } catch (error) {
         return res.json({errorType:'Database',errorMessage:error})
     }
 });
+
+router.get('/check/courses', function(req,res){
+    try {
+        connection.query("SELECT course_code  FROM Courses LIMIT 3", function(err,results) {     
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            }  
+            return res.json(results);    
+        });   
+    } catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+})
 
     
 

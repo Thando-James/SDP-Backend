@@ -15,6 +15,8 @@ var connection = mysql.createConnection({
  
 connection.connect();
 
+var timetable;
+
 router.get('/display/courses', function(req,res){
     try {
         connection.query("SELECT DISTINCT Course_Code  FROM Registered LIMIT 10", function(err,results) {     
@@ -34,10 +36,43 @@ router.get('/display/courses', function(req,res){
 });
 
  router.post('/student', function(req,res){
-     let std_num = req.body.data;
+     let std_num = req.body.studentnumber;
      console.log('std from dash: ', std_num);
 
- })   
+     connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = ${std_num}`, function(err,reg) {     
+        console.log('The courses',std_num, 'takes are : ', reg); 
+        var arr =[];
+     for   (var i=0; i<reg.length;i++){
+            console.log( reg[i].Course_Code); 
+            arr[i] = reg[i].Course_Code;
+        }
+
+        console.log('array', arr);
+        console.log('the thing is: ', timetable)
+    var table = []
+    for(const s of arr){
+        for(var i=0; i<timetable.length;i++){
+            var row = timetable[i]
+            for(var j =0; j<row.length; j++){
+                //console.log('***', s, '***', row[j])
+                if(s === row[j]){
+                    let temp= []
+                    temp.push(s);
+                    temp.push(i+1);
+                    table.push(temp);
+                }
+           }
+           
+        }
+    }
+    console.log('***', table)
+    res.json(table);
+
+ })
+});  
+ 
+ 
+ 
 router.get('/check/courses', function(req,res){
     try {
         connection.query("SELECT course_code  FROM Courses LIMIT 3", function(err,results) {     
@@ -70,36 +105,12 @@ router.post('/generate', function(req,res){
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
             results = JSON.parse(results)
+            timetable = results;
             //results has the courses after generating timetable
             console.log(results);
-            res.json(results);let student = '1490000'
-            connection.query("SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = '1490000' ", function(err,reg) {     
-                console.log('The courses 1490000 takes are : ', reg); 
-                var arr =[];
-             for   (var i=0; i<reg.length;i++){
-                    console.log( reg[i].Course_Code); 
-                    arr[i] = reg[i].Course_Code;
-                }
-
-                console.log('array', arr);
-            var table = []
-            for(const s of arr){
-                for(var i=0; i<results.length;i++){
-                    var row = results[i]
-                    for(var j =0; j<row.length; j++){
-                        //console.log('***', s, '***', row[j])
-                        if(s === row[j]){
-                            let temp= []
-                            temp.push(s);
-                            temp.push(i+1);
-                            table.push(temp);
-                        }
-                   }
-                   
-                }
-            }
-            console.log('***', table)
-
+            res.json(results);
+            //let student = '1490000'
+            
 
                 if(err){
                   console.log(err)
@@ -109,7 +120,7 @@ router.post('/generate', function(req,res){
     
             });
 
-          });
+       //   });
 
     } catch (error) {
         return res.json({errorType:'Python Shell',errorMessage:error})
@@ -245,4 +256,4 @@ router.post('/upload/students', function(req, res){
 });
 
 
-module.exports = router
+module.exports = router;

@@ -1,17 +1,20 @@
 
 # coding: utf-8
 
-# In[59]:
+# In[1]:
+
+
+import csv
+import pandas as pd
 
 
 #Authors:katOfGondor   
 #The sky is falling, the wind is calling, stand for something or die in the morning
 
 
-# In[60]:
-import sys
-import json
-arr_courses = sys.argv[1]
+# In[2]:
+
+
 def getCourseStudents(groupedExamList,studentArray):
     courseStudents=[]
  
@@ -23,13 +26,13 @@ def getCourseStudents(groupedExamList,studentArray):
                 
         
         courseStudents.append(temp)
-    #print(courseStudents)    
-    #print("The kingdom")   
+    print(courseStudents)    
+    print("The kingdom")   
     #print(courseStudents[len(courseStudents)-1])    
     return courseStudents
 
 
-# In[61]:
+# In[3]:
 
 
 class Extractor():
@@ -111,28 +114,10 @@ class Extractor():
             finalGroupedCourses.append(container)              
         
         #print(studentsArray[:100])
-        # print("All the grouped courses are:")
-        # print(finalGroupedCourses)
         
-        selectedCourses=arr_courses.split(',')
-      
-
-        # print(len(selectedCourses))
-        finalCourses=[]
-        for i in range(0,len(selectedCourses)):
-            for j in range(0,len(finalGroupedCourses)):
-                if selectedCourses[i] in finalGroupedCourses[j][0][0]:
-                    finalCourses.append(finalGroupedCourses[j])
-                    
-        # print()
-        # print("The selected courses are: ")
-        # print(finalCourses)   
-            
-            
-        
+        print("The revenge") 
         #getCourseStudents(self,finalGroupedCourses,studentsArray)  
-    
-        final=[finalCourses,studentsArray]
+        final=[finalGroupedCourses,studentsArray]
         
         return final  
                 
@@ -152,7 +137,7 @@ class Extractor():
         return exams 
 
 
-# In[62]:
+# In[4]:
 
 
 class Course():
@@ -190,7 +175,7 @@ class Course():
 
 
 
-# In[63]:
+# In[5]:
 
 
 class GraphColouring():
@@ -204,8 +189,7 @@ class GraphColouring():
         self.vertexColours=[]
         self.clashes=[]
         self.clashParameter=theParameter
-        self.maxSessions=int(sys.argv[2])
-  
+        self.maxSessions=9
         
         
         for i in range(0,self.vertexCount):
@@ -281,7 +265,7 @@ class GraphColouring():
             
 
 
-# In[64]:
+# In[6]:
 
 
 extract=Extractor()
@@ -294,17 +278,14 @@ courseStudents=getCourseStudents(resultArray[0],resultArray[1])
 
 #print(courseStudents[32])
 
-theParameter=int(sys.argv[3])
-
-
+theParameter=1
 
 while True:
 
     graph=GraphColouring(len(resultArray[0]),theParameter)
-    diagArray = []
     #print(graph.adjacencyMatrix[:1])
 
-    #ans=graph.getWeight(courseStudents[0],courseStudents[3])
+    ans=graph.getWeight(courseStudents[0],courseStudents[3])
     #print(ans)
 
 
@@ -318,13 +299,6 @@ while True:
 
                 graph.addEdge(i,j,graph.getWeight(courseStudents[i],courseStudents[j]))
                 graph.addEdge(j,i,graph.getWeight(courseStudents[i],courseStudents[j]))
-                
-                if i==j:
-                    #graph.NumStudents(i,j,graph.getWeight(courseStudents[i],courseStudents[j]))
-                    diagArray.append(graph.getWeight(courseStudents[i],courseStudents[j]))
-               
-                    
-                    
 
             elif graph.getWeight(courseStudents[i],courseStudents[j])!=0:
 
@@ -342,67 +316,27 @@ while True:
      #print(len(graph.adjacencyMatrix))
 
     #print(graph.adjacencyMatrix)
-    sortingScheme=int(sys.argv[4])
+    degrees=[]
 
+    for i in range(0,len(graph.adjacencyMatrix)):
+        degrees.append(graph.getDegree(i))
 
+    #print(degrees) 
+
+    maxValue=max(degrees)+1;
     sortedVertices=[]
-    
-    #sorting by degree
-    if sortingScheme == 0:   
-        degrees=[]
 
-        for i in range(0,len(graph.adjacencyMatrix)):
-            degrees.append(graph.getDegree(i))
-            #print(graph.degrees)    
+    for i in range(0,len(degrees)):
+        index=degrees.index(min(degrees))
+        sortedVertices.append(index)
+        degrees[index]=maxValue
 
-        maxValue=max(degrees)+1;
-       
-
-        for i in range(0,len(degrees)):
-            index=degrees.index(min(degrees))
-            sortedVertices.append(index)
-            degrees[index]=maxValue
- 
-     
-    #sorting by the number of students affected by a course   
-    if sortingScheme == 1:
-        tempp = []
-        for i in range(0,len(graph.adjacencyMatrix)):
-
-            sum=0
-            for j in range(0,len(graph.adjacencyMatrix)):
-                sum = sum + graph.adjacencyMatrix[i][j]
-            tempp.append(sum)
-        # print(tempp)
-        minVal=min(tempp)-1
-        for i in range(0,len(tempp)):
-            index=tempp.index(max(tempp))
-            sortedVertices.append(index)
-            tempp[index]=minVal
-    
-    
- 
-    #sorting by number of students in the course
-    if sortingScheme == 2:
-        minVal=min(diagArray)-1
-        for i in range(0,len(diagArray)):
-            index=diagArray.index(max(diagArray))
-            sortedVertices.append(index)
-            diagArray[index]=minVal
- 
-        # print()    
-
-
-    
-    #use SortedVertices2 to sort by different students affected by a course#
-    #use SortedVertices to sort by degree#
-    #use sVertices to sort by the number of students in a course
-    #print("kats")
+    #print(sortedVertices)
 
     for i in range(0,len(sortedVertices)):
         graph.setColour(sortedVertices[i])
 
-   
+    #print(graph.vertexColours)
     sessions=[]
     sessionData=[]
 
@@ -418,17 +352,18 @@ while True:
         sessions.append(temp)
         sessionData.append(temp1)
 
-    #print("The number of sessions are: ")
-    #print(len(sessions))
-    # print(sessionData)       
+
+    print(len(sessions))
+    print(sessionData)       
 
     if len(sessions) > graph.maxSessions:
         theParameter=theParameter+1
     else:
         break
-    # print("The parameter is:")
-    # print(graph.clashParameter)
-print(json.dumps(sessionData)) 
+
+    print("The parameter is:")
+    print(graph.clashParameter)
+
 
 # In[ ]:
 

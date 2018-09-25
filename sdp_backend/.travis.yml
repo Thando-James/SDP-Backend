@@ -17,6 +17,7 @@ matrix:
     - language: node_js
       node_js:
         - "stable"
+      before_install: cd sdp_backend
       install:
       - npm install
       script:

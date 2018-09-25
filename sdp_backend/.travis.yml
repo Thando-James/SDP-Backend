@@ -17,10 +17,10 @@ matrix:
     - language: node_js
       node_js:
         - "stable"
-      before_install:
-      - cd sdp_backend
+#       before_install:
+#       - cd sdp_backend
       install:
       - npm install
       script:
-      - npm test
+      - npm test ./sdp_backend/test/nodeTests.js
 

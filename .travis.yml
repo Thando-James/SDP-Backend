@@ -16,7 +16,7 @@ matrix:
 
     - language: node_js
       node_js:
-        - "stable"
+         -"stable"
       # install:
       # - npm install
       # script:

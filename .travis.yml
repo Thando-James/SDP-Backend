@@ -9,16 +9,16 @@ matrix:
         - pip install coveralls
 
       script:
-        - python ./sdp_backend/test_GraphColouring.py
+        - python ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0
 
       after_success:
         -coveralls 
 
     - language: node_js
       node_js:
-         -"stable"
-      # install:
-      # - npm install
-      # script:
-      # - npm test
+        - "stable"
+      install:
+      - npm install
+      script:
+      - npm test
 

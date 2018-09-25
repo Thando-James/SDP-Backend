@@ -138,18 +138,18 @@ class Extractor():
                 
         
         
-    def Validate(self,allExamsList,regCourseList):
-        exams=[]
-        unscheduledExams=[]
-        for i in range(0,len(regCourseList)):
-            for exam in allExamList:
-                if regCourseList[i] in exam:
-                    exams.append(exam)
-                else:
-                    unscheduledExams.append(regCourseList[i])
+    # def Validate(self,allExamsList,regCourseList):
+    #     exams=[]
+    #     unscheduledExams=[]
+    #     for i in range(0,len(regCourseList)):
+    #         for exam in allExamList:
+    #             if regCourseList[i] in exam:
+    #                 exams.append(exam)
+    #             else:
+    #                 unscheduledExams.append(regCourseList[i])
                     
                     
-        return exams 
+    #     return exams 
 
 
 # In[62]:
@@ -174,9 +174,9 @@ class Course():
     
     def isStudent(self,studentNum,students):
         if studentNum in students:
-            return true
+            return True
         else:
-            return false
+            return False
     
     def getNumExams(self):
         numExams=len(self.exams[0])

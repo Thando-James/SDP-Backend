@@ -65,6 +65,7 @@ router.post('/generate', function(req,res){
     try {
         PythonShell.PythonShell.run('/GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
             if (err){
+                console.log(err);
                 return res.json({errorType:'Python Shell',errorMessage:err})
             }
             // results is an array consisting of messages collected during execution

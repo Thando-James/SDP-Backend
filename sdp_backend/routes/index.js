@@ -8,8 +8,8 @@ var PythonShell = require('python-shell');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
+  user     : 'avospace',
+  password : 'thenamelesssix',
   database : 'Timetable'
 });
  

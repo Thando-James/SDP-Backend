@@ -22,5 +22,6 @@ matrix:
       install:
        - npm install
       script:
-        - npm test 
+      - cd $sdp_backend && npm test
+#         - npm test 
 #         - npm run build

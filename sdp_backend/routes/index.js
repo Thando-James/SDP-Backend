@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 var fs= require('fs');
 var parse = require('csv-parse');
-var unique = require('array-unique');
+//var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
 
@@ -15,9 +15,11 @@ var connection = mysql.createConnection({
  
 connection.connect();
 
+var timetable;
+
 router.get('/display/courses', function(req,res){
     try {
-        connection.query("SELECT DISTINCT Course_Code  FROM Registered LIMIT 10", function(err,results) {     
+        connection.query("SELECT DISTINCT Course_Code  FROM Registered ORDER BY Course_Code LIMIT 25 ", function(err,results) {     
             console.log('The courses are: ', results); 
             if(err){
               console.log(err)
@@ -33,11 +35,79 @@ router.get('/display/courses', function(req,res){
     }
 });
 
- router.post('/student', function(req,res){
-     let std_num = req.body.data;
-     console.log('std from dash: ', std_num);
+router.post('/neighbors', function(req,res){
+try{
+    let code = 'THEO1006';
+    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,res) {  
+        
+        if(err){
+            console.log(err)
+            return res.status(500).send(err);
+          }  
+          console.log('res is', res)
+         // return res.json(results); 
+          var arr = []
+          for(var i=0; i<res.length;i++){
+            console.log( res[i].Course_Code); 
+            arr[i] = res[i].Course_Code;
+        }
 
- })   
+        console.log('The neighbors are: ', arr);
+
+    })  
+}
+catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
+
+ router.post('/student', function(req,res){
+     let std_num = req.body.studentnumber;
+     console.log('std from dash: ', std_num);
+    try{
+        connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = ${std_num}`, function(err,reg) {     
+            console.log('The courses',std_num, 'takes are : ', reg); 
+            var arr =[];
+         for   (var i=0; i<reg.length;i++){
+                console.log( reg[i].Course_Code); 
+                arr[i] = reg[i].Course_Code;
+            }
+    
+            console.log('array', arr);
+            console.log('the thing is: ', timetable)
+        var table = []
+        for(const s of arr){
+            for(var i=0; i<timetable.length;i++){
+                var row = timetable[i]
+                for(var j =0; j<row.length; j++){
+                    //console.log('***', s, '***', row[j])
+                    if(s === row[j]){
+                        let temp= []
+                        temp.push(s);
+                        temp.push(i+1);
+                        table.push(temp);
+                    }
+               }
+               
+            }
+        }
+        console.log('***', table)
+        res.json(table);
+    
+     })
+    }
+    catch
+    (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+
+});  
+ 
+ 
+ 
 router.get('/check/courses', function(req,res){
     try {
         connection.query("SELECT course_code  FROM Courses LIMIT 3", function(err,results) {     
@@ -71,46 +141,15 @@ router.post('/generate', function(req,res){
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
             results = JSON.parse(results)
+            timetable = results;
             //results has the courses after generating timetable
             console.log(results);
-            res.json(results);let student = '1490000'
-            connection.query("SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = '1490000' ", function(err,reg) {     
-                console.log('The courses 1490000 takes are : ', reg); 
-                var arr =[];
-             for   (var i=0; i<reg.length;i++){
-                    console.log( reg[i].Course_Code); 
-                    arr[i] = reg[i].Course_Code;
-                }
-
-                console.log('array', arr);
-            var table = []
-            for(const s of arr){
-                for(var i=0; i<results.length;i++){
-                    var row = results[i]
-                    for(var j =0; j<row.length; j++){
-                        //console.log('***', s, '***', row[j])
-                        if(s === row[j]){
-                            let temp= []
-                            temp.push(s);
-                            temp.push(i+1);
-                            table.push(temp);
-                        }
-                   }
-                   
-                }
-            }
-            console.log('***', table)
-
-
-                if(err){
-                  console.log(err)
-                  return res.status(500).send(err);
-                }  
-                //return res.json(reg);    
+            res.json(results);
+          
     
             });
 
-          });
+       //   });
 
     } catch (error) {
         return res.json({errorType:'Python Shell',errorMessage:error})
@@ -124,7 +163,7 @@ router.post('/upload/courses', function(req, res){
     console.log('the status code is ',res.statusCode);
 
     let csvFile = req.files.file
-
+    console.log('Nelly',req.files.file);
     try {
         csvFile.mv(`./public/${csvFile.name}`,function(err){
             if(err){
@@ -184,16 +223,17 @@ router.post('/upload/courses', function(req, res){
                 // };
     
               
-                let sql = "INSERT INTO Courses (course_code, Papers) VALUES ?";
+                let sql = "INSERT IGNORE INTO Courses (course_code, Papers) VALUES ?";
                 connection.query(sql, [to_db], function(err) {
                     if (err) console.log();
                 });
             });
     
             fs.createReadStream(inputFile).pipe(parser);
-            res.send("hfhgvvj")
+            res.send("uploaded!!")
         });   
     } catch (error) {
+        // console.log(error);
         return res.json({errorType:'csv',errorMessage:error})
     }
 });
@@ -224,7 +264,7 @@ router.post('/upload/students', function(req, res){
                 big_arr = []
                 for(let i=0; i<data.length; i++){
                   let splitData = data[i][0].split(',');
-                  let temp = [splitData[0], (splitData[4]).substring(0,8)];
+                  let temp = [splitData[0], (splitData[4])];
                   big_arr.push(temp);
                 }
     
@@ -246,4 +286,4 @@ router.post('/upload/students', function(req, res){
 });
 
 
-module.exports = router
+module.exports = router;

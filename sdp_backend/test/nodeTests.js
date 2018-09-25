@@ -4,12 +4,13 @@ var app = require('../index');
 let should = chai.should();
 var expect = chai.expect;
 const assert = require('chai').assert;
+var fs = require('fs');
 
 chai.use(chaiHttp);
 
 describe('App', function() {
 
-  describe('test1', function(){
+  describe('display courses', function(){
     it('gets selected courses from database and displays them as an array of objects', function(done){
       chai.request(app)
       .get('/display/courses')
@@ -22,72 +23,88 @@ describe('App', function() {
   })
 
 
-describe('test2', function(){
-    it('courses going to db should be in an array', (done)=>{
-      let arr = 
-        { Course_Code : 'COMS1015' }
-
+describe('data going to database', function(){
+    it("should return message 'uploaded!!' after uploading", function(done){
       chai.request(app)
       .post('/upload/courses')
-      .send()
-      .end((err, res)=>{
+      .attach('file', './myCourses.csv', 'myCourses.csv')
+      // .write(fs.readFileSync('./myCourses.csv'))
+      .end(function(err, res){
         if(err) console.log("Error ", err);
-        console.log('res body is: ', arr)
-        //arr.should.have.property('Course_Code');
-        res.should.have.status(200);
-        // expect(res.body).to.be.a.array;
-        //console.log(res.body);
+        console.log('res text is: ', res.text)
+        assert.equal(res.text, 'uploaded!!');
+        // res.should.have.status(200);
         done();
       })
     })
   })
 
 
+ describe('generate timetable', function(){
+    it('returns exams with sessions in 2D array form', function(done){
+      chai.request(app)
+      .post('/generate')
+      .send({
+        data :   [ 'ACCN1014',
+        'ACCN1036',
+        'APPM1006',
+        'COMS1015',
+        'COMS1017',
+        'COMS1018',
+        'ECON1000',
+        'INFO1004',
+        'MATH1014',
+        'MATH1036',
+        'PHYS1000',
+        'PSYC1015',
+        'PSYC1017',
+        'PSYC1017A',
+        'PSYC1018',
+        'THEO1006' ],
+        maxSessions : 100,
+        clashParameter :1,
+        SortBy : 0
+    
+      })
+      .end(function(err, res){
+        if(err) console.log("Error ", err);
+        //console.log('*** ',res);
+        // expect(res).to.be.an('array');
+        res.body.should.be.a('array');
+        done();
+      })
+    })
+  })
 
-//   //on submit button and content submitted to database
 
-
-
-//   describe('/upload/courses', function(){
-//     it('allows for a csv file to be uploaded, status code must be 200 ', function(done){
-//       chai.request(app)
-//       .post('/upload/courses')
-//       .end(function(err, res){
-//         if(err) console.log("Error ", err);
-//         console.log('res status is: ', res.status)
-//         //res.should.have.status(200);
-//         expect(res).to.have.status(200);
-//         done();
-//       })
-//     })
-//   })
-
-// describe('/upload/courses', function(){
-//     it('csv data must be in a 2D array ', function(done){
-//       chai.request(app)
-//       .post('/upload/courses')
-//       .end(function(err, res){
-//         if(err) console.log("Error ", err);
-//         //console.log('res body is: ', res.body)
-//         //res.should.have.status(200);
-//         // expect(res.body).to.be.a.array;
-//         res.body.should.be.a('array');
-//         done();
-//       })
-//     })
-//   })
-
-//I dont know what results nton nton has
- // describe('/generate', function(){
- //    it('gets selected courses from database and displays them', function(done){
- //      chai.request(app)
- //      .post('/display/courses')
- //      .end(function(err, res){
- //        if(err) console.log("Error ", err);
- //        expect(res).to.have.status(200);
- //        done();
- //      })
- //    })
- //  })
+  describe('get individual student timetable', function(){
+    it('returns exams with sessions in 2D array form', function(done){
+      chai.request(app)
+      .post('/student')
+      .send({studentnumber : '1490000'})
+      .end(function(err, res){
+        if(err) console.log("Error ", err);
+        // console.log('*** ',res);
+        // expect(res).to.be.an('array');
+        res.body.should.be.a('array');
+        done();
+      })
+    })
+  })
+ 
+  // describe('get neighbors of selected course', function(){
+  //   it('returns courses that interact with selected course', function(done){
+  //     chai.request(app)
+  //     .post('/neighbors')
+  //     .send({code : 'THEO1006'})
+  //     .end(function(err, res){
+  //       if(err) console.log("Error ", err);
+  //       // console.log('*** ',res);
+  //       // expect(res).to.be.an('array');
+  //       res.body.should.be.a('array');
+  //       done();
+  //     })
+  //   })
+  // })
 
 })

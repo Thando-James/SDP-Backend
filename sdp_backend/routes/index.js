@@ -130,6 +130,8 @@ router.post('/generate', function(req,res){
     let maxSessions = req.body.maxSessions
     let clashParameter = req.body.clashParameter
     let sortby = req.body.SortBy;
+    let date = req.body.date
+    let data = []
 
     console.log("body ",req.body);
 
@@ -145,7 +147,18 @@ router.post('/generate', function(req,res){
             timetable = results;
             //results has the courses after generating timetable
             console.log(results);
-            res.json(results);
+            //add dates
+            for(let a = 0; a<results.length; a++){
+                for(let b=0; b<results[a].length; b++){
+                    let obj = {
+                        subject:results[a][b],
+                        data : [date.format("LL")]
+                    }
+                    data.push(obj)
+                }
+                date.add(1,"day")
+            }
+            res.json(data);
           
     
             });

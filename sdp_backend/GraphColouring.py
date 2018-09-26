@@ -213,7 +213,8 @@ class GraphColouring():
             self.adjacencyMatrix.append(temp)
         
        # print(self.adjacencyMatrix)    
-        self.vertexColours =[-1]*vertexCount
+        for i in range(0,vertexCount):
+            self.vertexColours.append([])
         #print(self.vertexColours)
         
     
@@ -265,19 +266,30 @@ class GraphColouring():
         usedColours=[]
         neighbours=self.getNeighbours(vertex)
         
+        
         for i in range(0,len(neighbours)):
-            if self.vertexColours[neighbours[i]]!=-1:
-                usedColours.append(self.vertexColours[neighbours[i]])
-        
-        
-        for c in range(0,len(usedColours)+1):
-            if c not in usedColours:
-                colour=c
+            if len(self.vertexColours[neighbours[i]])!=0:
+                for j in range(0,len(self.vertexColours[neighbours[i]])):
+                    if self.vertexColours[neighbours[i]][j] not in usedColours:
+                        usedColours.append(self.vertexColours[neighbours[i]][j])
                 
-                break
-                
+
+        
+        for j in range(0,len(resultArray[vertex])):
+           
+            
+            counter=0
+            while True:
+                if counter not in usedColours and counter not in self.vertexColours[vertex]:
+                    colour=counter
+                    break
+                counter=counter+1
+            
+         
+            self.vertexColours[vertex].append(colour)
+            print(self.vertexColours[vertex]) 
+     
        # print(colour)
-        self.vertexColours[vertex]=colour
             
 
 
@@ -406,17 +418,26 @@ while True:
     sessions=[]
     sessionData=[]
 
-    for i in range(0,max(graph.vertexColours)+1):
+    allColours=[]
+    for k in range(0,len(graph.vertexColours)):
+            for j in range(0,len(graph.vertexColours[k])):
+                allColours.append(graph.vertexColours[k][j])
+               
+
+    #Create the sessions by grouping by colour :
+    
+    for i in range(0,max(allColours)+1):
         temp=[]
         temp1=[]
-        for j in range(0,len(graph.vertexColours)):
-            if graph.vertexColours[j] == i:
-                temp.append(j)
-                temp1.append(resultArray[0][j][0][0][:8])
+        pair=[]
+        for k in range(0,len(graph.vertexColours)):
+            for j in range(0,len(graph.vertexColours[k])):
+                if graph.vertexColours[k][j] == i:
+
+                    temp.append(resultArray[0][k][j])
 
 
         sessions.append(temp)
-        sessionData.append(temp1)
 
     #print("The number of sessions are: ")
     #print(len(sessions))

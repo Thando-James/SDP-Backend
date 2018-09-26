@@ -2,14 +2,14 @@ matrix:
   include:
     - language: python
       python:
-        -"3.3.6"
+        - "3.3.6"
       install:
         - pip install pytest
         - pip install pytest-cov
         - pip install coveralls
 
       script:
-        - python ./sdp_backend/test_GraphColouring.py
+        - python ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0
 
       after_success:
         -coveralls 
@@ -17,8 +17,11 @@ matrix:
     - language: node_js
       node_js:
         - "stable"
-      # install:
-      # - npm install
-      # script:
-      # - npm test
-
+#       before_install:
+#         - cd sdp_backend
+      install:
+       - npm install
+      script:
+      - cd $sdp_backend && npm test
+#         - npm test 
+#         - npm run build

@@ -5,6 +5,7 @@ var parse = require('csv-parse');
 //var unique = require('array-unique');
 var mysql      = require('mysql');
 var PythonShell = require('python-shell');
+var moment = require('moment');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -132,7 +133,7 @@ router.post('/generate', function(req,res){
     let sortby = req.body.SortBy;
     let date = req.body.date
     let data = []
-
+    
     console.log("body ",req.body);
 
     try {
@@ -148,11 +149,12 @@ router.post('/generate', function(req,res){
             //results has the courses after generating timetable
             console.log(results);
             //add dates
+            console.log(moment(date))
             for(let a = 0; a<results.length; a++){
                 for(let b=0; b<results[a].length; b++){
                     let obj = {
                         subject:results[a][b],
-                        data : [date.format("LL")]
+                        data : [date]
                     }
                     data.push(obj)
                 }

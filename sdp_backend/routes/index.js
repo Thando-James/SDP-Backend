@@ -37,7 +37,8 @@ router.get('/display/courses', function(req,res){
 
 router.post('/neighbors', function(req,res){
 try{
-    let code = 'THEO1006';
+    let code = req.body.coursecode;
+    console.log('courseN from Dash: ',code);
     connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,res) {  
         
         if(err){

@@ -73,6 +73,7 @@ try{
         }
 
         console.log('neighbors with sessions are: ',table);
+        res.json(table)
 
     })  
 }

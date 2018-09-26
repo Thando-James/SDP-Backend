@@ -54,6 +54,24 @@ try{
         }
 
         console.log('The neighbors are: ', arr);
+        var table = []
+        for(const s of arr){
+            for(var i=0; i<timetable.length;i++){
+                var row = timetable[i]
+                for(var j =0; j<row.length; j++){
+                    //console.log('***', s, '***', row[j])
+                    if(s === row[j]){
+                        let temp= []
+                        temp.push(s);
+                        temp.push(i+1);
+                        table.push(temp);
+                    }
+               }
+               
+            }
+        }
+
+        console.log('neighbors with sessions are: ',table);
 
     })  
 }

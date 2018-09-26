@@ -355,7 +355,7 @@ while True:
             degrees.append(graph.getDegree(i))
             #print(graph.degrees)    
 
-        maxValue=max(degrees)+1;
+        maxValue=max(degrees)+1
        
 
         for i in range(0,len(degrees)):

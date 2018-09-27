@@ -40,39 +40,41 @@ router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,res) {  
+    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,response) {  
         
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
-          console.log('res is', res)
+          console.log('res is', response)
          // return res.json(results); 
           var arr = []
-          for(var i=0; i<res.length;i++){
-            console.log( res[i].Course_Code); 
-            arr[i] = res[i].Course_Code;
+          for(var i=0; i<response.length;i++){
+            console.log( response[i].Course_Code); 
+            arr[i] = response[i].Course_Code;
         }
 
         console.log('The neighbors are: ', arr);
         var table = []
         for(const s of arr){
             for(var i=0; i<timetable.length;i++){
-                var row = timetable[i]
-                for(var j =0; j<row.length; j++){
+               // var row = timetable[i]
+                //for(var j =0; j<row.length; j++){
                     //console.log('***', s, '***', row[j])
-                    if(s === row[j]){
-                        let temp= []
-                        temp.push(s);
-                        temp.push(i+1);
+                    if(s === timetable[i].subject){
+                        let temp= {
+                            subject : s,
+                            data : (timetable[i].data)
+                        }
                         table.push(temp);
                     }
-               }
+               //}
                
             }
         }
 
         console.log('neighbors with sessions are: ',table);
+        res.json(table)
 
     })  
 }
@@ -101,17 +103,14 @@ catch
         var table = []
         for(const s of arr){
             for(var i=0; i<timetable.length;i++){
-                var row = timetable[i]
-                for(var j =0; j<row.length; j++){
-                    //console.log('***', s, '***', row[j])
-                    if(s === row[j]){
-                        let temp= []
-                        temp.push(s);
-                        temp.push(i+1);
+                    if(s === timetable[i].subject){
+                        let temp= {
+                            subject : s,
+                            data : (timetable[i].data)
+                        }
+                       
                         table.push(temp);
                     }
-               }
-               
             }
         }
         console.log('***', table)
@@ -149,11 +148,12 @@ router.post('/generate', function(req,res){
     let maxSessions = req.body.maxSessions
     let clashParameter = req.body.clashParameter
     let sortby = req.body.SortBy;
-    // let date = req.body.date
-    // let data = []
+    let d = req.body.date
+    let data = []
     
     console.log("body ",req.body);
-
+    var date = moment(d)
+    
     try {
         PythonShell.PythonShell.run('./GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
             if (err){
@@ -163,11 +163,24 @@ router.post('/generate', function(req,res){
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
             results = JSON.parse(results)
-            timetable = results;
+            
             //results has the courses after generating timetable
             console.log(results);
-            
-            res.json(results);
+            //set dates
+
+            for(let a = 0; a<results.length; a++){
+                    for(let b=0; b<results[a].length; b++){
+                        let obj = {
+                            subject:results[a][b],
+                            data : [date.format("LL")]
+                        }
+                        data.push(obj)
+                    }
+                    date.add(1,"day")
+            }
+            console.log(data)
+            timetable = data;
+            res.json(data);
           
     
             });

@@ -61,9 +61,9 @@ try{
                // var row = timetable[i]
                 //for(var j =0; j<row.length; j++){
                     //console.log('***', s, '***', row[j])
-                    if(s === timetable[i].subject){
+                    if(s === (timetable[i].subject).substring(0,8)){
                         let temp= {
-                            subject : s,
+                            subject : timetable[i].subject,
                             data : (timetable[i].data)
                         }
                         table.push(temp);
@@ -103,9 +103,9 @@ catch
         var table = []
         for(const s of arr){
             for(var i=0; i<timetable.length;i++){
-                    if(s === timetable[i].subject){
+                    if(s === (timetable[i].subject).substring(0,8)){
                         let temp= {
-                            subject : s,
+                            subject : timetable[i].subject,
                             data : (timetable[i].data)
                         }
                        

@@ -11,6 +11,10 @@
 # In[60]:
 import sys
 import json
+import math
+import random
+from operator import itemgetter
+
 arr_courses = sys.argv[1]
 def getCourseStudents(groupedExamList,studentArray):
     courseStudents=[]
@@ -27,6 +31,26 @@ def getCourseStudents(groupedExamList,studentArray):
     #print("The kingdom")   
     #print(courseStudents[len(courseStudents)-1])    
     return courseStudents
+
+def getExamStudents(session,studentArray):
+    courseStudents=[]
+
+    for i in range(0,len(session)):
+        temp=[]
+        for j in range(0,len(session[i])):
+            for k in range(0,len(studentArray)):
+                if studentArray[k][0][4] in session[i][j][0] and studentArray[k][0][0] not in temp:
+                    temp.append(studentArray[k][0][0])
+
+
+
+        courseStudents.append(temp)
+    # print()    
+    #print(courseStudents)    
+    #print("The kingdom")   
+    #print(courseStudents[len(courseStudents)-1])    
+    return courseStudents
+
 
 
 # In[61]:
@@ -213,7 +237,8 @@ class GraphColouring():
             self.adjacencyMatrix.append(temp)
         
        # print(self.adjacencyMatrix)    
-        self.vertexColours =[-1]*vertexCount
+        for i in range(0,vertexCount):
+            self.vertexColours.append([])
         #print(self.vertexColours)
         
     
@@ -260,24 +285,36 @@ class GraphColouring():
         return degree
     
     
-    def setColour(self,vertex):
+    def setColour(self,vertex,resultArray):
         colour=-1
         usedColours=[]
         neighbours=self.getNeighbours(vertex)
         
+        
         for i in range(0,len(neighbours)):
-            if self.vertexColours[neighbours[i]]!=-1:
-                usedColours.append(self.vertexColours[neighbours[i]])
-        
-        
-        for c in range(0,len(usedColours)+1):
-            if c not in usedColours:
-                colour=c
+            if len(self.vertexColours[neighbours[i]])!=0:
+                for j in range(0,len(self.vertexColours[neighbours[i]])):
+                    if self.vertexColours[neighbours[i]][j] not in usedColours:
+                        usedColours.append(self.vertexColours[neighbours[i]][j])
                 
-                break
-                
+
+        
+        for j in range(0,len(resultArray[vertex])):
+           
+            
+            counter=0
+            while True:
+                if counter not in usedColours and counter not in self.vertexColours[vertex]:
+                    colour=counter
+                    break
+                counter=counter+1
+            
+         
+            self.vertexColours[vertex].append(colour)
+            #print(self.vertexColours[vertex]) 
+     
        # print(colour)
-        self.vertexColours[vertex]=colour
+        
             
 
 
@@ -400,27 +437,35 @@ while True:
     #print("kats")
 
     for i in range(0,len(sortedVertices)):
-        graph.setColour(sortedVertices[i])
-
+        graph.setColour(sortedVertices[i],resultArray[0])
    
     sessions=[]
     sessionData=[]
 
-    for i in range(0,max(graph.vertexColours)+1):
+    allColours=[]
+    for k in range(0,len(graph.vertexColours)):
+            for j in range(0,len(graph.vertexColours[k])):
+                allColours.append(graph.vertexColours[k][j])
+     
+    for i in range(0,max(allColours)+1):
         temp=[]
         temp1=[]
-        for j in range(0,len(graph.vertexColours)):
-            if graph.vertexColours[j] == i:
-                temp.append(j)
-                temp1.append(resultArray[0][j][0][0][:8])
+        pair=[]
+        for k in range(0,len(graph.vertexColours)):
+            for j in range(0,len(graph.vertexColours[k])):
+                if graph.vertexColours[k][j] == i:
+
+                    temp.append(resultArray[0][k][j])
 
 
         sessions.append(temp)
-        sessionData.append(temp1)
+       
 
     #print("The number of sessions are: ")
     #print(len(sessions))
     # print(sessionData)       
+
+    examStudents=getExamStudents(sessions,resultArray[1])
 
     if len(sessions) > graph.maxSessions:
         theParameter=theParameter+1
@@ -428,7 +473,156 @@ while True:
         break
     # print("The parameter is:")
     # print(graph.clashParameter)
-print(json.dumps(sessionData)) 
+#We calculate the score by only penalising back to back days and back to back sessions
+#Assign a penalty of 20 to back to back sessions in the same day.
+#Assign a penalty of 10 to back to back sessions on different days
+
+def getScore(sessionStudents):
+   
+   studentArray=[]
+   score=0
+   for i in range(0,len(sessionStudents)-1):
+       common=list(set(sessionStudents[i]).intersection(sessionStudents[i+1]))
+       if((i+1)%2==0):
+           score= score+20*len(common)
+       else:
+            score= score+50*len(common)
+       
+   return score       
+
+#we want score to be as high as possible since it represents the cumalitive study time all the students have 
+#A reordering of these sessions might give a better result ie :
+#I create an array containing differet permutations of the original timetable
+
+def permute(sessions):
+   
+   theStudents=examStudents
+   
+   for i in range(0,len(sessions)):
+       index1=random.randint(0,len(sessions)-1)
+       index2=random.randint(0,len(sessions)-1)
+       temp=sessions[index1]
+       sessions[index1]=sessions[index2]
+       sessions[index2]=temp
+       
+       temp2=theStudents[index1]
+       theStudents[index1]=theStudents[index2]
+       theStudents[index2]=temp2
+       
+       
+       
+   result=[]
+   result.append(sessions)
+   result.append(theStudents)
+   
+   return result
+   
+   
+
+populationSize=100
+def populate(session,populationSize):
+   population=[]
+   temp=session[:]
+   temp.append(getScore(examStudents))
+   population.append(temp)
+  
+   
+   while len(population)<populationSize-1:
+       temp2 = session[:]
+       result=permute(temp2)
+       array=result[0]
+       array.append(getScore(result[1]))
+       population.append(array)
+       
+   return population
+
+thePopulation=populate(sessions,populationSize) 
+
+#Now that we've got the permutations we need to give each permutation a score andd then regenerate on "fittest"
+
+
+
+# In[49]:
+
+
+def Breed(parent1,parent2):
+    children=[]
+    venus=[]
+    serena=[]
+    
+    startIndex=random.randint(0,math.floor(len(parent1)/2))
+    for i in range(startIndex,2*startIndex):
+        venus.append(parent1[i])
+        
+    for j in range(0,len(parent1)-1):
+        if parent1[j] not in venus:
+            serena.append(parent1[j])
+        
+    
+    
+    for k in range(0,len(parent2)-1):
+        if parent2[k] not in venus:
+            venus.append(parent2[k])
+            
+    for l in range(0,len(parent2)-1):
+        if parent2[l] not in serena:
+            serena.append(parent2[l])
+        
+    venus.append(getScore(venus))    
+    serena.append(getScore(serena))
+    
+    
+    newGeneration.append(serena)
+    newGeneration.append(venus)
+    
+      
+        
+    return newGeneration
+#Now we must sort these by the last index
+#We take the top n organisms and discard the rest
+#Allow top n to breed until there are 90 total organisms
+#Now we must sort these by the last index
+#We take the top n organisms and discard the rest
+
+generation=0
+numGenerations=10
+while generation < numGenerations:
+
+    sortedArray=sorted(thePopulation,key=itemgetter(len(thePopulation[0])-1))
+    sortedArray=sortedArray[:10]
+    newGeneration=sortedArray
+    while len(thePopulation) < 90:
+        index1=random.randint(0,9)
+        index2=random.randint(0,9)
+        if index1!=index2:
+            thePopulation=Breed(newGeneration[index],newGeneration[index])
+        #thePopulation=list(set(thePopulation))
+    generation=generation+1
+thePopulation=sorted(thePopulation,key=itemgetter(len(thePopulation[0])-1))
+finalSession=thePopulation[0][:-1]
+
+theSession=[]
+
+for i in range(0,len(finalSession)):
+    temp=[]
+    for j in range(0,len(finalSession[i])):
+        truth=1
+        if len(finalSession[i][j])>1:
+            theSession.append(finalSession[i][j])
+            truth=0
+        else:
+            temp.append(finalSession[i][j][0])
+        
+    if truth:    
+        theSession.append(temp) 
+    
+    
+for i in range(0,len(theSession)):
+    if len(theSession[i]) == 0:
+        del theSession[i]
+        
+    
+print(json.dumps(theSession)) 
 
 # In[ ]:
 

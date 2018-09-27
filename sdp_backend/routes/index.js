@@ -117,7 +117,7 @@ catch
             std: std_num,
             singleTable: table
         }
-        l
+        
         console.log('***', table)
         res.json(Dash);
     

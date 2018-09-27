@@ -40,34 +40,35 @@ router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,res) {  
+    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,response) {  
         
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
-          console.log('res is', res)
+          console.log('res is', response)
          // return res.json(results); 
           var arr = []
-          for(var i=0; i<res.length;i++){
-            console.log( res[i].Course_Code); 
-            arr[i] = res[i].Course_Code;
+          for(var i=0; i<response.length;i++){
+            console.log( response[i].Course_Code); 
+            arr[i] = response[i].Course_Code;
         }
 
         console.log('The neighbors are: ', arr);
         var table = []
         for(const s of arr){
             for(var i=0; i<timetable.length;i++){
-                var row = timetable[i]
-                for(var j =0; j<row.length; j++){
+               // var row = timetable[i]
+                //for(var j =0; j<row.length; j++){
                     //console.log('***', s, '***', row[j])
-                    if(s === row[j]){
-                        let temp= []
-                        temp.push(s);
-                        temp.push(i+1);
+                    if(s === timetable[i].subject){
+                        let temp= {
+                            subject : s,
+                            data : (timetable[i].data)
+                        }
                         table.push(temp);
                     }
-               }
+               //}
                
             }
         }
@@ -102,17 +103,14 @@ catch
         var table = []
         for(const s of arr){
             for(var i=0; i<timetable.length;i++){
-                var row = timetable[i]
-                for(var j =0; j<row.length; j++){
-                    //console.log('***', s, '***', row[j])
-                    if(s === row[j]){
-                        let temp= []
-                        temp.push(s);
-                        temp.push(i+1);
+                    if(s === timetable[i].subject){
+                        let temp= {
+                            subject : s,
+                            data : (timetable[i].data)
+                        }
+                       
                         table.push(temp);
                     }
-               }
-               
             }
         }
         console.log('***', table)
@@ -165,7 +163,7 @@ router.post('/generate', function(req,res){
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
             results = JSON.parse(results)
-            timetable = results;
+            
             //results has the courses after generating timetable
             console.log(results);
             //set dates
@@ -180,6 +178,8 @@ router.post('/generate', function(req,res){
                     }
                     date.add(1,"day")
             }
+            console.log(data)
+            timetable = data;
             res.json(data);
           
     

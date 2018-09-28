@@ -266,7 +266,7 @@ router.post('/upload/courses', function(req, res){
               
                 let sql = "INSERT IGNORE INTO Courses (course_code, Papers) VALUES ?";
                 connection.query(sql, [to_db], function(err) {
-                    if (err) console.log();
+                    if (err) console.log(err);
                 });
             });
     

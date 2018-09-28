@@ -12,5 +12,5 @@ script:
   - python ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0
 
 after_success:
-  -coveralls
+  - coveralls
 

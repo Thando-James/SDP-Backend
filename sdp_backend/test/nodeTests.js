@@ -86,7 +86,7 @@ describe('data going to database', function(){
         if(err) console.log("Error ", err);
         // console.log('*** ',res);
         // expect(res).to.be.an('array');
-        res.body.should.be.a('array');
+        res.body.should.be.a('object');
         done();
       })
     })

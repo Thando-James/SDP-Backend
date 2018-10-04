@@ -427,7 +427,23 @@ while True:
             sortedVertices.append(index)
             diagArray[index]=minVal
  
-        # print()    
+        # print()
+    if sortingScheme == 3:
+        tempp = []
+        for i in range(0,len(graph.adjacencyMatrix)):
+
+            sum=0
+            for j in range(0,len(graph.adjacencyMatrix)):
+                sum = sum + graph.adjacencyMatrix[i][j]
+            sum=sum-graph.adjacencyMatrix[i][i]   
+            tempp.append(sum)
+            
+        # print(tempp)
+        minVal=min(tempp)-1
+        for i in range(0,len(tempp)):
+            index=tempp.index(max(tempp))
+            sortedVertices.append(index)
+            tempp[index]=minVal
 
 
     

@@ -301,7 +301,7 @@ router.post('/upload/papers', function(req, res){
                 
                 console.log('papers arr', papersArr);
     
-                let sql = "INSERT INTO Papers (Course_Code, Papers) VALUES ?";
+                let sql = "INSERT IGNORE INTO Papers (Course_Code, Papers) VALUES ?";
                 connection.query(sql, [papersArr], function(err) {
                   if (err) console.log(err);
                   console.log("upload");

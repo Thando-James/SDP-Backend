@@ -265,6 +265,19 @@ router.post('/upload/courses', function(req, res){
     }
 });
 
+router.post('/login', function(req, res){
+    if(!req){
+        return res.status(500).send('Please enter login credentials')
+    }
+
+    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.email} AND Password = ${req.password}`;
+
+    connection.query(sql, function(err,results) {
+        if(err) console.log(err)
+        res.json(results);
+    })
+})
+
 router.post('/upload/papers', function(req, res){
     //If there is no csv file
     if(!req.files){

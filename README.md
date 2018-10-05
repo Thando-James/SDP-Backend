@@ -1,3 +1,3 @@
 # SDP-Backend
 [![Build Status](https://travis-ci.org/katOfMordor/SDP-Backend.svg?branch=master)](https://travis-ci.org/katOfMordor/SDP-Backend)
-[![GitHub issues](https://img.shields.io/github/issues-raw/badges/katOfMordor/SDP-Backend.svg?branch=master)]
+[![Coverage Status](https://coveralls.io/repos/github/katOfMordor/SDP-Backend/badge.svg)](https://coveralls.io/github/katOfMordor/SDP-Backend)

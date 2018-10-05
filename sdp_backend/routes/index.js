@@ -270,7 +270,7 @@ router.post('/login', function(req, res){
         return res.status(500).send('Please enter login credentials')
     }
 
-    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.email} AND Password = ${req.password}`;
+    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.body.user.email} AND Password = ${req..body.user.password}`;
 
     connection.query(sql, function(err,results) {
         if(err) console.log(err)

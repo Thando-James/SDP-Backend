@@ -295,7 +295,7 @@ router.post('/upload/papers', function(req, res){
                 let papersArr = [];
 
                 for(let i=0; i<data.length; i++){
-                  papersArr.push([data[i][0],data[i][0].split("/")[0]])
+                  papersArr.push([data[i][0].split("/")[0], data[i][0]])
                 }
                 console.log('\n');
                 

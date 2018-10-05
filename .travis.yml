@@ -5,11 +5,12 @@ install:
   - pip install pytest
   - pip install pytest-cov
   - pip install coveralls
+  - pip install coverage
 
 
 # command to run tests
 script:
-  - py.test ./sdp_backend/test_GraphColouring.py
+  - coverage run ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0
 
 after_success:
   - coveralls

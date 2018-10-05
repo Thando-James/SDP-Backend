@@ -295,13 +295,13 @@ router.post('/upload/papers', function(req, res){
                 let papersArr = [];
 
                 for(let i=0; i<data.length; i++){
-                  papersArr.push([data[i][0],data[i][0].split(",")[0]])
+                  papersArr.push([data[i][0],data[i][0].split("/")[0]])
                 }
                 console.log('\n');
                 
                 console.log('papers arr', papersArr);
     
-                let sql = "INSERT IGNORE INTO Papers (Course_Code, Papers) VALUES ?";
+                let sql = "INSERT INTO Papers (Course_Code, Papers) VALUES ?";
                 connection.query(sql, [papersArr], function(err) {
                   if (err) console.log(err);
                   console.log("upload");

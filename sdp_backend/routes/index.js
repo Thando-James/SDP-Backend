@@ -295,7 +295,7 @@ router.post('/upload/papers', function(req, res){
                 let papersArr = [];
 
                 for(let i=0; i<data.length; i++){
-                  papersArr.push([data[i][0],data[i][0].substring(0,8)])
+                  papersArr.push([data[i][0],data[i][0].split(",")[0]])
                 }
                 console.log('\n');
                 
@@ -304,6 +304,7 @@ router.post('/upload/papers', function(req, res){
                 let sql = "INSERT IGNORE INTO Papers (Course_Code, Papers) VALUES ?";
                 connection.query(sql, [papersArr], function(err) {
                   if (err) console.log(err);
+                  console.log("upload");
                   res.send("uploaded")
                 });
             });

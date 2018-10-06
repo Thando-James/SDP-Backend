@@ -187,7 +187,7 @@ router.post('/generate', function(req,res){
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],
-                            data : [date.format("LL")]
+                            data : [date.format("YYYY-MM-DD")]
                         }
                         data.push(obj)
                     }

@@ -32,7 +32,7 @@ function multiDimensionalUnique(arr) {
 
 router.get('/display/courses', function(req,res){
     try {
-        connection.query("SELECT DISTINCT Course_Code  FROM Registered ORDER BY Course_Code LIMIT 25 ", function(err,results) {     
+        connection.query("SELECT DISTINCT course_code  FROM Courses ORDER BY course_code LIMIT 25 ", function(err,results) {     
             console.log('The courses are: ', results); 
             if(err){
               console.log(err)
@@ -270,7 +270,8 @@ router.post('/login', function(req, res){
         return res.status(500).send('Please enter login credentials')
     }
 
-    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.body.user.email} AND Password = ${req..body.user.password}`;
+    console.log(req.body);
+    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.body.user.email} AND Password = ${req.body.user.password}`;
 
     connection.query(sql, function(err,results) {
         if(err) console.log(err)

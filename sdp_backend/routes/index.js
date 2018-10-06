@@ -120,8 +120,8 @@ catch
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
-                            description : "Hey",
-                            data : timetable[i].data[0]
+                            allDay : false,
+                            resource : timetable[i].data[0]
                         }
                        
                         table.push(temp);

@@ -125,13 +125,9 @@ catch
                     }
             }
         }
-        var Dash = {
-            std: std_num,
-            singleTable: table
-        }
         
         console.log('***', table)
-        res.json(Dash);
+        res.json(table);
     
      })
     }

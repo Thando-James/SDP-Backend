@@ -75,8 +75,11 @@ try{
                     //console.log('***', s, '***', row[j])
                     if(s === (timetable[i].subject).substring(0,8)){
                         let temp= {
-                            subject : timetable[i].subject,
-                            data : (timetable[i].data)
+                            start : timetable[i].data[1],
+                            end : timetable[i].data[1],
+                            title : timetable[i].subject,
+                            allDay : false,
+                            resource : timetable[i].data[0]
                         }
                         table.push(temp);
                     }

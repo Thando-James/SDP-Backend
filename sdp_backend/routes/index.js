@@ -48,6 +48,23 @@ router.get('/display/courses', function(req,res){
     }
 });
 
+router.get('allStudents', function(req,res){
+    try{
+        connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
+            console.log('Registered students are: ', results); 
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            }  
+            return res.json(results);    
+
+       
+        });
+    }catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+});
+
 router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;

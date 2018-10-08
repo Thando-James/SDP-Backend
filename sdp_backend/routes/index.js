@@ -276,7 +276,7 @@ router.post('/login', function(req, res){
     if(!req){
         return res.status(500).send('Please enter login credentials')
     }
-
+    console.log("Nelly")
     console.log(req.body);
     let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.body.user.email} AND Password = ${req.body.user.password}`;
 

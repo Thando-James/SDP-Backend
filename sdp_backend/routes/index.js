@@ -278,7 +278,7 @@ router.post('/login', function(req, res){
     }
     console.log("Nelly")
     console.log(req.body);
-    let sql = `SELECT ID FROM Person WHERE Email = ${req.body.email} AND Password = ${req.body.password}`;
+    let sql = `SELECT ID FROM Person WHERE Email = "${req.body.email}" AND Password = ${req.body.password}`;
 
     connection.query(sql, function(err,results) {
         if(err) console.log(err)

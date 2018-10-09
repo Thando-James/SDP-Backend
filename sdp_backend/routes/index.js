@@ -99,7 +99,7 @@ try{
                                   }  
                                 console.log('# is ',result)
                                 console.log(result[0].size)
-                                                             
+                            });                                  
                         
                         let temp= {
                             start : timetable[i].data[1],
@@ -107,10 +107,9 @@ try{
                             title : timetable[i].subject,
                             allDay : false,
                             resource : timetable[i].data[0],
-                            sharedStudents : result[0].size
+                            // sharedStudents : result[i].size
                         }
                         table.push(temp);
-                    });
                     }   
                     catch (error) {
                         return res.json({errorType:'Database',errorMessage:error})

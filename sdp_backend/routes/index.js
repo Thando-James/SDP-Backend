@@ -65,18 +65,19 @@ router.get('allStudents', function(req,res){
     }
 });
 
+
+
 router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
     connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,response) {  
-        
+        //get number of students who do thos course : code
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
           console.log('res is', response)
-         // return res.json(results); 
           var arr = []
           for(var i=0; i<response.length;i++){
             console.log( response[i].Course_Code); 
@@ -86,11 +87,20 @@ try{
         console.log('The neighbors are: ', arr);
         var table = []
         for(const s of arr){
+            connection.query(`SELECT COUNT(Std_ID) FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}')`, function(err,result) { 
+                try{
+                    console.log('# is ',result)
+                }catch (error) {
+                    return res.json({errorType:'Database',errorMessage:error})
+                }
+
+             });
+
             for(var i=0; i<timetable.length;i++){
-               // var row = timetable[i]
-                //for(var j =0; j<row.length; j++){
-                    //console.log('***', s, '***', row[j])
+            console.log('***', s, '***', row[j])
                     if(s === (timetable[i].subject).substring(0,8)){
+                        //get number of shared students
+
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
@@ -99,9 +109,7 @@ try{
                             resource : timetable[i].data[0]
                         }
                         table.push(temp);
-                    }
-               //}
-               
+                    }               
             }
         }
 

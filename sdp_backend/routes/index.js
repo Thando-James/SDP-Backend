@@ -88,6 +88,7 @@ try{
         var table = []
         for(const s of arr){
                 for(var i=0; i<timetable.length;i++){
+                    
                     if(s === (timetable[i].subject).substring(0,8)){
                         //get number of shared students
                             try{
@@ -97,13 +98,8 @@ try{
                                     return res.status(500).send(err);
                                   }  
                                 console.log('# is ',result)
-                            });
-                            }catch (error) {
-                                return res.json({errorType:'Database',errorMessage:error})
-                            }
-            
+                            });                                  
                         
-
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
@@ -113,9 +109,13 @@ try{
                             sharedStudents : result[i].COUNT(Std_ID)
                         }
                         table.push(temp);
-                    }               
+                    }   
+                    catch (error) {
+                        return res.json({errorType:'Database',errorMessage:error})
+                    }              
             }
         }
+    }
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)

@@ -88,14 +88,13 @@ try{
         var table = []
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
-                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
+                    if(s.Course_Code === (timetable[i].subject)){
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
                             resource : s.Size
-                            // sharedStudents : result[i].size
                         }
                         table.push(temp);
                          

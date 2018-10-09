@@ -107,7 +107,7 @@ try{
                             title : timetable[i].subject,
                             allDay : false,
                             resource : timetable[i].data[0],
-                            // sharedStudents : result[i].size
+                            sharedStudents : result[0].size
                         }
                         table.push(temp);
                     }   

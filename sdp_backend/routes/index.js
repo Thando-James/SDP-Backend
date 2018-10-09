@@ -88,7 +88,7 @@ try{
         var table = []
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
-                    if(s.Course_Code === (timetable[i].subject)){
+                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],

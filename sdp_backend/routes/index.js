@@ -99,7 +99,7 @@ try{
                                   }  
                                 console.log('# is ',result)
                                 console.log(result[0].size)
-                            });                                  
+                                                             
                         
                         let temp= {
                             start : timetable[i].data[1],
@@ -110,6 +110,7 @@ try{
                             sharedStudents : result[0].size
                         }
                         table.push(temp);
+                    });
                     }   
                     catch (error) {
                         return res.json({errorType:'Database',errorMessage:error})

@@ -97,7 +97,6 @@ try{
              });
 
             for(var i=0; i<timetable.length;i++){
-            console.log('***', s, '***', row[j])
                     if(s === (timetable[i].subject).substring(0,8)){
                         //get number of shared students
 

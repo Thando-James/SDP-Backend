@@ -109,7 +109,8 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : timetable[i].data[0]
+                            resource : timetable[i].data[0],
+                            sharedStudents : result[i].COUNT(Std_ID)
                         }
                         table.push(temp);
                     }               

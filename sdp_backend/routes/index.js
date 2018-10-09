@@ -91,7 +91,7 @@ try{
                     if(s === (timetable[i].subject).substring(0,8)){
                         //get number of shared students
                             try{
-                                connection.query(`SELECT COUNT(Std_ID) FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}')`, function(err,result) { 
+                                connection.query(`SELECT COUNT(Std_ID) FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}' `, function(err,result) { 
                                 if(err){
                                     console.log(err)
                                     return res.status(500).send(err);

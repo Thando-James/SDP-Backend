@@ -90,14 +90,19 @@ try{
                 for(var i=0; i<timetable.length;i++){
                     if(s === (timetable[i].subject).substring(0,8)){
                         //get number of shared students
-                        connection.query(`SELECT COUNT(Std_ID) FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}')`, function(err,result) { 
                             try{
+                                connection.query(`SELECT COUNT(Std_ID) FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}')`, function(err,result) { 
+                                if(err){
+                                    console.log(err)
+                                    return res.status(500).send(err);
+                                  }  
                                 console.log('# is ',result)
+                            });
                             }catch (error) {
                                 return res.json({errorType:'Database',errorMessage:error})
                             }
             
-                         });
+                        
 
                         let temp= {
                             start : timetable[i].data[1],

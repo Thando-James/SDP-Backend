@@ -71,7 +71,7 @@ router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
+    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}' GROUP BY Course_Code
     )`, function(err,response) {  
         //get number of students who do thos course : code
         if(err){

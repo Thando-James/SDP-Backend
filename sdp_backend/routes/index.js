@@ -98,7 +98,7 @@ try{
                                     return res.status(500).send(err);
                                   }  
                                 console.log('# is ',result)
-                                console.log(result[i].size)
+                                console.log(result[0].size)
                             });                                  
                         
                         let temp= {

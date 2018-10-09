@@ -71,7 +71,7 @@ router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
+    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Size FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
     `, function(err,response) {  
         //get number of students who do thos course : code
         if(err){
@@ -85,7 +85,6 @@ try{
         //     arr[i] = response[i].Course_Code;
         // }
 
-        console.log('The neighbors are: ', arr);
         var table = []
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
@@ -95,7 +94,7 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : s.size
+                            resource : s.Size
                             // sharedStudents : result[i].size
                         }
                         table.push(temp);

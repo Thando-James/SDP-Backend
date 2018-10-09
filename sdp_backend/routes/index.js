@@ -91,6 +91,7 @@ try{
                     
                     if(s === (timetable[i].subject).substring(0,8)){
                         //get number of shared students
+                        var tired;
                             try{
                                 connection.query(`SELECT COUNT(Std_ID) as size FROM Registered WHERE Course_Code = '${code}' OR Course_Code = '${s}' `, function(err,result) { 
                                 if(err){
@@ -99,6 +100,7 @@ try{
                                   }  
                                 console.log('# is ',result)
                                 console.log(result[0].size)
+                                tired = result[0].size;
                             });                                  
                         
                         let temp= {
@@ -106,7 +108,7 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : result[0].size
+                            resource : tired
                             // sharedStudents : result[i].size
                         }
                         table.push(temp);

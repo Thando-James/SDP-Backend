@@ -78,7 +78,7 @@ router.post('/deregister', function(req,res){
     let byeStudents = req.body.bye;
     console.log('Deregistered students from Dash: ',byeStudents); 
 try{
-    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${bye}' `, function(err,response) {
+    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${byeStudents}' `, function(err,response) {
         if(err){
             console.log(err)
             return res.status(500).send(err);
@@ -238,12 +238,11 @@ router.post('/generate', function(req,res){
                         date.add(1,"day");
                     }
 
-                    console.log('Date',new Date(date.format()))
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],
                             data : [date.format("LL"),date.format("YYYY-MM-DD")],
-                            start : new Date(date.format()),
+                            start : moment(date.format()),
                             end :  moment(date.format()),
                             title : results[a][b],
                             allDay : false,

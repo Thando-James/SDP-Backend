@@ -13,7 +13,6 @@ var connection = mysql.createConnection({
   password : 'thenamelesssix',
   database : 'Timetable'
 });
-
 connection.connect();
 
 var timetable;

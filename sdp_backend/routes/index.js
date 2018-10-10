@@ -211,6 +211,15 @@ router.post('/generate', function(req,res){
             //set dates
 
             for(let a = 0; a<results.length; a++){
+
+                    if(date.format('dddd') === "Saturday"){
+                        date.add(2,"day");
+                    }
+
+                    if(date.format('dddd') === "Sunday"){
+                        date.add(1,"day");
+                    }
+
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],
@@ -219,11 +228,13 @@ router.post('/generate', function(req,res){
                             end : date.format("YYYY-MM-DD"),
                             title : results[a][b],
                             allDay : false,
-                            resource : results[a][b]
+                            resource : [{session: a+1}]
                         }
                         data.push(obj)
                     }
-                    date.add(1,"day")
+                    if(a%2 !== 0){
+                        date.add(1,"day");
+                    }
             }
             console.log(data)
             timetable = data;

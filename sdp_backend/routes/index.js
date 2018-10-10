@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   password : '0616380016',
   database : 'Timetable'
 });
- //connection.connect();
+ connection.connect();
 
 var timetable;
 
@@ -47,30 +47,36 @@ router.get('/display/courses', function(req,res){
     }
 });
 
-router.get('allStudents', function(req,res){
-    try{
-        connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
-            console.log('Registered students are: ', results); 
-            if(err){
-              console.log(err)
-              return res.status(500).send(err);
-            }  
-            return res.json(results);
+// router.get('allStudents', function(req,res){
+//     try{
+//         connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
+//             console.log('Registered students are: ', results); 
+//             if(err){
+//               console.log(err)
+//               return res.status(500).send(err);
+//             }  
+//             return res.json(results);
                 
 
        
-        });
-    }catch (error) {
-        return res.json({errorType:'Database',errorMessage:error})
-    }
-});
+//         });
+//     }catch (error) {
+//         return res.json({errorType:'Database',errorMessage:error})
+//     }
+// });
 
 
 
 router.post('/neighbors', function(req,res){
     try{
         connection.query("SELECT DISTINCT Std_ID FROM Registered", function(errr,results){
-            console.log('Registered students are: ', results); 
+            var All = [];
+            for(var i=0;i<results.length; i++){
+                All[i] = results[i].Std_ID;
+            }
+
+            console.log('Registered students are: ', All); 
+
             if(errr){
               console.log(errr)
               return res.status(500).send(errr);

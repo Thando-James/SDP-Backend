@@ -73,6 +73,25 @@ router.get('/allStudents', function(req,res){
 
 });
 
+router.post('/deregister', function(req,res){
+    let byeStudents = req.body.bye;
+    console.log('Deregistered students from Dash: ',byeStudents); 
+try{
+    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${bye}' `, function(err,response) {
+        if(err){
+            console.log(err)
+            return res.status(500).send(err);
+          }  
+          console.log('res is', response)
+
+})
+}catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
 
 
 router.post('/neighbors', function(req,res){
@@ -80,7 +99,7 @@ router.post('/neighbors', function(req,res){
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Size FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
+    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Shared FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
     `, function(err,response) {  
         //get number of students who do thos course : code
         if(err){
@@ -103,7 +122,7 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : s.Size
+                            resource : s.Shared
                         }
                         table.push(temp);
                          

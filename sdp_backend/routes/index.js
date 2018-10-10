@@ -236,13 +236,14 @@ router.post('/generate', function(req,res){
                     if(date.format('dddd') === "Sunday"){
                         date.add(1,"day");
                     }
-                    console.log("typeof", typeof(date))
+
+                    console.log('Date',new Date(date.format()))
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],
                             data : [date.format("LL"),date.format("YYYY-MM-DD")],
-                            start : {h:"hello"},
-                            end : new moment(date.format()),
+                            start : new Date(date.format()),
+                            end :  moment(date.format()),
                             title : results[a][b],
                             allDay : false,
                             resource : [{session: a+1}]

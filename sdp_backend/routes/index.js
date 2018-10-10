@@ -223,7 +223,7 @@ router.post('/generate', function(req,res){
                         let obj = {
                             subject:results[a][b],
                             data : [date.format("LL"),date.format("YYYY-MM-DD")],
-                            start : date,
+                            start : {h:"hello"},
                             end : new moment(date.format()),
                             title : results[a][b],
                             allDay : false,

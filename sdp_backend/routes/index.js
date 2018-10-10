@@ -61,7 +61,7 @@ router.get('allStudents', function(req,res){
               console.log(errr)
               return res.status(500).send(errr);
             }  
-            return res(All);
+            return res.json(All);
                 
 
        

@@ -47,27 +47,31 @@ router.get('/display/courses', function(req,res){
     }
 });
 
-try{
-    connection.query("SELECT DISTINCT Std_ID FROM Registered", function(errr,results){
-        var All = [];
-        for(var i=0;i<results.length; i++){
-            All[i] = results[i].Std_ID;
-        }
+router.get('allStudents', function(req,res){
+    try{
+        connection.query("SELECT DISTINCT Std_ID FROM Registered", function(errr,results){
+            var All = [];
+            for(var i=0;i<results.length; i++){
+                All[i] = results[i].Std_ID;
+            }
 
-        console.log('Registered students are: ', All); 
+            console.log('Registered students are: ', All); 
 
-        if(errr){
-          console.log(errr)
-          return res.status(500).send(errr);
-        }  
-        return res(All);
-            
+            if(errr){
+              console.log(errr)
+              return res.status(500).send(errr);
+            }  
+            return res(All);
+                
 
-   
-    });
-}catch (error) {
-    return res.json({errorType:'Database',errorMessage:error})
-}
+       
+        });
+    }catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+
+
+});
 
 
 

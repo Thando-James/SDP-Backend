@@ -77,7 +77,7 @@ router.post('/deregister', function(req,res){
     let byeStudents = req.body.bye;
     console.log('Deregistered students from Dash: ',byeStudents); 
 try{
-    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${bye}' `, function(err,response) {
+    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${byeStudents}' `, function(err,response) {
         if(err){
             console.log(err)
             return res.status(500).send(err);

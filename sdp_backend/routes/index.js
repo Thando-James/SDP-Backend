@@ -14,7 +14,7 @@ var connection = mysql.createConnection({
   database : 'Timetable'
 });
  
-// connection.connect();
+connection.connect();
 
 var timetable;
 

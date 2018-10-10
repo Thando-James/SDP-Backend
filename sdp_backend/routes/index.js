@@ -222,8 +222,8 @@ router.post('/generate', function(req,res){
                         let obj = {
                             subject:results[a][b],
                             data : [date.format("LL"),date.format("YYYY-MM-DD")],
-                            start : newDate,
-                            end : newDate,
+                            start : date,
+                            end : date,
                             title : results[a][b],
                             allDay : false,
                             resource : [{session: a+1}]

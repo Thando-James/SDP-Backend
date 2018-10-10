@@ -290,7 +290,7 @@ router.post('/upload/courses', function(req, res){
                     if (err) console.log(err);
 
                     //Insert into Registered
-                    let sql = "INSERT IGNORE INTO Registered (Std_ID,Course_Code) VALUES ?"
+                    let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
                     connection.query(sql, [registeredTable], function(err){
                         if(err) console.log(err);
                         res.send("uploaded")

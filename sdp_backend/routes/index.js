@@ -13,8 +13,7 @@ var connection = mysql.createConnection({
   password : '0616380016',
   database : 'Timetable'
 });
- 
-connection.connect();
+ connection.connect();
 
 var timetable;
 
@@ -48,49 +47,72 @@ router.get('/display/courses', function(req,res){
     }
 });
 
+router.get('/allStudents', function(req,res){
+    try{
+        connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
+            var All = [];
+            for(var i=0;i<results.length; i++){
+                All[i] = results[i].Std_ID;
+            }
+
+            console.log('Registered students are: ', All); 
+
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            }  
+            return res.json(All);
+                
+
+       
+        });
+    }catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+
+
+});
+
+
+
 router.post('/neighbors', function(req,res){
+
 try{
     let code = req.body.coursecode;
     console.log('courseN from Dash: ',code);
-    connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}')`, function(err,response) {  
-        
+    connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Size FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
+    `, function(err,response) {  
+        //get number of students who do thos course : code
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
           console.log('res is', response)
-         // return res.json(results); 
-          var arr = []
-          for(var i=0; i<response.length;i++){
-            console.log( response[i].Course_Code); 
-            arr[i] = response[i].Course_Code;
-        }
+        //   var arr = []
+        //   for(var i=0; i<response.length;i++){
+        //     console.log( response[i].Course_Code); 
+        //     arr[i] = response[i].Course_Code;
+        // }
 
-        console.log('The neighbors are: ', arr);
         var table = []
-        for(const s of arr){
-            for(var i=0; i<timetable.length;i++){
-               // var row = timetable[i]
-                //for(var j =0; j<row.length; j++){
-                    //console.log('***', s, '***', row[j])
-                    if(s === (timetable[i].subject).substring(0,8)){
+        for(const s of response){
+                for(var i=0; i<timetable.length;i++){
+                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : timetable[i].data[0]
+                            resource : s.Size
                         }
                         table.push(temp);
-                    }
-               //}
-               
+                         
             }
         }
+    }
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)
-
     })  
 }
 catch
@@ -287,9 +309,9 @@ router.post('/login', function(req, res){
     if(!req){
         return res.status(500).send('Please enter login credentials')
     }
-
+    console.log("Nelly")
     console.log(req.body);
-    let sql = `SELECT ID FROM Person WHERE EMAIL = ${req.body.user.email} AND Password = ${req.body.user.password}`;
+    let sql = `SELECT ID FROM Person WHERE Email = "${req.body.email}" AND Password = "${req.body.password}" `;
 
     connection.query(sql, function(err,results) {
         if(err) console.log(err)

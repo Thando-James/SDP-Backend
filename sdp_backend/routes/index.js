@@ -48,6 +48,37 @@ router.get('/display/courses', function(req,res){
     }
 });
 
+//put this under /generate
+router.get('/allCourses', function(req,res){
+    try{
+        connection.query('SELECT Course_Code, COUNT(Std_ID) AS Size FROM Registered WHERE Course_Code IN (SELECT DISTINCT Course_Code FROM Registered) GROUP BY Course_Code', function(err,results){
+            var All = [];
+            for(var i=0;i<results.length; i++){
+                let temp = {
+                    course : results[i].Course_Code,
+                    size : results[i].Size
+                }
+                All[i] = temp;
+            }
+
+            console.log('All Courses are: ', All); 
+
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            }  
+            return res.json(All);
+                
+
+       
+        });
+    }catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+
+
+});
+
 router.get('/allStudents', function(req,res){
     try{
         connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
@@ -94,6 +125,48 @@ try{
 });
 
 
+router.post('/delete', function(req,res){
+    let byeCourses = req.body.byebye;
+    console.log('Deleted courses: ',byeCourses); 
+try{
+    connection.query(`UPDATE Courses SET Reg_Course = '0'  WHERE Std_ID IN '${byeCourses}'` , function(err,response) {
+        if(err){
+            console.log(err)
+            return res.status(500).send(err);
+          }  
+          console.log('res is', response)
+
+})
+}catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
+
+
+router.post('/addCourse', function(req,res){
+    let newCourse = req.body.newcourse;
+    console.log('course added: ', newCourse); 
+try{
+    connection.query(`INSERT IGNORE INTO Courses (course_code) VALUES (${newCourse}) ` , function(err,response) {
+        if(err){
+            console.log(err)
+            return res.status(500).send(err);
+          }  
+          console.log('res is', response)
+
+})
+//try the other insert
+}catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
+
 
 router.post('/neighbors', function(req,res){
 
@@ -118,12 +191,16 @@ try{
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
+                        if(s.Course_Code === code){
+                           var denominator = Number(s.Shared);
+                        }
+                        
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : s.Shared
+                            resource : ((Number(s.Shared)/denominator)*100) //resource is the percentage
                         }
                         table.push(temp);
                          
@@ -211,6 +288,11 @@ router.post('/generate', function(req,res){
     let sortby = req.body.SortBy;
     let d = req.body.date
     let data = []
+    
+
+
+
+
     
     console.log("body ",req.body);
     var date = moment(d)

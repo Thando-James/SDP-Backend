@@ -278,7 +278,7 @@ router.post('/upload/courses', function(req, res){
 
                 for(let i =0; i<data.length; i++){
                     let temp = data[i][0].split(",");
-                    registeredTable.push([temp[0],temp[4]]);
+                    registeredTable.push([temp[0],temp[1],temp[4]]);
                     courses.push([temp[4]]);
                 }
 

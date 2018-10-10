@@ -217,6 +217,7 @@ router.post('/generate', function(req,res){
                     if(date.format('dddd') === "Sunday"){
                         date.add(1,"day");
                     }
+                    console.log("typeof", typeof(date))
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],

@@ -167,30 +167,30 @@ try{
 
 
 
-router.post('/addStudent', function(req,res){
-    let newStudent = []
-    let std = req.body.studentnumber;
-    let code = req.body.code;
-    let status = req.body.reg;
-    newStudent[0] = std;
-    newStudent[1] = status;
-    newStudent[2] = code;
-    console.log("new students are: ", newStudent);
-try{
-    let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
-    connection.query(sql, [[newStudent]], function(err){
-        if(err) console.log(err);
-        return res.send("uploaded")
-    })
-          //console.log('res is', response)
+// router.post('/addStudent', function(req,res){
+//     let newStudent = []
+//     let std = req.body.studentnumber;
+//     let code = req.body.code;
+//     let status = req.body.reg;
+//     newStudent[0] = std;
+//     newStudent[1] = status;
+//     newStudent[2] = code;
+//     console.log("new students are: ", newStudent);
+// try{
+//     let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
+//     connection.query(sql, [[newStudent]], function(err){
+//         if(err) console.log(err);
+//         return res.send("uploaded")
+//     })
+//           //console.log('res is', response)
 
-//try the other insert
-}catch
-(error) {
-    return res.json({errorType:'Database',errorMessage:error})
-}
+// //try the other insert
+// }catch
+// (error) {
+//     return res.json({errorType:'Database',errorMessage:error})
+// }
 
-});
+// });
 
 
 router.post('/neighbors', function(req,res){
@@ -216,7 +216,7 @@ try{
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
                     console.log("James wants ",timetable[i].subject)
-                    if(s.Course_Code === (timetable[i].subject)){
+                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         if(s.Course_Code === code){
                             
                            var denominator = Number(s.Shared);

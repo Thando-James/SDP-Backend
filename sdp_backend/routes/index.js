@@ -168,6 +168,25 @@ try{
 
 
 
+router.post('/addStudent', function(req,res){
+    let newStudent = req.body.newKid;
+try{
+    let sql = "INSERT IGNORE INTO Registered (Std_ID,Course_Code) VALUES ?"
+    connection.query(sql, [newStudent], function(err){
+        if(err) console.log(err);
+        res.send("uploaded")
+    })
+          console.log('res is', response)
+
+//try the other insert
+}catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
+
 router.post('/neighbors', function(req,res){
 
 try{

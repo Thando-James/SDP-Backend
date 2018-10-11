@@ -129,7 +129,7 @@ router.post('/delete', function(req,res){
     let byeCourses = req.body.byebye;
     console.log('Deleted courses: ',byeCourses); 
 try{
-    connection.query(`UPDATE Courses SET Reg_Course = '0'  WHERE course_code IN '${byeCourses}'` , function(err,response) {
+    connection.query(`UPDATE Courses SET Reg_Course = '0'  WHERE course_code IN '(${byeCourses})'` , function(err,response) {
         if(err){
             console.log(err)
             return res.status(500).send(err);

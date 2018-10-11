@@ -216,6 +216,7 @@ try{
         var table = []
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
+                    console.log("James wants ",timetable[i].subject)
                     if(s.Course_Code === (timetable[i].subject)){
                         if(s.Course_Code === code){
                             

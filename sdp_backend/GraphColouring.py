@@ -142,11 +142,29 @@ class Extractor():
       
 
         # print(len(selectedCourses))
-        finalCourses=[]
+        finalCourses=[]        
+        
         for i in range(0,len(selectedCourses)):
+            
+            actualCourses=[]
             for j in range(0,len(finalGroupedCourses)):
-                if selectedCourses[i] in finalGroupedCourses[j][0][0]:
-                    finalCourses.append(finalGroupedCourses[j])
+                
+                if len(selectedCourses[i].split(','))>1:
+                    theMergedCourses=selectedCourses[i].split(',')
+                    for k in range(0,len(theMergedCourses)):
+                        if theMergedCourses[k] in finalGroupedCourses[j][0][0]:
+                            actualCourses.append(theMergedCourses[k])
+              
+                else:
+                     if selectedCourses[i] in finalGroupedCourses[j][0][0]:
+                            finalCourses.append(finalGroupedCourses[j])
+                            
+            if len(actualCourses)>0:
+                temp=[]
+                temp2=[]
+                temp.append(selectedCourses[i])
+                temp2.append(temp)
+                finalCourses.append(temp2)  
                     
         # print()
         # print("The selected courses are: ")

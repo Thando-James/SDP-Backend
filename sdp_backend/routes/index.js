@@ -109,7 +109,7 @@ router.post('/deregister', function(req,res){
     let byeStudents = req.body.bye;
     console.log('Deregistered students from Dash: ',byeStudents); 
 try{
-    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  '${byeStudents}' `, function(err,response) {
+    connection.query(`UPDATE Registered SET Reg = 'GONE'  WHERE Std_ID IN  (${byeStudents}) `, function(err,response) {
         if(err){
             console.log(err)
             return res.status(500).send(err);
@@ -125,24 +125,24 @@ try{
 });
 
 
-router.post('/delete', function(req,res){
-    let byeCourses = req.body.byebye;
-    console.log('Deleted courses: ',byeCourses); 
-try{
-    connection.query(`UPDATE Courses SET Reg_Course = '0'  WHERE course_code IN (${byeCourses})` , function(err,response) {
-        if(err){
-            console.log(err)
-            return res.status(500).send(err);
-          }  
-          console.log('res is', response)
+// router.post('/delete', function(req,res){
+//     let byeCourses = req.body.byebye;
+//     console.log('Deleted courses: ',byeCourses); 
+// try{
+//     connection.query(`UPDATE Courses SET Reg_Course = '0'  WHERE course_code IN (${byeCourses})` , function(err,response) {
+//         if(err){
+//             console.log(err)
+//             return res.status(500).send(err);
+//           }  
+//           console.log('res is', response)
 
-})
-}catch
-(error) {
-    return res.json({errorType:'Database',errorMessage:error})
-}
+// })
+// }catch
+// (error) {
+//     return res.json({errorType:'Database',errorMessage:error})
+// }
 
-});
+// });
 
 
 

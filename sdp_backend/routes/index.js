@@ -169,6 +169,7 @@ try{
 
 router.post('/addStudent', function(req,res){
     let newStudent = req.body.newKid;
+    console.log("new students are: ", newStudent);
 try{
     let sql = "INSERT IGNORE INTO Registered (Std_ID,Course_Code) VALUES ?"
     connection.query(sql, [newStudent], function(err){

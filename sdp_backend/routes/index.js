@@ -252,7 +252,7 @@ catch
      let std_num = req.body.studentnumber;
      console.log('std from dash: ', std_num);
     try{
-        connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = ${std_num} AND WHERE Reg = 'REGISTERED'`, function(err,reg) {     
+        connection.query(`SELECT DISTINCT Course_Code FROM Registered WHERE Std_ID = ${std_num} AND Reg = 'REGISTERED'`, function(err,reg) {     
             console.log('The courses',std_num, 'takes are : ', reg); 
             var arr =[];
          for   (var i=0; i<reg.length;i++){

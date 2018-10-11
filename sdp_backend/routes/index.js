@@ -80,7 +80,7 @@ router.get('/allCourses', function(req,res){
 
 router.get('/allStudents', function(req,res){
     try{
-        connection.query("SELECT DISTINCT Std_ID FROM Registered", function(err,results){
+        connection.query("SELECT DISTINCT Std_ID FROM Registered WHERE Reg = 'REGISTERED'", function(err,results){
             var All = [];
             for(var i=0;i<results.length; i++){
                 All[i] = results[i].Std_ID;

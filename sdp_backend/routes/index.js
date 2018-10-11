@@ -216,8 +216,9 @@ try{
         var table = []
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){
-                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
+                    if(s.Course_Code === (timetable[i].subject)){
                         if(s.Course_Code === code){
+                            
                            var denominator = Number(s.Shared);
                         }
                         

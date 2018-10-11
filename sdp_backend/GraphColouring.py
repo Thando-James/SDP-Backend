@@ -16,6 +16,7 @@ import random
 from operator import itemgetter
 
 arr_courses = sys.argv[1]
+#print(arr_courses)
 def getCourseStudents(groupedExamList,studentArray):
     courseStudents=[]
  
@@ -139,7 +140,7 @@ class Extractor():
         # print(finalGroupedCourses)
         
         selectedCourses=arr_courses.split(',')
-      
+        #print(selectedCourses)
 
         # print(len(selectedCourses))
         finalCourses=[]        

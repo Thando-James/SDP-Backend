@@ -150,8 +150,8 @@ class Extractor():
             actualCourses=[]
             for j in range(0,len(finalGroupedCourses)):
                 
-                if len(selectedCourses[i].split(','))>1:
-                    theMergedCourses=selectedCourses[i].split(',')
+                if len(selectedCourses[i].split(';'))>1:
+                    theMergedCourses=selectedCourses[i].split(';')
                     for k in range(0,len(theMergedCourses)):
                         if theMergedCourses[k] in finalGroupedCourses[j][0][0]:
                             actualCourses.append(theMergedCourses[k])

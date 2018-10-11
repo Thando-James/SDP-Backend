@@ -181,9 +181,9 @@ try{
     let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
     connection.query(sql, [[newStudent]], function(err){
         if(err) console.log(err);
-        res.send("uploaded")
+        return res.send("uploaded")
     })
-          console.log('res is', response)
+          //console.log('res is', response)
 
 //try the other insert
 }catch

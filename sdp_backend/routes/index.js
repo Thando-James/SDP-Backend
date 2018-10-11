@@ -169,7 +169,11 @@ try{
 
 
 router.post('/addStudent', function(req,res){
-    let newStudent = req.body.newKid;
+    let newStudent = []
+    let std = req.body.newKid;
+    let code = req.body.code;
+    newStudent[0] = std;
+    newStudent[1] = code;
     console.log("new students are: ", newStudent);
 try{
     let sql = "INSERT IGNORE INTO Registered (Std_ID,Course_Code) VALUES ?"

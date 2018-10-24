@@ -227,13 +227,14 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : ((Number(s.Shared)/denominator)*100) //resource is the percentage
+                            resource : (s.Shared) //resource is the percentage
                         }
                         table.push(temp);
                          
             }
         }
     }
+    console.log("denominator is:", denominator);
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)

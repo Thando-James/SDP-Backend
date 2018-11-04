@@ -202,14 +202,26 @@ try{
     connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Shared FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
     `, function(err,response) {  
         //get number of students who do thos course : code
+
+
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
           console.log('res is', response)
 
+          connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Num FROM Registered  GROUP BY Course_Code`, function (err2, response2){
+
+            if(err2){
+                console.log(err2)
+                return res.status(500).send(err2);
+              }  
+              console.log('res2 is', response2)
+    
+
         var table = []
         var denominator 
+        var num
         for(const s of response){
                 for(var i=0; i<timetable.length;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
@@ -217,24 +229,33 @@ try{
                             console.log("Main course is ",s.Course_Code)
                            denominator = Number(s.Shared);
                         }
+                        for(var x; x<response2.length; x++){
+                            if(response2[x].Course_Code === s.Course_Code ){
+                                Num = response2[x].Num
+                            }
+                        }
                         
                         let temp= {
                             start : timetable[i].data[1],
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : (s.Shared)/denominator //resource is the percentage .. divide by denominator then * 100
+                            resource : (s.Shared/denominator)*100, //resource is the percentage .. divide by denominator then * 100
+                            size : Num
                         }
                         table.push(temp);
                          
             }
         }
     }
-  //  console.log("denominator is:", denominator);
+   console.log("denominator is:", denominator);
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)
-    })  
+
+          })
+
+    })   //query ends here
 }
 catch
 (error) {

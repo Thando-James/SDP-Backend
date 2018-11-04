@@ -230,7 +230,7 @@ try{
                         }
                         for(var x; x<response2.length; x++){
                             if(response2[x].Course_Code === s.Course_Code ){
-                                Num = response2[x].Num
+                                num = response2[x].Num
                             }
                         }
                         
@@ -240,7 +240,7 @@ try{
                             title : timetable[i].subject,
                             allDay : false,
                             resource : (s.Shared/denominator)*100, //resource is the percentage .. divide by denominator then * 100
-                            size : Num
+                            size : num
                         }
                         table.push(temp);
                          

@@ -229,7 +229,7 @@ try{
                             console.log("Main course is ",s.Course_Code)
                            denominator = Number(s.Shared);
                         }
-                        for(var x; x<response2.length; x++){
+                        for(var x=0; x<response2.length; x++){
                             if(response2[x].Course_Code === s.Course_Code ){
                                 num = response2[x].Num
                             }

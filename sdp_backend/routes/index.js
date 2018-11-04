@@ -382,7 +382,7 @@ router.post('/generate', function(req,res){
                         date.add(1,"day");
                     }
             }
-            console.log('bra ',res.json(data))
+          //  console.log('bra ',res.json(data))
             timetable = data;
             res.json(data);
           

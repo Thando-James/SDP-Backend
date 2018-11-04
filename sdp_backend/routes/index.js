@@ -207,20 +207,15 @@ try{
             return res.status(500).send(err);
           }  
           console.log('res is', response)
-        //   var arr = []
-        //   for(var i=0; i<response.length;i++){
-        //     console.log( response[i].Course_Code); 
-        //     arr[i] = response[i].Course_Code;
-        // }
 
         var table = []
+        var denominator 
         for(const s of response){
-                for(var i=0; i<timetable.length;i++){
-                    console.log("James wants ",timetable[i].subject)
+                for(var i=0; i<timetable.length;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         if(s.Course_Code === code){
-                            
-                           var denominator = Number(s.Shared);
+                            console.log("Main course is ",s.Course_Code)
+                           denominator = Number(s.Shared);
                         }
                         
                         let temp= {
@@ -228,14 +223,14 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : (s.Shared) //resource is the percentage
+                            resource : (s.Shared)/denominator //resource is the percentage .. divide by denominator then * 100
                         }
                         table.push(temp);
                          
             }
         }
     }
-    console.log("denominator is:", denominator);
+  //  console.log("denominator is:", denominator);
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)

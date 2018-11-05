@@ -223,7 +223,7 @@ try{
         var num
        // console.log("length is ",timetable.length)
         for(const s of response){
-                for(var i=0; i<timetable.length;i++){   
+                for(var i=0; i<timetable.length-1;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         if(s.Course_Code === code){
                             console.log("Main course is ",s.Course_Code)
@@ -241,7 +241,8 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : (s.Shared/denominator)*100, //resource is the percentage .. divide by denominator then * 100
+                            percentage:(s.Shared/denominator)*100,
+                            resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
                             size : num
                         }
                         table.push(temp);
@@ -282,7 +283,7 @@ catch
             console.log('the thing is: ', timetable)
         var table = []
         for(const s of arr){
-            for(var i=0; i<timetable.length;i++){
+            for(var i=0; i<timetable.length-1;i++){
                     if(s === (timetable[i].subject).substring(0,8)){
                         let temp= {
                             start : timetable[i].data[1],
@@ -354,7 +355,7 @@ router.post('/generate', function(req,res){
             console.log(results);
             //set dates
 
-            for(let a = 0; a<results.length; a++){
+            for(let a = 0; a<results.length-1; a++){
                     if(date.format('dddd') === "Saturday"){
                         date.add(2,"day");
                     }
@@ -381,6 +382,7 @@ router.post('/generate', function(req,res){
             }
          
             timetable = data;
+            data.push(results[results.length-1]);
             res.json(data);
         console.log('bra ',(data))
     

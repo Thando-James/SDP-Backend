@@ -336,10 +336,6 @@ router.post('/generate', function(req,res){
     let d = req.body.date
     let data = []
     
-
-
-
-
     
     console.log("body ",req.body);
     var date = moment(d)
@@ -351,7 +347,9 @@ router.post('/generate', function(req,res){
                 return res.json({errorType:'Python Shell',errorMessage:err})
             }
             // results is an array consisting of messages collected during execution
+
             console.log("dgdgh", results)
+	    console.log();
             results = JSON.parse(results)
             
             //results has the courses after generating timetable

@@ -339,7 +339,7 @@ router.post('/generate', function(req,res){
     
     console.log("body ",req.body);
     var date = moment(d)
-    console.log(d);
+    console.log(date.format());
     try {
         PythonShell.PythonShell.run('./GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
             if (err){

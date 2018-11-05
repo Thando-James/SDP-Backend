@@ -760,12 +760,14 @@ def getBackToBackClashes(theStudents):
  
 dayClashes=getBackToBackClashes(examStudents)
 numBackToBackStudents=getNumStudents(dayClashes)
+worstTimeTable=WorstStudentsTT();
 
 summaryData=[]
 
 summaryData.append(numSomeDayStudents)
 summaryData.append(numBackToBackStudents)
 summaryData.append(len(graph.clashes)/2)
+summaryData.append(worstTimeTable)
 
 theSession.append(summaryData)   
 print(json.dumps(theSession))

@@ -53,7 +53,7 @@ class TestColouring(unittest.TestCase):
         self.assertEqual(adjacencyMatrix[0][9],7,adjacencyMatrix[9][0])
     
     def test_getNeighbbours(self):
-        adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0].[0,0,0,0,0],[0,0,0,0,0]]
+        adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         neighbours[0,1]
         self.assertEqual(neighbours,GraphColouring.getNeighbours(2))
     

@@ -5,7 +5,7 @@ var app = require('../index');
 var expect = chai.expect;
 const assert = require('chai').assert;
 var fs = require('fs');
-chai.use(require('chai-things'));
+// chai.use(require('chai-things'));
 
 chai.use(chaiHttp);
 
@@ -93,8 +93,8 @@ describe('test:', function() {
     })
   })
  
-  describe('get neighbors of selected course', function(){
-    it('returns array objects with properties:  courses that interact with selected course, students shared by courses and number of students in each course ', function(done){
+  describe('get percentage of students shared', function(){
+    it('returns array objects with properties: resource which is percentage shared', function(done){
       chai.request(app)
       .post('/neighbors')
       .send({code : 'ACCN1014'})
@@ -102,13 +102,37 @@ describe('test:', function() {
         if(err) console.log("Error ", err);
         // console.log('*** ',res);
         // expect(res).to.be.an('array');
-        expect(res.body).to.deep.include.members([ {start: '2018-11-07',
-                                                    end: '2018-11-07',
-                                                    title: 'ACCN1014/1',
-                                                    allDay: false,
-                                                    resource: 100,
-                                                    size: 7 },
-    ]);
+    //     expect(res.body).to.deep.include.members([ {start: '2018-11-07',
+    //                                                 end: '2018-11-07',
+    //                                                 title: 'ACCN1014/1',
+    //                                                 allDay: false,
+    //                                                 resource: 100,
+    //                                                 size: 7 },
+    // ]);
+        (res.body).should.all.have.property('resource')
+        //res.body.should.be.a('array');
+        done();
+      })
+    })
+  })
+
+  describe('get number of students in each course', function(){
+    it('returns array objects with properties: sizw which is number of students in that course', function(done){
+      chai.request(app)
+      .post('/neighbors')
+      .send({code : 'ACCN1014'})
+      .end(function(err, res){
+        if(err) console.log("Error ", err);
+        // console.log('*** ',res);
+        // expect(res).to.be.an('array');
+    //     expect(res.body).to.deep.include.members([ {start: '2018-11-07',
+    //                                                 end: '2018-11-07',
+    //                                                 title: 'ACCN1014/1',
+    //                                                 allDay: false,
+    //                                                 resource: 100,
+    //                                                 size: 7 },
+    // ]);
+        (res.body).should.all.have.property('size')
         //res.body.should.be.a('array');
         done();
       })

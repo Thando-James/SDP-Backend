@@ -224,7 +224,7 @@ try{
         var num
        // console.log("length is ",timetable.length)
         for(const s of response){
-                for(var i=0; i<timetable.length;i++){   
+                for(var i=0; i<timetable.length-1;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         if(s.Course_Code === code){
                             console.log("Main course is ",s.Course_Code)

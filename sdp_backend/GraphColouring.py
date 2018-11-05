@@ -715,8 +715,60 @@ for i in range(0,len(theSession)):
     if len(theSession[i]) == 0:
         del theSession[i]
         
+def SameDayClashes(theStudent):
+    temp=[]
+    for i in range(0,len(theStudent)):
+        if 2*i+1 > len(theStudent)-1:
+            break
+        else:    
+            temp.append(list(set(theStudent[2*i]).intersection(theStudent[2*i+1])))
+    return temp      
     
-print(json.dumps(theSession)) 
+clashes=SameDayClashes(examStudents)
+
+#Number of students that write in the same day:
+def getNumStudents(clashStudents):
+    numStudents=0;
+    for i in range(0,len(clashStudents)):
+        numStudents=numStudents+len(clashStudents[i])
+    return numStudents
+
+numSomeDayStudents=getNumStudents(clashes)
+
+def getBackToBackClashes(theStudents):
+    dayArray=[]
+    if len(theStudents)%2==0:
+        for i in range(0,len(theStudents)):
+            if 2*i+1>len(theStudents)-1:
+                break
+            else:
+                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
+    else:
+        for i in range(0,len(theStudents)):
+            if 2*i+1>len(theStudents)-1:
+                break
+            else:
+                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
+          
+        dayArray.append(theStudents[len(theStudents)-1])
+     
+    dayClashes=[]
+    for i in range(0,len(dayArray)-1):
+        dayClashes.append(list(set(dayArray[i]).intersection(dayArray[i+1])))
+        
+    return dayClashes 
+ 
+dayClashes=getBackToBackClashes(examStudents)
+numBackToBackStudents=getNumStudents(dayClashes)
+
+summaryData=[]
+
+summaryData.append(numSomeDayStudents)
+summaryData.append(numBackToBackStudents)
+summaryData.append(len(graph.clashes)/2)
+
+theSession.append(summaryData)   
+print(json.dumps(theSession))
 
 # In[ ]:
 

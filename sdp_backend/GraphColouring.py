@@ -525,6 +525,66 @@ def getScore(sessionStudents):
        
    return score       
 
+def WorstStudentsTT(): 
+    Studentswriting = []
+    for i in range (0,len(examStudents)):
+        for j in range(0,len(examStudents[i])):
+             if examStudents[i][j] not in Studentswriting:
+                    Studentswriting.append(examStudents[i][j])
+  
+    indexes = []
+    for k in range(0,len(Studentswriting)):
+        indivIndexes = []
+        for i in range(0,len(examStudents)):
+            if Studentswriting[k] in examStudents[i]:
+                 indivIndexes.append(i)
+        indexes.append(indivIndexes)            
+    #indexes contains individual students session all stored in an array
+    scores = []
+    for i in range(0,len(indexes)):
+        TotalScore = 0
+        
+        for j in range(0,len(indexes[i])-1):
+            
+             if((indexes[i][j+1])-(indexes[i][j]))==1 and ((indexes[i][j+1])%2 == 0):
+                    TotalScore += 10
+                     #to check if the length of array containing sessions  is not out of bounds
+                    if j+2<len(indexes[i]) and (indexes[i][j+2])-(indexes[i][j+1])==1 and ((indexes[i][j+2])%3 == 0):
+                        TotalScore += 5
+                        # three sessions in 1 day
+                    elif((indexes[i][j+1])-(indexes[i][j]))==1 and ((indexes[i][j+1])%3 == 0):
+                            TotalScore += 10
+                    else:
+                          #general case for the case when the session number differences is more than or equal
+                          #there is no much significance  
+                            TotalScore += 1
+                    
+            #if ((indexes[i][j+1])-(indexes[i][j]))==1 and ((indexes[i][j+1])%2 != 0):      
+                #score1 = (score1)+5      
+            #if ((indexes[i][j+1])-(indexes[i][j]))>1:
+                    #score3 = score3 + ((indexes[i][j+1])-(indexes[i][j]))
+            
+        
+        scores.append(TotalScore) 
+    StudentsSort = []
+    
+    for i in range(0,len(scores)):
+        StudentsSort.append([Studentswriting[i],scores[i]])
+    print("StudentSort")
+    print(StudentsSort)
+    
+    
+    #Sort pairs
+    StudentsSort.sort(key=lambda x: x[1])
+    print("SortedList")
+    print(StudentsSort[::-1])
+    
+    #List of Worst Timetable Students
+    WorstStudents = []
+    for i in range(0,len(StudentsSort)):
+        WorstStudents.append(StudentsSort[i][0])
+
+    return WorstStudents
 #we want score to be as high as possible since it represents the cumalitive study time all the students have 
 #A reordering of these sessions might give a better result ie :
 #I create an array containing differet permutations of the original timetable

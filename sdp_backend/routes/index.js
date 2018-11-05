@@ -282,7 +282,7 @@ catch
             console.log('the thing is: ', timetable)
         var table = []
         for(const s of arr){
-            for(var i=0; i<timetable.length;i++){
+            for(var i=0; i<timetable.length-1;i++){
                     if(s === (timetable[i].subject).substring(0,8)){
                         let temp= {
                             start : timetable[i].data[1],

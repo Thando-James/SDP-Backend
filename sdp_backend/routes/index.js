@@ -354,7 +354,7 @@ router.post('/generate', function(req,res){
             console.log(results);
             //set dates
 
-            for(let a = 0; a<results.length; a++){
+            for(let a = 0; a<results.length-1; a++){
                     if(date.format('dddd') === "Saturday"){
                         date.add(2,"day");
                     }
@@ -381,6 +381,7 @@ router.post('/generate', function(req,res){
             }
           //  console.log('bra ',res.json(data))
             timetable = data;
+            data.push(results[results.length-1]);
             res.json(data);
           
     

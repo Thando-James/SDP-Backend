@@ -31,7 +31,7 @@ Users will be able to access ESS only online. Initially, this will be hosted as 
 ## 6.3 Persistence
 All the data will be saved in the central server. This is a relational database that implements the 3rd normal form (Apache).
 
-## ## 6.4 Reliability/Availability
+## 6.4 Reliability/Availability
 The system will be subjected to several continuous testing (unit testing, integration testing, system testing) before being deployed to make sure that the system is reliable. These tests will be implemented at every phase of development.  The Apache server can respond to many clients at the same time while maintaining data integrity. 
 
 ## 6.5 Performance
@@ -87,7 +87,7 @@ A description of the process view of the architecture. It elaborates the run tim
 # 10. Deployment View
 
 Being a web application, this ESS system is hosted in a remote server. The database is hosted in some other hosting space. Most of the processing (generating the timetable) is done in the backend, so that the client computer does not spend too much of CPU power. A deployment diagram is shown below to visualise the software to hardware implementation of the system.
-
+The deployment diagram illustrates the flow of data from the moment enters data until the functionality is performed by the system. 
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/deployment.png)
 
 
@@ -108,7 +108,6 @@ The model classes can be subdivided into two layers, the business layer and the 
 
 # 12. Data View
 
-The following is an ER diagram which represents how the database looks and all the attributes and tables. The database implementation for this ER diagram is done using MySQL. The main tables are:
 The following is an ER diagram which represents how the database looks and all the attributes and tables. The database implementation for this ER diagram is done using MySQL. The main tables are:
 
 1. Administrator - The EGO staff member
@@ -132,6 +131,10 @@ The software architecture supports the quality requirements
 2. Each feature of the ESS shall have built-in online help for the user. Online Help shall include step by step instructions on using the System. Online Help shall include definitions for terms and acronyms.
 3. The ESS shall be available 24 hours a day, 7 days a week. 
 More of the quality parameters for the ESS (Exam Scheduling System) are covered in the Architectural goals and constraints section.
+
+
+
+
 
 
 

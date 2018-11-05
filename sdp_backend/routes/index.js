@@ -173,11 +173,11 @@ router.post('/addStudent', function(req,res){
     let code = req.body.code;
     let status = req.body.reg;
     newStudent[0] = std;
-    newStudent[1] = status;
+    newStudent[1] = "REGISTERED";
     newStudent[2] = code;
     console.log("new students are: ", newStudent);
 try{
-    let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
+    let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ? "
     connection.query(sql, [[newStudent]], function(err){
         if(err) console.log(err);
         return res.send("uploaded")
@@ -201,25 +201,39 @@ try{
     connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Shared FROM Registered WHERE Std_ID IN (SELECT Std_ID FROM Registered WHERE Course_Code = '${code}') GROUP BY Course_Code
     `, function(err,response) {  
         //get number of students who do thos course : code
+
+
         if(err){
             console.log(err)
             return res.status(500).send(err);
           }  
           console.log('res is', response)
-        //   var arr = []
-        //   for(var i=0; i<response.length;i++){
-        //     console.log( response[i].Course_Code); 
-        //     arr[i] = response[i].Course_Code;
-        // }
+
+          connection.query(`SELECT DISTINCT Course_Code, COUNT(Std_ID) AS Num FROM Registered  GROUP BY Course_Code`, function (err2, response2){
+
+            if(err2){
+                console.log(err2)
+                return res.status(500).send(err2);
+              }  
+              console.log('res2 is', response2)
+    
 
         var table = []
+        var denominator 
+        var num
+       // console.log("length is ",timetable.length)
         for(const s of response){
-                for(var i=0; i<timetable.length;i++){
-                    console.log("James wants ",timetable[i].subject)
+                for(var i=0; i<timetable.length;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
                         if(s.Course_Code === code){
-                            
-                           var denominator = Number(s.Shared);
+                            console.log("Main course is ",s.Course_Code)
+                           denominator = Number(s.Shared);
+                        }
+                        //console.log("length is ",response2.length)
+                        for(var x=0; x<response2.length; x++){
+                            if(response2[x].Course_Code === s.Course_Code ){
+                                num = response2[x].Num
+                            }
                         }
                         
                         let temp= {
@@ -227,17 +241,22 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : ((Number(s.Shared)/denominator)*100) //resource is the percentage
+                            resource : (s.Shared/denominator)*100, //resource is the percentage .. divide by denominator then * 100
+                            size : num
                         }
                         table.push(temp);
                          
             }
         }
     }
+   console.log("denominator is:", denominator);
 
         console.log('neighbors with sessions are: ',table);
         res.json(table)
-    })  
+
+          })
+
+    })   //query ends here
 }
 catch
 (error) {
@@ -359,7 +378,7 @@ router.post('/generate', function(req,res){
                         date.add(1,"day");
                     }
             }
-            console.log(data)
+          //  console.log('bra ',res.json(data))
             timetable = data;
             res.json(data);
           

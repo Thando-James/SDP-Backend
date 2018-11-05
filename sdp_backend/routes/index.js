@@ -316,10 +316,6 @@ router.post('/generate', function(req,res){
     let d = req.body.date
     let data = []
     
-
-
-
-
     
     console.log("body ",req.body);
     var date = moment(d)

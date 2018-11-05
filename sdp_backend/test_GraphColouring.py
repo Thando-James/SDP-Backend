@@ -41,6 +41,23 @@ class TestColouring(unittest.TestCase):
         result=gc.getWeight(self,courseStudents[0],courseStudents[1])
         self.assertEqual(result,3)
         
+    def test_addEdge(self):
+        adjacencyMatrix=[]
+        row=[0,0,0,0,0,0,0,0,0,0]
+        
+        for i in range(0,9):
+            adjacencyMatrix.append(row)
+        
+        result=GraphColouring.addEdge(0,9,7)
+        
+        self.assertEqual(adjacencyMatrix[0][9],7,adjacencyMatrix[9][0])
+    
+    def test_getNeighbbours(self):
+        adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0].[0,0,0,0,0],[0,0,0,0,0]]
+        neighbours[0,1]
+        self.assertEqual(neighbours,GraphColouring.getNeighbours(2))
+    
+        
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)
 

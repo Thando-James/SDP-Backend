@@ -87,7 +87,7 @@ describe('test:', function() {
         if(err) console.log("Error ", err);
         // console.log('*** ',res);
         // expect(res).to.be.an('array');
-        res.body.should.be.a('object');
+        res.body.should.be.a('object'); //or array, not sure
         done();
       })
     })

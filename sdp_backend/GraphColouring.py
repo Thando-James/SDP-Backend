@@ -570,14 +570,14 @@ def WorstStudentsTT():
     
     for i in range(0,len(scores)):
         StudentsSort.append([Studentswriting[i],scores[i]])
-    print("StudentSort")
-    print(StudentsSort)
+    #print("StudentSort")
+    #print(StudentsSort)
     
     
     #Sort pairs
     StudentsSort.sort(key=lambda x: x[1])
-    print("SortedList")
-    print(StudentsSort[::-1])
+    #print("SortedList")
+    #print(StudentsSort[::-1])
     
     #List of Worst Timetable Students
     WorstStudents = []

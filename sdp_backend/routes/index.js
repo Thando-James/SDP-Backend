@@ -339,7 +339,7 @@ router.post('/generate', function(req,res){
     
     console.log("body ",req.body);
     var date = moment(d)
-    
+    console.log(date._d);
     try {
         PythonShell.PythonShell.run('./GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
             if (err){
@@ -363,7 +363,7 @@ router.post('/generate', function(req,res){
                     if(date.format('dddd') === "Sunday"){
                         date.add(1,"day");
                     }
-
+                    
                     for(let b=0; b<results[a].length; b++){
                         let obj = {
                             subject:results[a][b],

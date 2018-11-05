@@ -48,14 +48,14 @@ class TestColouring(unittest.TestCase):
         for i in range(0,9):
             adjacencyMatrix.append(row)
         
-        result=gc.addEdge(0,9,7)
+        result=gc.addEdge(self,0,9,7)
         
         self.assertEqual(adjacencyMatrix[0][9],7,adjacencyMatrix[9][0])
     
     def test_getNeighbbours(self):
         adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         neighbours=[0,1]
-        self.assertEqual(neighbours,gc.getNeighbours(2))
+        self.assertEqual(neighbours,gc.getNeighbours(self,2))
     
         
 if __name__ == '__main__':

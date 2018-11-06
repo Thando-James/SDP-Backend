@@ -467,8 +467,7 @@ router.post('/save', function(req,res){
     let dersio = req.body.save;
     console.log('getting stuff from Dersio: ', dersio);
     try{
-
-        connection.query("DELETE * FROM time_table", function(err){
+        connection.query("DELETE date, session, course FROM time_table", function(err){
             if(err) console.log(err);
             var stuff =[] 
             var tableData = []

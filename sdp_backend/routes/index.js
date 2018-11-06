@@ -479,7 +479,7 @@ router.post('/save', function(req,res){
             console.log(tableData)
     
             let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
-            connection.query(sql, [[tableData]], function(err){
+            connection.query(sql, [tableData], function(err){
                 if(err) console.log(err);
                 return res.send("uploaded")
             })

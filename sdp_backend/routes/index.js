@@ -469,7 +469,7 @@ router.post('/save', function(req,res){
     let dersio = req.body.save;
     console.log('getting stuff from Dersio: ', dersio);
     try{
-        connection.query("TRUNCATE TABLE time_table", function(err){
+        connection.query("DELETE time_table", function(err){
             if(err) console.log(err);
             var tableData = []
             for(let i =0; i<timetable.length-1; i++){

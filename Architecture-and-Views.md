@@ -25,7 +25,7 @@ There are some key requirements and system constraints that have a significant b
 ## 2.1 Server side
 ESS (Exam Scheduling System) will be hosted on a web server. Since this is a web based application, the underlying client OS can be any computer operating system (Linux, MAC, Windows). Apache will be used as the central database server. All communication with client has to comply with public HHPS, TCP/IP communication protocol standards. 
 
-## 6.2 Client side
+## 2.2 Client side
 Users will be able to access ESS only online. Initially, this will be hosted as a standalone application but may later be integrated with other university systems.Clients/users are expected to use a modern web browser such as Mozilla Firefox 10, Internet Explorer 9, Google Chrome, or Safari to get full user experience. 
 
 ## 2.3 Persistence
@@ -76,18 +76,22 @@ The ESS is divided into 3 layers. The layering model of the ESS application is b
 
 ## 4.2 Architecturally Significant Design Packages
 
+Class Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/class%20diagram.png)
 
 # 5. Process View
 
 A description of the process view of the architecture. It elaborates the run time behaviour of the system. The Sequence Diagram illustrates the exam scheduling organized as executable processes. Processes exist to support uploading csv files, specifying clash parameters, generating the timetable, viewing the timetable in different formats. 
 
+Sequence Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/sequence.png)
 
 # 6. Deployment View
 
 Being a web application, this ESS system is hosted in a remote server. The database is hosted in some other hosting space. Most of the processing (generating the timetable) is done in the backend, so that the client computer does not spend too much of CPU power. A deployment diagram is shown below to visualise the software to hardware implementation of the system.
 The deployment diagram illustrates the flow of data from the moment enters data until the functionality is performed by the system. 
+
+Deployment Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/deployment.png)
 
 
@@ -96,12 +100,14 @@ The deployment diagram illustrates the flow of data from the moment enters data 
 
 The figure below is a component diagram. It shows the system’s physical structure and pays attention to the system’s components and how they relate.
 
-![](https://github.com/katOfMordor/SDP-Backend/blob/master/ccomponent.png)
+Component Diagram:
+![](https://github.com/katOfMordor/SDP-Backend/blob/master/component.png)
 
 ESS (Exam Scheduling System) is a web application that follows the 3 tier architecture pattern. The reason being that, it separates functions into layers thus improving maintainability and reusability.
 
 The client layer contains the graphical user interfaces (web pages). The actions of these web pages are handled by controller classes. Controller classes invokes and instantiates objects of model classes that contain business logic. Separating packages in this manner reduces complexity. This is depicted diagrammatically in the Package Diagram below.
 
+Package Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/package.png)
 
 The model classes can be subdivided into two layers, the business layer and the data layer. Data layer is manipulated through the DBMS framework. The business layer contains the main entity classes that process the actual algorithm.
@@ -120,6 +126,7 @@ The following is an ER diagram which represents how the database looks and all t
 
 From that, a class is made for each table in the database, and that makes it possible to access the database.
 
+Entity Relationship Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/erd.png)
 
 # 9. Size and Performance
@@ -133,13 +140,6 @@ The software architecture supports the quality requirements
 2. Each feature of the ESS shall have built-in online help for the user. Online Help shall include step by step instructions on using the System. Online Help shall include definitions for terms and acronyms.
 3. The ESS shall be available 24 hours a day, 7 days a week. 
 More of the quality parameters for the ESS (Exam Scheduling System) are covered in the Architectural goals and constraints section.
-
-
-
-
-
-
-
 
 
 

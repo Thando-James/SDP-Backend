@@ -451,6 +451,48 @@ router.post('/upload/courses', function(req, res){
     }
 });
 
+
+
+
+router.post('/save', function(req,res){
+  
+try{
+
+    connection.query("DELETE * FROM table", function(err){
+        if(err) console.log(err);
+        var stuff =[] 
+        var tableData = []
+        for(let i =0; i<timetable.length; i++){
+            let temp = timetable[i];
+            stuff.push(temp.data[0],'session',temp.subject);
+            tableData.push(stuff);
+        }
+
+        let sql = "INSERT IGNORE INTO table (date,session,course) VALUES ? "
+        connection.query(sql, [[tableData]], function(err){
+            if(err) console.log(err);
+            return res.send("uploaded")
+        })
+              //console.log('res is', response)
+    
+
+        return res.send("uploaded")
+    })
+
+
+   
+//try the other insert
+}catch
+(error) {
+    return res.json({errorType:'Database',errorMessage:error})
+}
+
+});
+
+
+
+
+
 router.post('/login', function(req, res){
     if(!req){
         return res.status(500).send('Please enter login credentials')

@@ -475,6 +475,7 @@ router.post('/save', function(req,res){
                 console.log(timetable[i])
                 let temp = timetable[i];
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
+                console.log(stuff)
                 tableData.push(stuff);
             }
             console.log(tableData)

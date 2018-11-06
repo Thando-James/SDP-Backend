@@ -469,13 +469,11 @@ router.post('/save', function(req,res){
     try{
         connection.query("TRUNCATE TABLE time_table", function(err){
             if(err) console.log(err);
-            var stuff =[] 
             var tableData = []
             for(let i =0; i<timetable.length-1; i++){
-                console.log(timetable[i])
+                var stuff = [];
                 let temp = timetable[i];
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
-                console.log(stuff)
                 tableData.push(stuff);
             }
             console.log(tableData)

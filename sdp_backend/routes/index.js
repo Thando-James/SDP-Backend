@@ -478,6 +478,7 @@ router.post('/save', function(req,res){
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);
             }
+            console.log(tableData)
     
             let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
             connection.query(sql, [[tableData]], function(err){

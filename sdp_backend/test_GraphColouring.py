@@ -56,7 +56,13 @@ class TestColouring(unittest.TestCase):
         adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
         neighbours=[0,1]
         self.assertEqual(neighbours,gc.getNeighbours(self,2))
+        
+    def test_isEdge(self):
+        adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]
+        self.assertTrue(gc.isEdge(self,0,2))
     
+    def test_getDegree():
+        self.assertEquals(gc.getDegree(self,2),2)
         
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=False)

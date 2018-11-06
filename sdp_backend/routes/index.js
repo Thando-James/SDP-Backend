@@ -468,13 +468,13 @@ router.post('/save', function(req,res){
     console.log('getting stuff from Dersio: ', dersio);
     try{
 
-        connection.query("DELETE * FROM Table", function(err){
+        connection.query("DELETE * FROM time_table", function(err){
             if(err) console.log(err);
             var stuff =[] 
             var tableData = []
             for(let i =0; i<timetable.length-1; i++){
                 let temp = timetable[i];
-                stuff.push(temp.data[0],temp.resource[0].session,temp.subject);
+                stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);
             }
     

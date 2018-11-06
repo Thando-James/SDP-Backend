@@ -244,7 +244,8 @@ try{
                             allDay : false,
                             percentage:((s.Shared/denominator)*100).toPrecision(3),
                             resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
-                            size : num
+                            size : num,
+                            session : timetable[i].resource[0].session
                         }
                         table.push(temp);
                          
@@ -291,7 +292,8 @@ catch
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            resource : timetable[i].data[0]
+                            resource : timetable[i].data[0],
+                            session : timetable[i].resource[0].session
                         }
                        
                         table.push(temp);

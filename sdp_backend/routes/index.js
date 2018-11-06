@@ -457,7 +457,8 @@ router.post('/upload/courses', function(req, res){
 
 
 router.post('/save', function(req,res){
-  
+    let dersio = req.body.coursecode;
+    console.log('getting stuff from Dersio: ', dersio);
     try{
 
         connection.query("DELETE * FROM Table", function(err){
@@ -475,7 +476,8 @@ router.post('/save', function(req,res){
                 if(err) console.log(err);
                 return res.send("uploaded")
             })
-                  //console.log('res is', response)
+                  
+           // console.log('', response)
         
     
             //return res.send("uploaded")

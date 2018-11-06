@@ -1,4 +1,4 @@
-Architectural Representation
+# 1. Architectural Representation
 
 This document presents the architecture as a series of views; use case view, logical view, process view, deployment view and implementation view.  These are views on an underlying Unified Modeling Language (UML) model. This document also describes the data view, performance and quality views of the system.
 

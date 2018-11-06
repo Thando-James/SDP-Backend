@@ -472,7 +472,7 @@ router.post('/save', function(req,res){
             if(err) console.log(err);
             var stuff =[] 
             var tableData = []
-            for(let i =0; i<timetable.length; i++){
+            for(let i =0; i<timetable.length-1; i++){
                 let temp = timetable[i];
                 stuff.push(temp.data[0],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);

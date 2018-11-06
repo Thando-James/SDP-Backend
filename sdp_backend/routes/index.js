@@ -457,7 +457,7 @@ router.post('/upload/courses', function(req, res){
 
 
 router.post('/save', function(req,res){
-    let dersio = req.body.coursecode;
+    let dersio = req.body.save;
     console.log('getting stuff from Dersio: ', dersio);
     try{
 

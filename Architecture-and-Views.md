@@ -31,7 +31,7 @@ Users will be able to access ESS only online. Initially, this will be hosted as 
 ## 2.3 Persistence
 All the data will be saved in the central server. This is a relational database that implements the 3rd normal form (Apache).
 
-## 6.4 Reliability/Availability
+## 2.4 Reliability/Availability
 The system will be subjected to several continuous testing (unit testing, integration testing, system testing) before being deployed to make sure that the system is reliable. These tests will be implemented at every phase of development.  The Apache server can respond to many clients at the same time while maintaining data integrity. 
 
 ## 2.5 Performance
@@ -45,7 +45,7 @@ The project incorporates many development tools.
 * Database connection: MySQL connector
 * Schedule: taiga.io
 
-# 7. Architecturally Significant Use Cases
+# 3. Architecturally Significant Use Cases
 
 Use Case Diagram:
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/UC.png)
@@ -64,27 +64,27 @@ Read course session- invokes Read timetable to find the course in the generated 
 Read course interactions- invokes Read timetable to find all the courses that interact with the specified course in the generated timetable then it displays all the related courses
 Read worst timetable- invokes Read timetable to find the student with the worst timetable and display the worst timetable
 
-# 8. Logical (Class) View 
+# 4. Logical (Class) View 
 
 This is a description of the logical view of the architecture. It describes the most important classes, their organization in service packages and subsystems, and the organization of these subsystems into layers. It also describes the most important use-case realizations, for example, the dynamic aspects of the architecture. A class diagram is included to illustrate the relationships between architecturally significant classes, subsystems, packages and layers.
 
-## 8.1 Layering
+## 4.1 Layering
 
 The ESS is divided into 3 layers. The layering model of the ESS application is based on associating each layer with a particular responsibility. This model was chosen because it separates various system responsibilities from one another so as to improve system development, reusability and maintenance. 
 
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/3tier.png)
 
-## 8.2 Architecturally Significant Design Packages
+## 4.2 Architecturally Significant Design Packages
 
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/class%20diagram.png)
 
-# 9. Process View
+# 5. Process View
 
 A description of the process view of the architecture. It elaborates the run time behaviour of the system. The Sequence Diagram illustrates the exam scheduling organized as executable processes. Processes exist to support uploading csv files, specifying clash parameters, generating the timetable, viewing the timetable in different formats. 
 
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/sequence.png)
 
-# 10. Deployment View
+# 6. Deployment View
 
 Being a web application, this ESS system is hosted in a remote server. The database is hosted in some other hosting space. Most of the processing (generating the timetable) is done in the backend, so that the client computer does not spend too much of CPU power. A deployment diagram is shown below to visualise the software to hardware implementation of the system.
 The deployment diagram illustrates the flow of data from the moment enters data until the functionality is performed by the system. 
@@ -92,7 +92,7 @@ The deployment diagram illustrates the flow of data from the moment enters data 
 
 
 
-# 11. Implementation View
+# 7. Implementation View
 
 The figure below is a component diagram. It shows the system’s physical structure and pays attention to the system’s components and how they relate.
 
@@ -108,7 +108,7 @@ The model classes can be subdivided into two layers, the business layer and the 
 
 
 
-# 12. Data View
+# 8. Data View
 
 The following is an ER diagram which represents how the database looks and all the attributes and tables. The database implementation for this ER diagram is done using MySQL. The main tables are:
 
@@ -122,11 +122,11 @@ From that, a class is made for each table in the database, and that makes it pos
 
 ![](https://github.com/katOfMordor/SDP-Backend/blob/master/erd.png)
 
-# 13. Size and Performance
+# 9. Size and Performance
 
 The selected architecture supports the sizing and timing requirements through the implementation of a client-server architecture. The client portion is implemented on local campus PCs or remote dial up PCs. The size of the software is still not calculated but will be known by the end of the project. The client computers need to have a web browser to access the system. All the functionalities will be processed at the backend. The components have been designed to ensure that minimal disk and memory requirements are needed on the PC client portion.
 
-# 14. Quality
+# 10. Quality
 
 The software architecture supports the quality requirements
 1. The user interface of the ESS shall be designed for ease-of-use and shall be appropriate for a computer-literate user community with no additional training on the System.

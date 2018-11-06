@@ -42,15 +42,15 @@ class TestColouring(unittest.TestCase):
         self.assertEqual(result,3)
         
     def test_addEdge(self):
-        adjacencyMatrix=[]
+        TestColouring.adjacencyMatrix=[]
         row=[0,0,0,0,0,0,0,0,0,0]
         
         for i in range(0,9):
-            adjacencyMatrix.append(row)
+            TestColouring.adjacencyMatrix.append(row)
         
         result=gc.addEdge(self,0,9,7)
         
-        self.assertEqual(adjacencyMatrix[0][9],7,adjacencyMatrix[9][0])
+        self.assertEqual(TestColouring.adjacencyMatrix[0][9],7,TestColouring.adjacencyMatrix[9][0],7)
     
     def test_getNeighbbours(self):
         adjacencyMatrix=[[0,0,4,0,0],[0,0,9,0,0],[4,9,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]

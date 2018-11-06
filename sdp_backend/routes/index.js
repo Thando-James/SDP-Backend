@@ -223,13 +223,14 @@ try{
         var denominator 
         var num
        // console.log("length is ",timetable.length)
+              for(var x=0; x<response2.length; x++){
+                if(response2[x].Course_Code === code ){
+                    denominator = response2[x].Num;
+            }
+              }
         for(const s of response){
                 for(var i=0; i<timetable.length-1;i++){   
                     if(s.Course_Code === (timetable[i].subject).substring(0,8)){
-                        if(s.Course_Code === code){
-                            console.log("Main course is ",s.Course_Code)
-                           denominator = Number(s.Shared);
-                        }
                         //console.log("length is ",response2.length)
                         for(var x=0; x<response2.length; x++){
                             if(response2[x].Course_Code === s.Course_Code ){
@@ -473,7 +474,7 @@ router.post('/save', function(req,res){
             if(err) console.log(err);
             var stuff =[] 
             var tableData = []
-            for(let i =0; i<timetable.length; i++){
+            for(let i =0; i<timetable.length-1; i++){
                 let temp = timetable[i];
                 stuff.push(temp.data[0],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);

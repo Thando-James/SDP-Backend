@@ -241,7 +241,7 @@ try{
                             end : timetable[i].data[1],
                             title : timetable[i].subject,
                             allDay : false,
-                            percentage:(s.Shared/denominator)*100,
+                            percentage:((s.Shared/denominator)*100).toPrecision(3),
                             resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
                             size : num,
                             session : timetable[i].resource[0].session
@@ -309,6 +309,8 @@ catch
     (error) {
         return res.json({errorType:'Database',errorMessage:error})
     }
+
+    
 
 });  
  
@@ -452,6 +454,50 @@ router.post('/upload/courses', function(req, res){
         return res.json({errorType:'csv',errorMessage:error})
     }
 });
+
+
+
+
+router.post('/save', function(req,res){
+    let dersio = req.body.coursecode;
+    console.log('getting stuff from Dersio: ', dersio);
+    try{
+
+        connection.query("DELETE * FROM Table", function(err){
+            if(err) console.log(err);
+            var stuff =[] 
+            var tableData = []
+            for(let i =0; i<timetable.length; i++){
+                let temp = timetable[i];
+                stuff.push(temp.data[0],temp.resource[0].session,temp.subject);
+                tableData.push(stuff);
+            }
+    
+            let sql = "INSERT IGNORE INTO table (date,session,course) VALUES ? "
+            connection.query(sql, [[tableData]], function(err){
+                if(err) console.log(err);
+                return res.send("uploaded")
+            })
+                  
+           // console.log('', response)
+        
+    
+            //return res.send("uploaded")
+        })
+    
+    
+       
+    //try the other insert
+    }catch
+    (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+
+});
+
+
+
+
 
 router.post('/login', function(req, res){
     if(!req){

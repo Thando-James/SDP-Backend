@@ -513,11 +513,12 @@ router.post('/save', function(req,res){
 
 router.get('/viewModified', function(req,res){
     try {
-        connection.query("SELECT", function(err,results) {     
+        connection.query("SELECT * FROM time_table", function(err,results) {     
             if(err){
               console.log(err)
               return res.status(500).send(err);
-            }  
+            } 
+            console.log("the timetable with edits is ", results); 
             return res.json(results);    
         });   
     } catch (error) {

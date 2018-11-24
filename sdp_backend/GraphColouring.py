@@ -653,7 +653,7 @@ def permute(sessions):
     return result
 
    
-populationSize=100
+populationSize=1000000
 def populate(session,populationSize):
     population=[]
     temp=session[:]

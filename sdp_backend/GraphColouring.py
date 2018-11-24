@@ -13,7 +13,7 @@ import sys
 import json
 import math
 import random
-from operator import itemgetter
+import operator
 
 arr_courses = sys.argv[1]
 #print(arr_courses)

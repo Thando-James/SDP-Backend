@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # In[59]:
-
+    
 
 #Authors:katOfGondor   
 #The sky is falling, the wind is calling, stand for something or die in the morning
@@ -119,7 +119,10 @@ class Extractor():
                             temp3.append(groupedCourses[i][j])
                             #print(groupedCourses[i][j])
                             
-                    if '/2' not in groupedCourses[i][j] and '/3' not in groupedCourses[i][j]:
+                    if '/4' in groupedCourses[i][j]:
+                            temp4.append(groupedCourses[i][j])
+                            
+                    if '/2' not in groupedCourses[i][j] and '/3' not in groupedCourses[i][j] and'/4' not in groupedCourses[i][j]:
                             temp1.append(groupedCourses[i][j])
                             #print(groupedCourses[i][j])     
               
@@ -130,6 +133,8 @@ class Extractor():
                 container.append(temp2)
             if len(temp3) >0:
                 container.append(temp3)
+            if len(temp4) >0:
+                container.append(temp4)
                        
             
             finalGroupedCourses.append(container)              
@@ -510,20 +515,51 @@ while True:
 #We calculate the score by only penalising back to back days and back to back sessions
 #Assign a penalty of 20 to back to back sessions in the same day.
 #Assign a penalty of 10 to back to back sessions on different days
+def getBackToBackClashes(theStudents):
+    dayArray=[]
+    if len(theStudents)%2==0:
+        for i in range(0,len(theStudents)):
+            if 2*i+1>len(theStudents)-1:
+                break
+            else:
+                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
+    else:
+        for i in range(0,len(theStudents)):
+            if 2*i+1>len(theStudents)-1:
+                break
+            else:
+                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
+          
+        dayArray.append(theStudents[len(theStudents)-1])
+    
+    
+    dayClashes=[]
+    for i in range(0,len(dayArray)-1):
+        dayClashes.append(list(set(dayArray[i]).intersection(dayArray[i+1])))
+        
+    return dayClashes
+
+def getNumStudents(clashStudents):
+    numStudents=0;
+    for i in range(0,len(clashStudents)):
+        numStudents=numStudents+len(clashStudents[i])
+    return numStudents   
 
 def getScore(sessionStudents):
-   
-   studentArray=[]
-   score=0
-   for i in range(0,len(sessionStudents)-1):
-       common=list(set(sessionStudents[i]).intersection(sessionStudents[i+1]))
-       if((i+1)%2==0):
-           score= score+50*len(common)
-       else:
+    
+    studentArray=[]
+    score=0
+    
+    #score for same day students
+    for i in range(0,len(sessionStudents)-1):
+        common=list(set(sessionStudents[i]).intersection(sessionStudents[i+1]))
+        if((i+1)%2!=0):
             score= score+500*len(common)
-       
-   return score       
-
+    #score for backtoback studets
+    oldclashes=getBackToBackClashes(sessionStudents)
+    score=score+getNumStudents(oldclashes)*50
+    
+    return score
 def WorstStudentsTT(): 
     Studentswriting = []
     for i in range (0,len(examStudents)):
@@ -589,46 +625,50 @@ def WorstStudentsTT():
 #I create an array containing differet permutations of the original timetable
 
 def permute(sessions):
+    
+    theSessions=sessions[:]
+    theStudents=examStudents
+    
+    for i in range(0,len(theSessions)):
+        
+        index1=random.randint(0,len(theSessions)-1)
+        index2=random.randint(0,len(theSessions)-1)
+        temp=theSessions[index1]
+        theSessions[index1]=theSessions[index2]
+        theSessions[index2]=temp
    
-   theStudents=examStudents
-   
-   for i in range(0,len(sessions)):
-       index1=random.randint(0,len(sessions)-1)
-       index2=random.randint(0,len(sessions)-1)
-       temp=sessions[index1]
-       sessions[index1]=sessions[index2]
-       sessions[index2]=temp
-       
-       temp2=theStudents[index1]
-       theStudents[index1]=theStudents[index2]
-       theStudents[index2]=temp2
-       
-       
-       
-   result=[]
-   result.append(sessions)
-   result.append(theStudents)
-   
-   return result
-   
-   
+        
+        temp2=theStudents[index1]
+        theStudents[index1]=theStudents[index2]
+        theStudents[index2]=temp2
+        
+        
+        
+    result=[]
+    result.append(theSessions)
+    result.append(theStudents)
+    
+    return result
 
-populationSize=100
-def populate(session,populationSize):
-   population=[]
-   temp=session[:]
-   temp.append(getScore(examStudents))
-   population.append(temp)
-  
    
-   while len(population)<populationSize-1:
-       temp2 = session[:]
-       result=permute(temp2)
-       array=result[0]
-       array.append(getScore(result[1]))
-       population.append(array)
-       
-   return population
+populationSize=100000
+def populate(session,populationSize):
+    population=[]
+    temp=session[:]
+    
+    temp.append(getScore(examStudents))
+   
+    population.append(temp)
+   
+    
+    while len(population)<populationSize:
+        temp2 = session[:]
+        result=permute(temp2)
+        array=result[0]
+        array.append(getScore(getExamStudents(array,resultArray[1])))
+        population.append(array)
+        
+    return population
 
 thePopulation=populate(sessions,populationSize) 
 
@@ -640,30 +680,38 @@ thePopulation=populate(sessions,populationSize)
 
 
 def Breed(parent1,parent2):
+    
+    parent1=parent1[:-1]
+    parent2=parent2[:-1]
+    
     children=[]
     venus=[]
     serena=[]
-    
+   
     startIndex=random.randint(0,math.floor(len(parent1)/2))
     for i in range(startIndex,2*startIndex):
         venus.append(parent1[i])
         
-    for j in range(0,len(parent1)-1):
+    for j in range(0,len(parent1)):
         if parent1[j] not in venus:
             serena.append(parent1[j])
         
     
     
-    for k in range(0,len(parent2)-1):
+    for k in range(0,len(parent2)):
         if parent2[k] not in venus:
             venus.append(parent2[k])
             
-    for l in range(0,len(parent2)-1):
+    for l in range(0,len(parent2)):
         if parent2[l] not in serena:
             serena.append(parent2[l])
-        
-    venus.append(getScore(venus))    
-    serena.append(getScore(serena))
+    
+    venus.append(getScore(getExamStudents(venus,resultArray[1])))    
+    serena.append(getScore(getExamStudents(serena,resultArray[1])))  
+    
+    #print("Introducing, venus")
+   # print(venus)
+    
     
     
     newGeneration.append(serena)
@@ -681,19 +729,35 @@ def Breed(parent1,parent2):
 generation=0
 numGenerations=10
 while generation < numGenerations:
-
-    sortedArray=sorted(thePopulation,key=itemgetter(len(thePopulation[0])-1))
+  
+    sortedArray=sorted(thePopulation,key=operator.itemgetter(len(thePopulation[0])-1))
     sortedArray=sortedArray[:10]
     newGeneration=sortedArray
-    while len(thePopulation) < 90:
-        index1=random.randint(0,9)
-        index2=random.randint(0,9)
+    size=len(newGeneration)
+    while len(newGeneration) < populationSize:
+        index1=random.randint(0,size-1)
+        index2=random.randint(0,size-1)
         if index1!=index2:
             thePopulation=Breed(newGeneration[index],newGeneration[index])
-        #thePopulation=list(set(thePopulation))
+           
+    #print(len(thePopulation[0])
+    #thePopulation=list(set(thePopulation))
     generation=generation+1
-thePopulation=sorted(thePopulation,key=itemgetter(len(thePopulation[0])-1))
+    #thePopulation=sorted(thePopulation,key=operator.itemgetter(11))
+
+#print(thePopulation)
+thePopulation=sorted(thePopulation,key=operator.itemgetter(len(thePopulation[0])-1))
+
+#print(thePopulation[0])    
 finalSession=thePopulation[0][:-1]
+
+#print("The final session after optimization is: ")
+#print(finalSession)
+finalExamStudents=getExamStudents(finalSession,resultArray[1])
+#print("Final score is")
+#print(getScore(finalExamStudents))
+#print(thePopulation)
+#print(finalExamStudents)
 
 theSession=[]
 
@@ -715,6 +779,9 @@ for i in range(0,len(theSession)):
     if len(theSession[i]) == 0:
         del theSession[i]
         
+    
+
+      
 def SameDayClashes(theStudent):
     temp=[]
     for i in range(0,len(theStudent)):
@@ -724,41 +791,16 @@ def SameDayClashes(theStudent):
             temp.append(list(set(theStudent[2*i]).intersection(theStudent[2*i+1])))
     return temp      
     
-clashes=SameDayClashes(examStudents)
+clashes=SameDayClashes(finalExamStudents)
 
 #Number of students that write in the same day:
-def getNumStudents(clashStudents):
-    numStudents=0;
-    for i in range(0,len(clashStudents)):
-        numStudents=numStudents+len(clashStudents[i])
-    return numStudents
+
 
 numSomeDayStudents=getNumStudents(clashes)
 
-def getBackToBackClashes(theStudents):
-    dayArray=[]
-    if len(theStudents)%2==0:
-        for i in range(0,len(theStudents)):
-            if 2*i+1>len(theStudents)-1:
-                break
-            else:
-                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
-    else:
-        for i in range(0,len(theStudents)):
-            if 2*i+1>len(theStudents)-1:
-                break
-            else:
-                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
-          
-        dayArray.append(theStudents[len(theStudents)-1])
-     
-    dayClashes=[]
-    for i in range(0,len(dayArray)-1):
-        dayClashes.append(list(set(dayArray[i]).intersection(dayArray[i+1])))
-        
-    return dayClashes 
  
-dayClashes=getBackToBackClashes(examStudents)
+ 
+dayClashes=getBackToBackClashes(finalExamStudents)
 numBackToBackStudents=getNumStudents(dayClashes)
 worstTimeTable=WorstStudentsTT();
 

@@ -473,6 +473,7 @@ router.post('/save', function(req,res){
             if(err) console.log(err);
             var tableData = []
             for(let i =0; i<timetable.length-1; i++){
+                console.log("in **");
                 var stuff = [];
                 let temp = timetable[i];
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
@@ -481,6 +482,7 @@ router.post('/save', function(req,res){
             console.log("table data before modifications ",tableData)
             //add content from dash to tableData before uploading
             for(var i =0; i<dersio.length;i++){
+                console.log("we in");
                 var stuff = [];
                 let new_row = dersio[i];
                 temp_row = new_row.split(",");

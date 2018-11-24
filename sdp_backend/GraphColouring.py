@@ -518,9 +518,9 @@ def getScore(sessionStudents):
    for i in range(0,len(sessionStudents)-1):
        common=list(set(sessionStudents[i]).intersection(sessionStudents[i+1]))
        if((i+1)%2==0):
-           score= score+20*len(common)
+           score= score+50*len(common)
        else:
-            score= score+50*len(common)
+            score= score+500*len(common)
        
    return score       
 

@@ -447,7 +447,7 @@ router.post('/upload/courses', function(req, res){
                     let sql = "INSERT IGNORE INTO Registered (Std_ID,Reg,Course_Code) VALUES ?"
                     connection.query(sql, [registeredTable], function(err){
                         if(err) console.log(err);
-                        res.send("uploaded")
+                        res.send({status:200,message:"successful"})
                     })
                 });
             });
@@ -456,7 +456,7 @@ router.post('/upload/courses', function(req, res){
             
         });   
     } catch (error) {
-        return res.json({errorType:'csv',errorMessage:error})
+        return res.send({status:500,errorType:'csv',errorMessage:error})
     }
 });
 

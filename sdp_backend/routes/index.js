@@ -357,7 +357,7 @@ router.post('/generate', function(req,res){
             }
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
-            console.log(results);
+            console.log("Kat", results);
             results = JSON.parse(results)
             
             //results has the courses after generating timetable

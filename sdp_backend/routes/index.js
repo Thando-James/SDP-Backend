@@ -405,6 +405,7 @@ router.post('/generate', function(req,res){
 });
 
 router.post('/upload/courses', function(req, res){
+    console.log('Processing courses file');
     //If there is no csv file;
     if(!req.files){
         return res.status(400).send('No files were uploaded')

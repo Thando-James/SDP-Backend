@@ -558,14 +558,14 @@ router.post('/upload/papers', function(req, res){
                 connection.query(sql, [papersArr], function(err) {
                   if (err) console.log(err);
                   console.log("upload");
-                  res.send("uploaded")
+                  res.send({status:200,message:"successful"})
                 });
             });
     
             fs.createReadStream(inputFile).pipe(parser);
         });  
     } catch (error) {
-        return res.json({errorType:'csv',errorMessage:error})
+        return res.send({status:500,errorType:'csv',errorMessage:error})
     }   
 });
 

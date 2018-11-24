@@ -467,6 +467,8 @@ router.post('/upload/courses', function(req, res){
 
 router.post('/save', function(req,res){
     let dersio = req.body.save;
+    //get array from dash with new rows content
+    var dummy = [["date1 session1 course1"], ["date2 session2 course2"]];
     console.log('getting stuff from Dersio: ', dersio);
     try{
         connection.query("DELETE FROM time_table", function(err){
@@ -478,13 +480,22 @@ router.post('/save', function(req,res){
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);
             }
-            console.log(tableData)
-    
-            let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
-            connection.query(sql, [tableData], function(err){
-                if(err) console.log(err);
-                return res.send("uploaded")
-            })
+            console.log("table data before modifications ",tableData)
+            //add content from dash to tableData before uploading
+            for(var i =0; i<dummy.length;i++){
+                var stuff = [];
+                let new_row = dummy[i];
+                temp_row = new_row.split(",");
+                stuff.push(temp_row[0],temp_row[1],temp_row[2]);
+                tableData.push(stuff);
+            }
+            console.log("table data after modifications ",tableData)
+
+            // let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
+            // connection.query(sql, [tableData], function(err){
+            //     if(err) console.log(err);
+            //     return res.send("uploaded")
+            // })
                   
            // console.log('', response)
         
@@ -502,6 +513,20 @@ router.post('/save', function(req,res){
 
 });
 
+router.get('/viewModified', function(req,res){
+    try {
+        connection.query("SELECT * FROM time_table", function(err,results) {     
+            if(err){
+              console.log(err)
+              return res.status(500).send(err);
+            } 
+            console.log("the timetable with edits is ", results); 
+            return res.json(results);    
+        });   
+    } catch (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
+})
 
 
 

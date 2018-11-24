@@ -141,6 +141,39 @@ The software architecture supports the quality requirements
 More of the quality parameters for the ESS (Exam Scheduling System) are covered in the Architectural goals and constraints section.
 
 
+REQ-1: The system should let a user upload two mandatory csv files
+REQ-2: The system should provide a way of selecting courses that the user needs to schedule
+REQ-3: The system should generate an optimal timetable of exams 
+REQ-4: The system should be able to display the generated timetable showing exam sessions
+REQ-5: The system should allow the user to specify a clash parameter 
+REQ-6: The system should set an initial class parameter of 1 if the user does not specify a clash parameter
+REQ-7: The system should allow the user to set a limit on the number of exam sessions 
+REQ-8: The system should increase the clash parameter until the number of sessions in the generated timetable is less than or equal to the max sessions set
+REQ-9: The system should find specified courses’ positions in the timetable
+REQ-10: The system must display students with the worst timetables
+REQ-11: The system must show all the other courses that interact with a specified course
+REQ-12: The system must allow the user to search for individual student timetables
+REQ-13: The system must generate summary data
+REQ-14: The system must allow the user to merge courses
+REQ-15: The system must allow the user to edit the timetable 
+REQ-16: The system must generate a timetable within 5 minutes 
+REQ-17: The system must provide continuous maintenance 
+
+
+UC1: Upload csv file
+UC2: Select courses
+UC3: Create timetable
+UC4: Read timetable
+UC5: Update clash parameter
+UC6: Update sessions limit
+UC7: Read course session
+UC8: Read worst timetable
+UC9: Read course interactions
+UC10: Search courses
+UC11: Generate summary data
+UC12: Merge courses
+UC13: Update timetable
+
 
 
 

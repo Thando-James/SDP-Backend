@@ -499,15 +499,15 @@ router.post('/save', function(req,res){
         
     
             //return res.send("uploaded")
-        })
+    //     })
     
     
        
-    //try the other insert
-    }catch
-    (error) {
-        return res.json({errorType:'Database',errorMessage:error})
-    }
+    // //try the other insert
+    // }catch
+    // (error) {
+    //     return res.json({errorType:'Database',errorMessage:error})
+    // }
 
 });
 

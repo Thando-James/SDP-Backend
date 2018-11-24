@@ -108,6 +108,7 @@ class Extractor():
             temp1=[]
             temp2=[]
             temp3=[]
+            temp4=[]
             container=[]
             
             for j in range(0,len(groupedCourses[i])):

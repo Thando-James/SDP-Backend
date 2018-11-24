@@ -466,48 +466,48 @@ router.post('/upload/courses', function(req, res){
 router.post('/save', function(req,res){
     let dersio = req.body.save;
     //get array from dash with new rows content
-    var dummy = [["date1 session1 course1"], ["date2 session2 course2"]];
+   // var dummy = [["date1 session1 course1"], ["date2 session2 course2"]];
     console.log('getting stuff from Dersio: ', dersio);
-    // try{
-    //     connection.query("DELETE FROM time_table", function(err){
-    //         if(err) console.log(err);
-    //         var tableData = []
-    //         for(let i =0; i<timetable.length-1; i++){
-    //             var stuff = [];
-    //             let temp = timetable[i];
-    //             stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
-    //             tableData.push(stuff);
-    //         }
-    //         console.log("table data before modifications ",tableData)
-    //         //add content from dash to tableData before uploading
-    //         for(var i =0; i<dummy.length;i++){
-    //             var stuff = [];
-    //             let new_row = dummy[i];
-    //             temp_row = new_row.split(",");
-    //             stuff.push(temp_row[0],temp_row[1],temp_row[2]);
-    //             tableData.push(stuff);
-    //         }
-    //         console.log("table data after modifications ",tableData)
+    try{
+        connection.query("DELETE FROM time_table", function(err){
+            if(err) console.log(err);
+            var tableData = []
+            for(let i =0; i<timetable.length-1; i++){
+                var stuff = [];
+                let temp = timetable[i];
+                stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
+                tableData.push(stuff);
+            }
+            console.log("table data before modifications ",tableData)
+            //add content from dash to tableData before uploading
+            for(var i =0; i<dersio.length;i++){
+                var stuff = [];
+                let new_row = dersio[i];
+                temp_row = new_row.split(",");
+                stuff.push(temp_row[0],temp_row[1],temp_row[2]);
+                tableData.push(stuff);
+            }
+            console.log("table data after modifications ",tableData)
 
-            // let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
-            // connection.query(sql, [tableData], function(err){
-            //     if(err) console.log(err);
-            //     return res.send("uploaded")
-            // })
+            let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
+            connection.query(sql, [tableData], function(err){
+                if(err) console.log(err);
+                return res.send("uploaded")
+            })
                   
-           // console.log('', response)
+           console.log('', response)
         
     
-            //return res.send("uploaded")
-    //     })
+            return res.send("uploaded")
+        })
     
     
        
-    // //try the other insert
-    // }catch
-    // (error) {
-    //     return res.json({errorType:'Database',errorMessage:error})
-    // }
+    //try the other insert
+    }catch
+    (error) {
+        return res.json({errorType:'Database',errorMessage:error})
+    }
 
 });
 

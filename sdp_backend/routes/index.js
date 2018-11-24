@@ -426,7 +426,6 @@ router.post('/upload/courses', function(req, res){
             
             //Read in csv file
             let parser = parse({delimiter: '\t'}, function (err, data) {
-                console.log(data);
                 
                 let registeredTable =[]
                 let courses = []
@@ -545,7 +544,6 @@ router.post('/upload/papers', function(req, res){
                     return
                 }
 
-                console.log('data', data);
                 let papersArr = [];
 
                 for(let i=0; i<data.length; i++){
@@ -553,7 +551,6 @@ router.post('/upload/papers', function(req, res){
                 }
                 console.log('\n');
                 
-                console.log('papers arr', papersArr);
     
                 let sql = "INSERT IGNORE INTO Papers (Course_Code, Papers) VALUES ?";
                 connection.query(sql, [papersArr], function(err) {

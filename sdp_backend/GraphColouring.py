@@ -13,7 +13,7 @@ import sys
 import json
 import math
 import random
-from operator import itemgetter
+import operator
 
 arr_courses = sys.argv[1]
 def getCourseStudents(groupedExamList,studentArray):
@@ -107,6 +107,7 @@ class Extractor():
             temp1=[]
             temp2=[]
             temp3=[]
+            temp4=[]
             container=[]
             
             for j in range(0,len(groupedCourses[i])):
@@ -651,7 +652,7 @@ def permute(sessions):
     return result
 
    
-populationSize=100000
+populationSize=10000
 def populate(session,populationSize):
     population=[]
     temp=session[:]

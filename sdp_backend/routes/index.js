@@ -405,6 +405,7 @@ router.post('/generate', function(req,res){
 });
 
 router.post('/upload/courses', function(req, res){
+    console.log('Processing courses file');
     //If there is no csv file;
     if(!req.files){
         return res.status(400).send('No files were uploaded')
@@ -425,7 +426,6 @@ router.post('/upload/courses', function(req, res){
             
             //Read in csv file
             let parser = parse({delimiter: '\t'}, function (err, data) {
-                console.log(data);
                 
                 let registeredTable =[]
                 let courses = []
@@ -568,7 +568,6 @@ router.post('/upload/papers', function(req, res){
                     return
                 }
 
-                console.log('data', data);
                 let papersArr = [];
 
                 for(let i=0; i<data.length; i++){
@@ -576,20 +575,19 @@ router.post('/upload/papers', function(req, res){
                 }
                 console.log('\n');
                 
-                console.log('papers arr', papersArr);
     
                 let sql = "INSERT IGNORE INTO Papers (Course_Code, Papers) VALUES ?";
                 connection.query(sql, [papersArr], function(err) {
                   if (err) console.log(err);
                   console.log("upload");
-                  res.send("uploaded")
+                  res.send({status:200,message:"successful"})
                 });
             });
     
             fs.createReadStream(inputFile).pipe(parser);
         });  
     } catch (error) {
-        return res.json({errorType:'csv',errorMessage:error})
+        return res.send({status:500,errorType:'csv',errorMessage:error})
     }   
 });
 

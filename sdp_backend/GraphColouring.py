@@ -653,7 +653,7 @@ def permute(sessions):
     return result
 
    
-populationSize=100
+populationSize=10000
 def populate(session,populationSize):
     population=[]
     temp=session[:]
@@ -729,7 +729,7 @@ def Breed(parent1,parent2):
 #We take the top n organisms and discard the rest
 
 generation=0
-numGenerations=1
+numGenerations=10
 while generation < numGenerations:
   
     sortedArray=sorted(thePopulation,key=operator.itemgetter(len(thePopulation[0])-1))

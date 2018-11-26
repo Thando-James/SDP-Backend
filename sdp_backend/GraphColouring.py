@@ -706,7 +706,7 @@ def Breed(parent1,parent2):
     for l in range(0,len(parent2)):
         if parent2[l] not in serena:
             serena.append(parent2[l])
-    print(len(serena))
+    
     venus.append(getScore(getExamStudents(venus,resultArray[1])))    
     serena.append(getScore(getExamStudents(serena,resultArray[1])))  
     

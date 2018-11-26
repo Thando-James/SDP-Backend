@@ -9,11 +9,12 @@ var moment = require('moment');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
+  user     : 'avospace',
+  password : 'thenamelesssix',
   database : 'Timetable'
 });
- connection.connect();
+
+connection.connect();
 
 var timetable;
 
@@ -485,7 +486,8 @@ router.post('/save', function(req,res){
             for(var i =0; i<dersio.length;i++){
                 console.log("we in");
                 var stuff = [];
-                let new_row = dersio[i];
+                let new_row =  dersio[i];
+                console.log("row is", new_row);
                 temp_row = new_row.split(",");
                 stuff.push(temp_row[0],temp_row[1],temp_row[2]);
                 tableData.push(stuff);

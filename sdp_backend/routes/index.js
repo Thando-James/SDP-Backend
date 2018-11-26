@@ -38,8 +38,6 @@ router.get('/display/courses', function(req,res){
               return res.status(500).send(err);
             }  
             return res.json(results);    
-
-       
         });   
         
     } catch (error) {
@@ -338,6 +336,7 @@ router.get('/check/courses', function(req,res){
     
 
 router.post('/generate', function(req,res){
+    let days = [5,4,3,2,1];
     let selected_courses = req.body.data;
     let maxSessions = req.body.maxSessions
     let clashParameter = req.body.clashParameter
@@ -348,9 +347,10 @@ router.post('/generate', function(req,res){
     
     console.log("body ",req.body);
     var date = moment(d,"MM-DD-YYYY")
+    console.log(date.day(), "is the day");
     console.log(date.format());
     try {
-        PythonShell.PythonShell.run('./GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby]}, function (err, results) {
+        PythonShell.PythonShell.run('./GraphColouring.py', { args: [selected_courses,maxSessions,clashParameter,sortby,days[date.day()]]}, function (err, results) {
             if (err){
                 console.log(err);
                 return res.json({errorType:'Python Shell',errorMessage:err})

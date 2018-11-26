@@ -345,7 +345,7 @@ class GraphColouring():
 
 
 extract=Extractor()
-resultArray=extract.Read('./public/myPapers.csv','./public/myStudents.csv')
+resultArray=extract.Read('/public/myPapers.csv','/public/myStudents.csv')
 
 courseStudents=getCourseStudents(resultArray[0],resultArray[1])
 #print(resultArray[1])

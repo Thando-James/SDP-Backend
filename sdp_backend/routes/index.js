@@ -488,8 +488,8 @@ router.post('/save', function(req,res){
                 var stuff = [];
                 let new_row =  dersio[i];
                 console.log("row is", new_row);
-                temp_row = new_row.split(",");
-                stuff.push(temp_row[0],temp_row[1],temp_row[2]);
+                // temp_row = new_row.split(",");
+                stuff.push(new_row[1],new_row[0],new_row[2]);
                 tableData.push(stuff);
             }
             console.log("table data after modifications ",tableData)

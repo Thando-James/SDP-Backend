@@ -10,7 +10,7 @@ install:
 
 # command to run tests
 script:
-  - coverage run ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0
+  - coverage run ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0 5
 
 after_success:
   - coveralls

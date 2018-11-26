@@ -13,7 +13,52 @@ Sub Export_Files()
    Dim oSh As Worksheet
    Dim oFS As Object
    Dim oTxt As Object
+555555555555555555555555555
+33333333333333333333333
 
+
+
+
+
+
+
+
+333333333333333333333
+66
+53
+
+3
+
+33
+
+3
+
+3
+3
+3
+3
+3
+3
+33
+333333
+
+3
+3
+3
+3
+3
+3
+3
+33
+3333
+33
+3
+3
+
+3
+33
+3
+333
    'sExportFolder = path to the folder you want to export to
    'oSh = The sheet where your data is stored
    sExportFolder = "D:\Example\Output"

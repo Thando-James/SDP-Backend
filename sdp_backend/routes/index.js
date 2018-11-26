@@ -531,8 +531,25 @@ router.get('/viewModified', function(req,res){
             if(err){
               console.log(err)
               return res.status(500).send(err);
-            } 
-            console.log("the timetable with edits is ", results); 
+            }
+            //
+            for(let a = 0; a<results.length; a++){
+             
+                    let obj = {
+                        subject:results[a].course,
+                        data : [(results[a].date).format("LL"),(results[a].date).format("YYYY-MM-DD")],
+                        start : moment((results[a].date).format()),
+                        end :  moment((results[a].date).format()),
+                        title : results[a].course,
+                        allDay : false,
+                        resource : [{session: results[a].session}]
+                    }
+                    data.push(obj)
+                }
+     //
+
+
+            console.log("the modified timetable going to the user is ", results); 
             return res.json(results);    
         });   
     } catch (error) {

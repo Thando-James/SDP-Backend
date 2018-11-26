@@ -9,11 +9,12 @@ var moment = require('moment');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
+  user     : 'avospace',
+  password : 'thenamelesssix',
   database : 'Timetable'
 });
- connection.connect();
+
+connection.connect();
 
 var timetable;
 

@@ -16,6 +16,7 @@ import random
 import operator
 
 arr_courses = sys.argv[1]
+#print(arr_courses)
 def getCourseStudents(groupedExamList,studentArray):
     courseStudents=[]
 
@@ -145,8 +146,6 @@ class Extractor():
         # print(finalGroupedCourses)
 
         selectedCourses=arr_courses.split(',')
-
-
         # print(len(selectedCourses))
         finalCourses=[]
 
@@ -620,7 +619,7 @@ def WorstStudentsTT():
     for i in range(0,len(StudentsSort)):
         WorstStudents.append(StudentsSort[i][0])
 
-    return WorstStudents
+    return WorstStudents[::-1]
 #we want score to be as high as possible since it represents the cumalitive study time all the students have
 #A reordering of these sessions might give a better result ie :
 #I create an array containing differet permutations of the original timetable

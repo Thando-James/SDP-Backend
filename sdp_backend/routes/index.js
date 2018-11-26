@@ -500,7 +500,7 @@ router.post('/save', function(req,res){
                 return res.send("uploaded")
             })
                   
-           console.log('', response)
+         
         
     
             return res.send("uploaded")

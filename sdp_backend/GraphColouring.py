@@ -620,6 +620,7 @@ def WorstStudentsTT():
     for i in range(0,len(StudentsSort)):
         WorstStudents.append(StudentsSort[i][0])
 
+    WorstStudents = WorstStudents[::-1]
     return WorstStudents
 #we want score to be as high as possible since it represents the cumalitive study time all the students have
 #A reordering of these sessions might give a better result ie :

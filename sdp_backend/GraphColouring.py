@@ -515,6 +515,20 @@ while True:
 #We calculate the score by only penalising back to back days and back to back sessions
 #Assign a penalty of 20 to back to back sessions in the same day.
 #Assign a penalty of 10 to back to back sessions on different days
+startDay=5
+indicesArray=[5,4,3,2,1]
+weekIndices=[]
+
+numIndex=indicesArray.index(startDay)
+
+while len(weekIndices)<len(sessions):
+    if indicesArray[numIndex]==1:
+        numIndex=0
+        weekIndices.append(1)
+    else:
+        weekIndices.append(indicesArray[numIndex])
+        numIndex=numIndex+1
+        
 def getBackToBackClashes(theStudents):
     dayArray=[]
     if len(theStudents)%2==0:
@@ -528,16 +542,19 @@ def getBackToBackClashes(theStudents):
             if 2*i+1>len(theStudents)-1:
                 break
             else:
-                dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
-
+                if weekIndices[2*i+1]%5 !=0:
+                    dayArray.append(list(set().union(theStudents[2*i],theStudents[2*i+1])))
+                else:
+                    dayArray.append([])
+          
         dayArray.append(theStudents[len(theStudents)-1])
-
-
+    
+    
     dayClashes=[]
     for i in range(0,len(dayArray)-1):
         dayClashes.append(list(set(dayArray[i]).intersection(dayArray[i+1])))
-
-    return dayClashes
+        
+    return dayClashes   
 
 def getNumStudents(clashStudents):
     numStudents=0;

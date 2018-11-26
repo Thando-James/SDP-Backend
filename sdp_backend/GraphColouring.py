@@ -652,7 +652,7 @@ def permute(sessions):
     return result
 
    
-populationSize=10000
+populationSize=1000
 def populate(session,populationSize):
     population=[]
     temp=session[:]
@@ -739,7 +739,7 @@ while generation < numGenerations:
         index1=random.randint(0,size-1)
         index2=random.randint(0,size-1)
         if index1!=index2:
-            thePopulation=Breed(newGeneration[index],newGeneration[index])
+            thePopulation=Breed(newGeneration[index1],newGeneration[index2])
            
     #print(len(thePopulation[0])
     #thePopulation=list(set(thePopulation))

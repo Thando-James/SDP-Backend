@@ -358,7 +358,7 @@ router.post('/generate', function(req,res){
             }
             // results is an array consisting of messages collected during execution
             console.log("dgdgh")
-            console.log(results);
+            console.log("Kat", results);
             results = JSON.parse(results)
             
             //results has the courses after generating timetable
@@ -541,6 +541,14 @@ router.post('/login', function(req, res){
     let sql = `SELECT ID FROM Person WHERE Email = "${req.body.email}" AND Password = "${req.body.password}" `;
 
     connection.query(sql, function(err,results) {
+        if(err) console.log(err)
+        res.json(results);
+    })
+})
+
+router.get('/get/papers',function(req, res){
+    let sql = `SELECT * FROM Papers LIMIT 1;`;
+    connection.query(sql, function(err, results){
         if(err) console.log(err)
         res.json(results);
     })

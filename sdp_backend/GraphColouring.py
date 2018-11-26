@@ -515,7 +515,7 @@ while True:
 #We calculate the score by only penalising back to back days and back to back sessions
 #Assign a penalty of 20 to back to back sessions in the same day.
 #Assign a penalty of 10 to back to back sessions on different days
-startDay=sys.argv[5]
+startDay=int(sys.argv[5])
 indicesArray=[5,4,3,2,1]
 weekIndices=[]
 

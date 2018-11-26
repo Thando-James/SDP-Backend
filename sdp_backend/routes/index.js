@@ -246,7 +246,8 @@ try{
                             shared : s.Shared,
                             divide : denominator,
                             quo : s.Shared/denominator,
-                            percentage:((s.Shared/denominator)*100).toPrecision(3),
+                            percentageBig:((s.Shared/denominator)*100).toPrecision(3),
+                            // percentageSub: ((s.Shared/denominator)*100).toPrecision(3),
                             resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
                             size : num,
                             
@@ -485,7 +486,8 @@ router.post('/save', function(req,res){
             for(var i =0; i<dersio.length;i++){
                 console.log("we in");
                 var stuff = [];
-                let new_row = dersio[i];
+                let new_row =  dersio[i];
+                console.log("row is", new_row);
                 temp_row = new_row.split(",");
                 stuff.push(temp_row[0],temp_row[1],temp_row[2]);
                 tableData.push(stuff);

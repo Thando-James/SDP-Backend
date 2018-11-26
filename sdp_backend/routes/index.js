@@ -9,11 +9,12 @@ var moment = require('moment');
 
 var connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'root',
-  password : '0616380016',
+  user     : 'avospace',
+  password : 'thenamelesssix',
   database : 'Timetable'
 });
- connection.connect();
+
+connection.connect();
 
 var timetable;
 
@@ -243,9 +244,10 @@ try{
                             shared : s.Shared,
                             divide : denominator,
                             quo : s.Shared/denominator,
-                            percentage:((s.Shared/denominator)*100).toPrecision(3),
+                            percentageBig:((s.Shared/denominator)*100).toPrecision(3),
                             resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
                             size : num,
+                            percentageSub: ((s.Shared/num)*100).toPrecision(3),
                             
                             session : timetable[i].resource[0].session
                         }
@@ -466,7 +468,12 @@ router.post('/upload/courses', function(req, res){
 router.post('/save', function(req,res){
     let dersio = req.body.save;
     //get array from dash with new rows content
-   // var dummy = [["date1 session1 course1"], ["date2 session2 course2"]];
+   var dummy = [["date1 session1 course1"], ["date2 session2 course2"]]; //deleted stuff
+   var deleted = []
+   for(var i =0; i<dummy.length;i++){
+        deleted.push(dummy[i][2]);
+   }
+   
     console.log('getting stuff from Dersio: ', dersio);
     try{
         connection.query("DELETE FROM time_table", function(err){
@@ -476,6 +483,10 @@ router.post('/save', function(req,res){
                 console.log("in **");
                 var stuff = [];
                 let temp = timetable[i];
+                if(deleted.includes(temp.subject)){
+                    continue;
+                }
+                
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);
             }
@@ -484,9 +495,10 @@ router.post('/save', function(req,res){
             for(var i =0; i<dersio.length;i++){
                 console.log("we in");
                 var stuff = [];
-                let new_row = dersio[i];
-                temp_row = new_row.split(",");
-                stuff.push(temp_row[0],temp_row[1],temp_row[2]);
+                let new_row =  dersio[i];
+                console.log("row is", new_row);
+                // temp_row = new_row.split(",");
+                stuff.push(new_row[1],new_row[0],new_row[2]);
                 tableData.push(stuff);
             }
             console.log("table data after modifications ",tableData)
@@ -497,7 +509,7 @@ router.post('/save', function(req,res){
                 return res.send("uploaded")
             })
                   
-           console.log('', response)
+         
         
     
             return res.send("uploaded")

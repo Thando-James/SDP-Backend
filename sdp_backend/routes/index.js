@@ -545,6 +545,14 @@ router.post('/login', function(req, res){
     })
 })
 
+router.get('/get/papers',function(req, res){
+    let sql = `SELECT * FROM Papers LIMIT 1;`;
+    connection.query(sql, function(err, results){
+        if(err) console.log(err)
+        res.json(results);
+    })
+})
+
 router.post('/upload/papers', function(req, res){
     //If there is no csv file
     if(!req.files){

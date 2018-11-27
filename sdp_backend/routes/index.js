@@ -502,6 +502,7 @@ router.post('/upload/courses', function(req, res){
 
 
 router.post('/save', function(req,res){
+    console.log("check what body has: ", req.body);
     let dersio = req.body.save;
     let dersio2 = req.body.del;
     var dummy = []; 

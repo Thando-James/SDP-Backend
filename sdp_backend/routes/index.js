@@ -571,7 +571,7 @@ dummy = removeDups(dersio2);
             console.log("table data after modifications ",tableData)
 
             let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
-            connection.query.on(sql, [tableData], function(err){
+            connection.query(sql, [tableData], function(err){
                 if(err) console.log(err);
                 return res.send("uploaded")
             })

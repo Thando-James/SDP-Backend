@@ -504,21 +504,20 @@ router.post('/upload/courses', function(req, res){
 router.post('/save', function(req,res){
     let dersio = req.body.save;
     let dersio2 = req.body.del;
-    var dummy = [];
+    var dummy = []; 
 
-    let x = (dersio2) => dersio2.filter((v,i) => dersio2.indexOf(v) === i)
-    dummy = x(dersio2); 
-    // uniq = dersio2.filter(function(item, pos) {
-    //     return dersio2.indexOf(item) == pos;
-    // })
+function removeDups(dersio2) {
+  let unique = {};
+  dersio2.forEach(function(i) {
+    if(!unique[i]) {
+      unique[i] = true;
+    }
+  });
+  return Object.keys(unique);
+}
 
-
-    // $.each(dersio2, function(i, el){
-    //     if($.inArray(el, dummy) === -1) dummy.push(el);
-    // });
-    //get array from dash with new rows content
-  // var dummy = ["course1", "course2"]; //deleted stuff
-   console.log('getting deleted  from Dersio: ', dersio2);
+dummy = removeDups(dersio2); 
+   console.log('getting deleted  from Dersio: ', dummy);
    var deleted = []
    for(var i =0; i<dummy.length;i++){
        let dummy_course = dummy[i].split("/");

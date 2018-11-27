@@ -827,6 +827,7 @@ summaryData.append(numSomeDayStudents)
 summaryData.append(numBackToBackStudents)
 summaryData.append(len(graph.clashes)/2)
 summaryData.append(worstTimeTable)
+summaryData.append(theParameter)
 
 theSession.append(summaryData)
 print(json.dumps(theSession))

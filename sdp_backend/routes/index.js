@@ -507,7 +507,7 @@ router.post('/save', function(req,res){
     var dummy = [];
 
     let x = (dersio2) => dersio2.filter((v,i) => dersio2.indexOf(v) === i)
-    dummy = x(names); 
+    dummy = x(dersio2); 
     // uniq = dersio2.filter(function(item, pos) {
     //     return dersio2.indexOf(item) == pos;
     // })

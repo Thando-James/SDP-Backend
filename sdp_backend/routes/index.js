@@ -502,7 +502,7 @@ router.post('/upload/courses', function(req, res){
 
 
 router.post('/save', function(req,res){
-    console.log("check what body has: ", req.body);
+    // console.log("check what body has: ", req.body);
     let dersio = req.body.save;
     // let dersio2 = req.body.del;
 //     var dummy = []; 
@@ -560,7 +560,7 @@ router.post('/save', function(req,res){
             console.log("table data before modifications ",tableData)
             //add content from dash to tableData before uploading
             for(var i =0; i<dersio.length;i++){
-                console.log("we in");
+                // console.log("we in");
                 var stuff = [];
                 let new_row =  dersio[i];
                 console.log("row is", new_row);
@@ -573,7 +573,7 @@ router.post('/save', function(req,res){
             let sql = "INSERT IGNORE INTO time_table (date,session,course) VALUES ? "
             connection.query(sql, [tableData], function(err){
                 if(err) console.log(err);
-                return res.send("uploaded")
+                // return res.send("uploaded")
             })
                   
          

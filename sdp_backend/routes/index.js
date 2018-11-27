@@ -504,35 +504,35 @@ router.post('/upload/courses', function(req, res){
 router.post('/save', function(req,res){
     console.log("check what body has: ", req.body);
     let dersio = req.body.save;
-    let dersio2 = req.body.del;
-    var dummy = []; 
+    // let dersio2 = req.body.del;
+//     var dummy = []; 
 
-function removeDups(dersio2) {
-  let unique = {};
-  dersio2.forEach(function(i) {
-    if(!unique[i]) {
-      unique[i] = true;
-    }
-  });
-  return Object.keys(unique);
-}
+// function removeDups(dersio2) {
+//   let unique = {};
+//   dersio2.forEach(function(i) {
+//     if(!unique[i]) {
+//       unique[i] = true;
+//     }
+//   });
+//   return Object.keys(unique);
+// }
 
-dummy = removeDups(dersio2); 
-   console.log('getting deleted  from Dersio: ', dummy);
-   var deleted = []
+// dummy = removeDups(dersio2); 
+//    console.log('getting deleted  from Dersio: ', dummy);
+//    var deleted = []
 
 
-   for(var i =0; i<dummy.length;i++){
-       let dummy_course = dummy[i].split("/");
-       if(dummy_course[0].length === 8){
-        deleted.push(dummy[i].substring(0,8));
-       }
+//    for(var i =0; i<dummy.length;i++){
+//        let dummy_course = dummy[i].split("/");
+//        if(dummy_course[0].length === 8){
+//         deleted.push(dummy[i].substring(0,8));
+//        }
 
-       if(dummy_course[0].length === 9){
-        deleted.push(dummy[i].substring(0,9));
-       }
+//        if(dummy_course[0].length === 9){
+//         deleted.push(dummy[i].substring(0,9));
+//        }
         
-   }
+//    }
    
     // console.log('getting stuff from Dersio: ', dersio);
     try{
@@ -540,19 +540,19 @@ dummy = removeDups(dersio2);
             if(err) console.log(err);
             var tableData = []
             for(let i =0; i<timetable.length-1; i++){
-                console.log("in **");
+                // console.log("in **");
                 var stuff = [];
                 let temp = timetable[i];
-                if((temp.subject).length===8){
-                    if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,8))){
-                        continue;
-                    }
-                }
-                if((temp.subject).length===9){
-                    if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,9))){
-                        continue;
-                    }
-                }
+                // if((temp.subject).length===8){
+                //     if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,8))){
+                //         continue;
+                //     }
+                // }
+                // if((temp.subject).length===9){
+                //     if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,9))){
+                //         continue;
+                //     }
+                // }
                 
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);

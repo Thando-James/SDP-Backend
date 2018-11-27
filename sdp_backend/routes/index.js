@@ -505,9 +505,12 @@ router.post('/save', function(req,res){
     let dersio = req.body.save;
     let dersio2 = req.body.del;
     var dummy = [];
-    $.each(dersio2, function(i, el){
-        if($.inArray(el, dummy) === -1) dummy.push(el);
-    });
+    dummy = dersio2.filter(function(item, pos) {
+        return dersio2.indexOf(item) == pos;
+    })
+    // $.each(dersio2, function(i, el){
+    //     if($.inArray(el, dummy) === -1) dummy.push(el);
+    // });
     //get array from dash with new rows content
   // var dummy = ["course1", "course2"]; //deleted stuff
    console.log('getting deleted  from Dersio: ', dersio2);

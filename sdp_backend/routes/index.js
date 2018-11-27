@@ -531,7 +531,7 @@ dummy = removeDups(dersio2);
         
    }
    
-    console.log('getting stuff from Dersio: ', dersio);
+    // console.log('getting stuff from Dersio: ', dersio);
     try{
         connection.query("DELETE FROM time_table", function(err){
             if(err) console.log(err);

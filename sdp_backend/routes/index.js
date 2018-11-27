@@ -18,6 +18,8 @@ connection.connect();
 
 var timetable;
 
+var selected;
+
 function multiDimensionalUnique(arr) {
     var uniques = [];
     var itemsFound = {};
@@ -365,7 +367,9 @@ router.get('/check/courses', function(req,res){
     }
 })
 
-    
+ router.get('/selected', function(req,res){
+     res.json(selected);
+ })   
 
 router.post('/generate', function(req,res){
     let days = [5,4,3,2,1];
@@ -375,6 +379,8 @@ router.post('/generate', function(req,res){
     let sortby = req.body.SortBy;
     let d = req.body.date
     let data = []
+
+    selected = selected_courses;
     
     
     console.log("body ",req.body);

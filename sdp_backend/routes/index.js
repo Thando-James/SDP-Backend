@@ -520,6 +520,8 @@ function removeDups(dersio2) {
 dummy = removeDups(dersio2); 
    console.log('getting deleted  from Dersio: ', dummy);
    var deleted = []
+
+
    for(var i =0; i<dummy.length;i++){
        let dummy_course = dummy[i].split("/");
        if(dummy_course[0].length === 8){
@@ -541,8 +543,15 @@ dummy = removeDups(dersio2);
                 console.log("in **");
                 var stuff = [];
                 let temp = timetable[i];
-                if(deleted.includes(temp.subject)){
-                    continue;
+                if((temp.subject).length===8){
+                    if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,8))){
+                        continue;
+                    }
+                }
+                if((temp.subject).length===9){
+                    if(deleted.length!==0 && deleted.includes((temp.subject).substring(0,9))){
+                        continue;
+                    }
                 }
                 
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);

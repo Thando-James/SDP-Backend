@@ -1,0 +1,147 @@
+That title may sound like a description of the work to which many office workers devote their entire careers. But in this case, I had a more limited set of tasks in mind.
+
+I was using Windows 7 x64. I had recently encountered two reasons for creating junk files containing random data. One was to fill a drive’s free space as a drive wiping or erasure technique. (Two other posts provide more detail on wiping HDD or SSD drives; see also a later post.) The other was to put something into an otherwise empty folder, so that programs designed to delete empty folders (e.g., Remove Empty Directories) would not try to delete a folder containing one of my random junk files. For this latter purpose, I would want the files to contain random data because this would make the files unique: a duplicate-detection program like DoubleKiller would not see that I had identical (junk) files in two different places and try to delete one of them. (Renji suggested that junk files might also be useful to test drives and network speeds. Mynikko said fake files could be useful to make life more difficult for software pirates and investigators alike.)
+
+A search suggested there were various ways to generate randomly named files and/or files containing junk data. If I needed just one junk file, Fake File Generator provided a free and easy way to create files of various types (e.g., JPG, DOC, MP3) of a specified size with a specified name. File Destructor seemed to be a less flexible alternative. GenerateData.com would give me a file filled with intelligent junk. For instance, I used it to quickly create an Excel spreadsheet containing 100 records, each consisting of a fake name, email address, zip code, and ten words of text.
+
+Speaking of Excel, if I had wanted to control the contents of the junk files I was creating, and didn’t find that other tools provided enough opportunity for such control, I might have used this macro to export the contents of a spreadsheet to individual files, one per row, where column A in the spreadsheet would contain my desired filenames (e.g., JunkFile000001.txt) and column B would contain the desired (potentially unique) contents of those respective output files (e.g. “Test Result 000001”):
+
+Sub Export_Files()
+   Dim sExportFolder, sFN
+   Dim rArticleName As Range
+   Dim rDisclaimer As Range
+   Dim oSh As Worksheet
+   Dim oFS As Object
+   Dim oTxt As Object
+555555555555555555555555555
+33333333333333333333333
+
+
+
+
+
+
+
+
+333333333333333333333
+66
+53
+
+3
+
+33
+
+3
+
+3
+3
+3
+3
+3
+3
+33
+333333
+
+3
+3
+3
+3
+3
+3
+3
+33
+3333
+33
+3
+3
+
+3
+33
+3
+333
+   'sExportFolder = path to the folder you want to export to
+   'oSh = The sheet where your data is stored
+   sExportFolder = "D:\Example\Output"
+   Set oSh = ActiveSheet
+
+   Set oFS = CreateObject("Scripting.Filesystemobject")
+
+   For Each rArticleName In oSh.UsedRange.Columns("A").Cells
+      Set rDisclaimer = rArticleName.Offset(, 1)
+
+      'Add .txt to the article name as a file name
+      sFN = rArticleName.Value & ".txt"
+      Set oTxt = oFS.OpenTextFile(sExportFolder & "\" & sFN, 2, True)
+      oTxt.Write rDisclaimer.Value
+      oTxt.Close
+   Next
+End Sub
+I was interested in a solution that would produce multiple unique junk files quickly. That seemed to call for a program, script, batch file, or command that I could run on my computer. Several sources mentioned or offered downloadable programs of potential value. These programs included Random File Generator, Tahionic Disk Tools Toolkit, Dummy File Creator, NOD32 Dummy File Creator Utility, Random Data File Creator, and Seedling Dummy File Creator. (Later, I noticed that Raymond listed several others, including the hard-to-find but seemingly worthy Create Dummy Files.)
+
+That, I decided, was the route I would take: use someone else’s canned solution. But first, I wanted to round out my review of possibilities. In addition to web-based and downloadable programs for the purpose, my search highlighted the option of creating and running a batch file or command. (Creation of a batch file just involved creation of a *.bat text file with the desired commands.) This would have the advantage of flexibility to meet situations not addressed by the foregoing options. Basic illustrations:
+
+Renji suggested a command (“fsutil file createnew C:\File\presentation.ppt 100000”) to create a file of 100,000 bytes (note that the file and path name might have to be enclosed in quotation marks if they contain spaces).
+Haddadf suggested a command (“copy %0 %random%.txt”) to create a randomly named file with nonrandom contents.
+Those sorts of commands could be contained within a batch loop to create multiple files.
+
+Another search led to other discussions suggesting other batch file possibilities. One, the Evil Self Duplicating Batch File, would perhaps be useful for some purposes, but it would probably have to be tweaked for purposes of filling the drive with data, because it doubled in size at each iteration, and thus would end by leaving a large portion of the drive unwritten (i.e., the last iteration would create a file too large to fit in the remaining available space). Perhaps a better solution would be my Shotshooter batch file, set to do multiple screen captures per second — assuming the user did not make the mistake of capturing screens containing private or important data.
+
+Going further afield, one suggestion was to use a Linux command (“shred -s 10 – > my-file”). It was reportedly possible to run Linux commands on Windows using Cygwin, perhaps with the aid of instructions provided by a HowToGeek page. But it appeared, from 1 2 sources, that shred was designed for traditional multiple overwriting of HDDs, would not work well with some file systems, and might not achieve complete overwriting of an SSD.
+
+As I say, I decided to try a canned program for the purpose. Using the links and reviewing the programs named above, I saw that Random File Generator got a mediocre rating from 26 users on Softpedia, so I decided to postpone experimentation with that one. Random Data File Creator turned out to be a command-line solution capable of producing only one file at a time unless called within a batch file (above). Softpedia indicated that NOD32 Dummy File Creator “has not been updated for a very long time, and it is not compatible with newer operating systems.” Seedling Dummy File Creator was likewise last updated in 2006, well before the 2009 release of Windows 7. Dummy File Creator appeared to be a good second-best, but still seemed to call for some batch file work.
+
+I decided to start with the Tahionic Disk Tools Toolkit. Although their webpage made it appear that the file generator module was not freeware, I found that it continued to provide full options to produce large numbers of randomly named and randomly stuffed files in a location of my choosing:
+
+taconic
+
+With the settings I chgggggggggggggggggggggggggggggbbbbbbbbbbbbbbiiiiyugiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+
+dnjd
+n
+dngtd
+
+dn
+
+yhdtnygd
+nyj
+hyt
+djnygy
+ygd
+njy
+htnj
+tygnd
+n
+yhnm
+htd
+hyjn
+jn
+tyjn
+yh
+y
+hnytgnjt
+jn
+ytgnj
+yt
+njt
+jny
+ht
+hy
+tyjn
+dtyg
+h
+njty
+n
+dn
+dyt
+yh
+ty
+nyh
+njyh
+njhyt
+njt
+ynj
+nj
+nj
+tynj
+ytnj
+hose, the resulting files all had names like “FileGen 473170468.bin,” and when opened in Notepad were found to consist of random symbols. I could rename them en masse as needed using something like Bulk Rename Utility; my names (e.g., “xJunk File 473170468.junk”) would clarify that they could be discarded. When running Windows 10, Tahionic produced many warnings and quarantined files, thanks to my Avria antivirus software. But it seemed those were false positives: Avira was just worried about the unfamiliar patterns of random data in some of those files. A subsequent scan by Malwarebytes Anti-malware found no problems.

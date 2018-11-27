@@ -506,7 +506,7 @@ router.post('/save', function(req,res){
     let dersio2 = req.body.del;
     //get array from dash with new rows content
    var dummy = ["course1", "course2"]; //deleted stuff
-   console.log('getting deleted  from Dersio: ', del);
+   console.log('getting deleted  from Dersio: ', dersio2);
    var deleted = []
 //    for(var i =0; i<dummy.length;i++){
 //        let dummy_course = dummy[i].split("/");

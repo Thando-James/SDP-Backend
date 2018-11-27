@@ -504,23 +504,27 @@ router.post('/upload/courses', function(req, res){
 router.post('/save', function(req,res){
     let dersio = req.body.save;
     let dersio2 = req.body.del;
+    var dummy = [];
+    $.each(dersio2, function(i, el){
+        if($.inArray(el, dummy) === -1) dummy.push(el);
+    });
     //get array from dash with new rows content
-   var dummy = ["course1", "course2"]; //deleted stuff
+  // var dummy = ["course1", "course2"]; //deleted stuff
    console.log('getting deleted  from Dersio: ', dersio2);
    var deleted = []
-//    for(var i =0; i<dummy.length;i++){
-//        let dummy_course = dummy[i].split("/");
-//        if(dummy_course[0].length === 8){
-//         deleted.push(dummy[i].substring(0,8));
-//        }
+   for(var i =0; i<dummy.length;i++){
+       let dummy_course = dummy[i].split("/");
+       if(dummy_course[0].length === 8){
+        deleted.push(dummy[i].substring(0,8));
+       }
 
-//        if(dummy_course[0].length === 9){
-//         deleted.push(dummy[i].substring(0,9));
-//        }
+       if(dummy_course[0].length === 9){
+        deleted.push(dummy[i].substring(0,9));
+       }
         
-//    }
+   }
    
-    // console.log('getting stuff from Dersio: ', dersio);
+    console.log('getting stuff from Dersio: ', dersio);
     try{
         connection.query("DELETE FROM time_table", function(err){
             if(err) console.log(err);
@@ -529,9 +533,9 @@ router.post('/save', function(req,res){
                 console.log("in **");
                 var stuff = [];
                 let temp = timetable[i];
-                // if(deleted.includes(temp.subject)){
-                //     continue;
-                // }
+                if(deleted.includes(temp.subject)){
+                    continue;
+                }
                 
                 stuff.push(temp.data[1],temp.resource[0].session,temp.subject);
                 tableData.push(stuff);

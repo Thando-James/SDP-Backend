@@ -505,9 +505,14 @@ router.post('/save', function(req,res){
     let dersio = req.body.save;
     let dersio2 = req.body.del;
     var dummy = [];
-    dummy = dersio2.filter(function(item, pos) {
-        return dersio2.indexOf(item) == pos;
-    })
+
+    let x = (dersio2) => dersio2.filter((v,i) => dersio2.indexOf(v) === i)
+    dummy = x(names); 
+    // uniq = dersio2.filter(function(item, pos) {
+    //     return dersio2.indexOf(item) == pos;
+    // })
+
+
     // $.each(dersio2, function(i, el){
     //     if($.inArray(el, dummy) === -1) dummy.push(el);
     // });

@@ -230,32 +230,62 @@ try{
               }
         for(const s of response){
                 for(var i=0; i<timetable.length-1;i++){   
-                    if(s.Course_Code === (timetable[i].subject).substring(0,8)){
-                        //console.log("length is ",response2.length)
-                        for(var x=0; x<response2.length; x++){
-                            if(response2[x].Course_Code === s.Course_Code ){
-                                num = response2[x].Num
+                    if(s.Course_Code.length === 8){
+                        if(s.Course_Code === (timetable[i].subject).substring(0,8)){
+                            //console.log("length is ",response2.length)
+                            for(var x=0; x<response2.length; x++){
+                                if(response2[x].Course_Code === s.Course_Code ){
+                                    num = response2[x].Num
+                                }
                             }
-                        }
-                        
-                        let temp= {
-                            start : timetable[i].data[1],
-                            end : timetable[i].data[1],
-                            title : timetable[i].subject,
-                            allDay : false,
-                            shared : s.Shared,
-                            divide : denominator,
-                            quo : s.Shared/denominator,
-                            percentageBig:((s.Shared/denominator)*100).toPrecision(3),
-                            resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
-                            size : num,
-                            percentageSub: ((s.Shared/num)*100).toPrecision(3),
                             
-                            session : timetable[i].resource[0].session
-                        }
-                        table.push(temp);
-                         
-            }
+                            let temp= {
+                                start : timetable[i].data[1],
+                                end : timetable[i].data[1],
+                                title : timetable[i].subject,
+                                allDay : false,
+                                shared : s.Shared,
+                                divide : denominator,
+                                quo : s.Shared/denominator,
+                                percentageBig:((s.Shared/denominator)*100).toPrecision(3),
+                                resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
+                                size : num,
+                                percentageSub: ((s.Shared/num)*100).toPrecision(3),
+                                
+                                session : timetable[i].resource[0].session
+                            }
+                            table.push(temp);
+                             
+                } 
+                    }
+                    if(s.Course_Code.length === 9){
+                        if(s.Course_Code === (timetable[i].subject)){
+                            //console.log("length is ",response2.length)
+                            for(var x=0; x<response2.length; x++){
+                                if(response2[x].Course_Code === s.Course_Code ){
+                                    num = response2[x].Num
+                                }
+                            }
+                            
+                            let temp= {
+                                start : timetable[i].data[1],
+                                end : timetable[i].data[1],
+                                title : timetable[i].subject,
+                                allDay : false,
+                                shared : s.Shared,
+                                divide : denominator,
+                                quo : s.Shared/denominator,
+                                percentageBig:((s.Shared/denominator)*100).toPrecision(3),
+                                resource : timetable[i].data[0], //resource is the percentage .. divide by denominator then * 100
+                                size : num,
+                                percentageSub: ((s.Shared/num)*100).toPrecision(3),
+                                
+                                session : timetable[i].resource[0].session
+                            }
+                            table.push(temp);
+                             
+                }
+                    }
         }
     }
    console.log("denominator is:", denominator);
@@ -504,7 +534,7 @@ router.post('/save', function(req,res){
                 let new_row =  dersio[i];
                 console.log("row is", new_row);
                 // temp_row = new_row.split(",");
-                stuff.push(new_row[1],new_row[0],new_row[2]);
+                stuff.push(new_row[1],Number(new_row[0]),new_row[2]);
                 tableData.push(stuff);
             }
             console.log("table data after modifications ",tableData)

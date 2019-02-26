@@ -36,6 +36,12 @@ jobs:
       pip install pytest
       pytest tests --doctest-modules --junitxml=junit/test-results.xml
     displayName: 'pytest'
+    
+
+
+# command to run tests
+  script:
+       - run ./sdp_backend/test_GraphColouring.py COMS1017,PHYS1000 6 1 0 5
 
   - task: PublishTestResults@2
     inputs:
